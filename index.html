@@ -1016,28 +1016,50 @@
                     </div>
                     
                     <div class="question-prompt">
-                        <strong>Please reflect on:</strong> Do you have any questions about privacy or how your data will be handled? All responses are stored locally on your device only.
+                        <strong>Let's have a conversation:</strong> This is important enough that we should talk it through. What questions or concerns do you have about privacy and how your data will be handled?
                     </div>
                 </div>
 
-                <div class="response-summary" id="summary2">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText2"></div>
-                    <button class="edit-response-btn" onclick="editResponse(2)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection2">
-                    <h3>Your Response</h3>
+                <!-- Interactive Conversation Flow -->
+                <div class="conversation-flow active" id="conversationFlow2">
+                    <div class="conversation-message system">
+                        <div class="conversation-header">Find.Me Platform</div>
+                        <p>I want to be completely transparent about privacy because this matters. All your responses are stored locally on your device only - like a private diary that never leaves your computer.</p>
+                        <p><strong>What would help you feel confident about this?</strong></p>
+                    </div>
                     
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(2, 'I understand')">I understand</div>
-                        <div class="quick-option" onclick="selectQuickOption(2, 'Tell me more')">Tell me more</div>
-                        <div class="quick-option" onclick="selectQuickOption(2, 'I have concerns')">I have concerns</div>
+                    <div class="conversation-options" id="conversationOptions2">
+                        <button class="conversation-option" onclick="handlePrivacyConversation('understand')">I understand and trust this</button>
+                        <button class="conversation-option" onclick="handlePrivacyConversation('verify')">How can I verify this?</button>
+                        <button class="conversation-option" onclick="handlePrivacyConversation('concerns')">I have specific concerns</button>
+                        <button class="conversation-option" onclick="handlePrivacyConversation('technical')">Show me the technical details</button>
                     </div>
+                    
+                    <div id="conversationHistory2"></div>
+                </div>
+
+                <!-- Conversation Complete -->
+                <div class="conversation-complete" id="conversationComplete2">
+                    <h4>✅ Privacy Conversation Complete</h4>
+                    <p>Great! It sounds like we've addressed your privacy questions. You can always revisit this conversation or check the verification steps anytime.</p>
+                    <div class="trust-indicator">
+                        Your data stays on your device. You're in complete control.
+                    </div>
+                </div>
+
+                <!-- Standard Response Section (shown after conversation) -->
+                <div class="response-summary" id="summary2">
+                    <div class="response-summary-title">Privacy Questions Addressed</div>
+                    <div id="summaryText2">Completed interactive privacy conversation</div>
+                    <button class="edit-response-btn" onclick="reopenPrivacyConversation()">↻ Revisit Privacy Discussion</button>
+                </div>
+
+                <div class="response-section" id="responseSection2" style="display: none;">
+                    <h3>Additional Thoughts (Optional)</h3>
                     
                     <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response2" placeholder="Any questions or concerns about how your privacy is protected?"></textarea>
+                        <label class="response-label">Any other privacy thoughts or concerns:</label>
+                        <textarea class="response-textarea" id="response2" placeholder="Optional: Any additional thoughts about privacy, data ownership, or this process..."></textarea>
                         <div class="voice-controls">
                             <button class="voice-btn" onclick="startVoiceInput(2)">
                                 🎤 Voice Input
@@ -1045,8 +1067,6 @@
                             <span class="save-indicator" id="saveIndicator2">Auto-saved</span>
                         </div>
                     </div>
-
-                    <div class="feedback-message" id="feedback2"></div>
 
                     <div class="completion-trigger" id="completionTrigger2">
                         When you feel ready to move on, click below to get a reflection on your response:
@@ -2805,12 +2825,193 @@
             return "It sounds like this reflection process has surfaced some meaningful insights. The patterns you're noticing often point toward important directions worth exploring further.";
         }
 
-        function hideReflection(questionNum) {
-            const reflectionElement = document.getElementById(`reflection${questionNum}`);
-            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+        // Privacy conversation system
+        let privacyConversationState = {
+            currentStep: 'initial',
+            userConcerns: [],
+            conversationHistory: [],
+            isComplete: false
+        };
+
+        function handlePrivacyConversation(choice) {
+            const historyContainer = document.getElementById('conversationHistory2');
+            const optionsContainer = document.getElementById('conversationOptions2');
             
-            reflectionElement.classList.remove('show');
-            // Don't show completion trigger again since they've already seen the reflection
+            // Add user choice to history
+            addConversationMessage('user', getChoiceText(choice), historyContainer);
+            
+            // Generate appropriate response
+            const response = generatePrivacyResponse(choice);
+            setTimeout(() => {
+                addConversationMessage('system', response.text, historyContainer);
+                
+                if (response.options) {
+                    updateConversationOptions(response.options, optionsContainer);
+                } else if (response.verification) {
+                    addVerificationTool(response.verification, historyContainer);
+                } else {
+                    completePrivacyConversation();
+                }
+            }, 500);
+        }
+
+        function getChoiceText(choice) {
+            const choices = {
+                'understand': "I understand and trust this approach.",
+                'verify': "I'd like to verify that my data really stays local.",
+                'concerns': "I have some specific privacy concerns.",
+                'technical': "Show me the technical details about how this works.",
+                'browser_tools': "Show me how to verify with browser tools.",
+                'localStorage': "Explain localStorage and how it protects my data.",
+                'company_access': "How do I know your company can't access my responses?",
+                'data_deletion': "How can I delete my data if I want to?",
+                'satisfied': "I'm satisfied with the privacy protection.",
+                'more_questions': "I have more questions.",
+                'government': "What about government access or legal requests?",
+                'hacking': "What if someone hacks my computer?",
+                'sharing': "Will you ever ask to share my data later?",
+                'ready': "I'm ready to proceed with confidence."
+            };
+            return choices[choice] || choice;
+        }
+
+        function generatePrivacyResponse(choice) {
+            const responses = {
+                'understand': {
+                    text: "Perfect! I appreciate your trust. Just so you know, you can verify this anytime by checking your browser's developer tools (F12 → Application → Local Storage). Is there anything else you'd like to know before we continue?",
+                    options: ['ready', 'more_questions']
+                },
+                'verify': {
+                    text: "Great question! There are several ways to verify this. Here's how you can check right now:",
+                    verification: {
+                        title: "Verification Steps",
+                        steps: [
+                            "1. Press F12 to open browser developer tools",
+                            "2. Click 'Application' or 'Storage' tab",
+                            "3. Look for 'Local Storage' in the left sidebar",
+                            "4. You'll see 'findme_session' data stored locally",
+                            "5. Close tools and check Network tab - no data sent to servers"
+                        ]
+                    },
+                    options: ['browser_tools', 'localStorage', 'satisfied']
+                },
+                'concerns': {
+                    text: "I completely understand having privacy concerns - it shows good digital awareness. What specifically would you like to know about?",
+                    options: ['company_access', 'data_deletion', 'government', 'hacking', 'sharing']
+                },
+                'technical': {
+                    text: "Here's exactly how it works: We use browser localStorage, which saves data only on your device. No network requests send your responses anywhere. The code is open source on GitHub so you can verify exactly what it does.",
+                    options: ['verify', 'localStorage', 'satisfied']
+                },
+                'browser_tools': {
+                    text: "The browser developer tools are your verification friend! Press F12, go to Application → Local Storage, and you'll see your data right there on your device. The Network tab shows no personal data being transmitted.",
+                    options: ['satisfied', 'more_questions']
+                },
+                'localStorage': {
+                    text: "localStorage is a browser feature that saves data only on your device - like a local file. It never gets sent to websites automatically. Only you control it, and you can delete it anytime by clearing browser data.",
+                    options: ['data_deletion', 'satisfied']
+                },
+                'company_access': {
+                    text: "We literally cannot access your responses. The data never leaves your device. Even if we wanted to (which we don't), the technical architecture prevents it. Your responses are as private as a diary you keep in your desk drawer.",
+                    options: ['verify', 'satisfied']
+                },
+                'data_deletion': {
+                    text: "You can delete your data anytime by: 1) Clearing browser data for this site, 2) Using browser settings to clear localStorage, or 3) Using our 'Clear All Data' button. It's completely under your control.",
+                    options: ['satisfied', 'more_questions']
+                },
+                'government': {
+                    text: "Since your data never leaves your device, there's nothing for governments to request from us. Your responses are only accessible to you, on your device. It's like asking for copies of your private thoughts - we simply don't have them.",
+                    options: ['satisfied', 'more_questions']
+                },
+                'hacking': {
+                    text: "If someone had full access to your computer, they could potentially access any local files - just like they could read documents on your desktop. But your responses aren't more vulnerable than any other private files you keep locally.",
+                    options: ['satisfied', 'more_questions']
+                },
+                'sharing': {
+                    text: "Never. The entire point is that you own your discovery data completely. We'll never ask you to share it, upload it, or send it anywhere. If you want to share insights, that's entirely your choice and under your control.",
+                    options: ['satisfied', 'ready']
+                },
+                'satisfied': {
+                    text: "Excellent! It sounds like you're comfortable with the privacy approach. You can always revisit these verification steps anytime. Ready to dive into some meaningful self-discovery?",
+                    options: ['ready']
+                },
+                'more_questions': {
+                    text: "Of course! What else would you like to know?",
+                    options: ['verify', 'company_access', 'data_deletion', 'government', 'ready']
+                },
+                'ready': {
+                    text: "Perfect! I'm glad we could address your privacy questions. You're all set to proceed with confidence, knowing your responses stay completely private and under your control."
+                }
+            };
+            
+            return responses[choice] || { text: "I understand your concern. What specific aspect of privacy would you like to discuss?" };
+        }
+
+        function addConversationMessage(type, text, container) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `conversation-message ${type}`;
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = `conversation-header ${type}`;
+            headerDiv.textContent = type === 'user' ? 'You' : 'Find.Me Platform';
+            
+            const textDiv = document.createElement('div');
+            textDiv.textContent = text;
+            
+            messageDiv.appendChild(headerDiv);
+            messageDiv.appendChild(textDiv);
+            container.appendChild(messageDiv);
+            
+            // Smooth scroll to new message
+            setTimeout(() => {
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function updateConversationOptions(options, container) {
+            container.innerHTML = '';
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'conversation-option';
+                button.textContent = getChoiceText(option);
+                button.onclick = () => handlePrivacyConversation(option);
+                container.appendChild(button);
+            });
+        }
+
+        function addVerificationTool(verification, container) {
+            const toolDiv = document.createElement('div');
+            toolDiv.className = 'verification-tool';
+            toolDiv.innerHTML = `
+                <strong>${verification.title}:</strong><br>
+                ${verification.steps.join('<br>')}
+            `;
+            container.appendChild(toolDiv);
+        }
+
+        function completePrivacyConversation() {
+            privacyConversationState.isComplete = true;
+            
+            // Hide conversation flow and show completion
+            document.getElementById('conversationFlow2').style.display = 'none';
+            document.getElementById('conversationComplete2').classList.add('show');
+            document.getElementById('summary2').classList.add('show');
+            
+            // Show optional response section
+            setTimeout(() => {
+                document.getElementById('responseSection2').style.display = 'block';
+            }, 1000);
+            
+            // Save conversation completion
+            sessionData.privacyConversationComplete = true;
+            saveSession();
+        }
+
+        function reopenPrivacyConversation() {
+            document.getElementById('conversationFlow2').style.display = 'block';
+            document.getElementById('conversationComplete2').classList.remove('show');
+            document.getElementById('summary2').classList.remove('show');
+            document.getElementById('responseSection2').style.display = 'none';
         }
 
         // Deployment and sync status functions
