@@ -465,7 +465,127 @@
             box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
         }
 
-        /* Feedback Messages */
+        /* Reflection Response Styles */
+        .reflection-response {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+            animation: reflectionSlideIn 0.5s ease;
+            position: relative;
+        }
+
+        .reflection-response.show {
+            display: block;
+        }
+
+        @keyframes reflectionSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .reflection-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        .reflection-header::before {
+            content: "🔍";
+            font-size: 1.2rem;
+            animation: gentle-pulse 2s infinite;
+        }
+
+        @keyframes gentle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .reflection-content {
+            color: #2c3e50;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .reflection-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .reflection-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .reflection-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .reflection-btn.secondary {
+            background: transparent;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+
+        .reflection-btn.secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .completion-trigger {
+            background: #f8f9fa;
+            border: 2px dashed #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .completion-trigger.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .completion-trigger-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .completion-trigger-btn:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
         .feedback-message {
             background: #e8f5e8;
             border: 2px solid #4caf50;
@@ -860,6 +980,92 @@
                     </div>
 
                     <div class="feedback-message" id="feedback1"></div>
+
+                    <!-- Completion Trigger -->
+                    <div class="completion-trigger" id="completionTrigger1">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(1)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <!-- Reflection Response -->
+                    <div class="reflection-response" id="reflection1">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent1">
+                            <!-- Generated reflection will appear here -->
+                        </div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(1)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(1)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-section" id="question2">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 2 of 12</div>
+                        <h2 class="question-title">Privacy and Data Ownership</h2>
+                        <p class="question-subtitle">Your responses stay completely private on your device. Let's make sure you're comfortable with how this works.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> Do you have any questions about privacy or how your data will be handled? All responses are stored locally on your device only.
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary2">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText2"></div>
+                    <button class="edit-response-btn" onclick="editResponse(2)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection2">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(2, 'I understand')">I understand</div>
+                        <div class="quick-option" onclick="selectQuickOption(2, 'Tell me more')">Tell me more</div>
+                        <div class="quick-option" onclick="selectQuickOption(2, 'I have concerns')">I have concerns</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response2" placeholder="Any questions or concerns about how your privacy is protected?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(2)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator2">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback2"></div>
+
+                    <div class="completion-trigger" id="completionTrigger2">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(2)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection2">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent2"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(2)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(2)">Hide</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -948,6 +1154,599 @@
                     </div>
 
                     <div class="feedback-message" id="feedback3"></div>
+
+                    <div class="completion-trigger" id="completionTrigger3">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(3)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection3">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent3"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(3)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(3)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-section" id="question4">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 4 of 12</div>
+                        <h2 class="question-title">What Work Means to You</h2>
+                        <p class="question-subtitle">Understanding your personal relationship with work helps us discover what you're naturally drawn to.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> What does 'work' mean to you personally? Is it a necessity, a calling, a way to express yourself, or something else entirely?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary4">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText4"></div>
+                    <button class="edit-response-btn" onclick="editResponse(4)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection4">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(4, 'Necessity')">Necessity</div>
+                        <div class="quick-option" onclick="selectQuickOption(4, 'Passion')">Passion</div>
+                        <div class="quick-option" onclick="selectQuickOption(4, 'Identity')">Identity</div>
+                        <div class="quick-option" onclick="selectQuickOption(4, 'Freedom')">Freedom</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response4" placeholder="What does 'work' mean to you personally? Is it a necessity, a calling, a way to express yourself, or something else entirely?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(4)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator4">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback4"></div>
+
+                    <div class="completion-trigger" id="completionTrigger4">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(4)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection4">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent4"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(4)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(4)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-section" id="question5">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 5 of 12</div>
+                        <h2 class="question-title">Honesty and Authenticity</h2>
+                        <p class="question-subtitle">The most valuable discoveries come from honest self-reflection, not answers you think are 'right.'</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> Can you commit to answering these questions as honestly as possible, even if the answers surprise you or don't match what you think you 'should' say?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary5">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText5"></div>
+                    <button class="edit-response-btn" onclick="editResponse(5)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection5">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(5, 'I commit to honesty')">I commit to honesty</div>
+                        <div class="quick-option" onclick="selectQuickOption(5, 'This makes me nervous')">This makes me nervous</div>
+                        <div class="quick-option" onclick="selectQuickOption(5, 'I need encouragement')">I need encouragement</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response5" placeholder="Can you commit to answering these questions as honestly as possible, even if the answers surprise you or don't match what you think you 'should' say?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(5)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator5">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback5"></div>
+
+                    <div class="completion-trigger" id="completionTrigger5">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(5)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection5">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent5"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(5)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(5)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-section" id="question6">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 6 of 12</div>
+                        <h2 class="question-title">Your Current Situation</h2>
+                        <p class="question-subtitle">Understanding where you are now helps us identify what you're naturally drawn toward.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary6">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText6"></div>
+                    <button class="edit-response-btn" onclick="editResponse(6)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection6">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(6, 'Employed')">Employed</div>
+                        <div class="quick-option" onclick="selectQuickOption(6, 'Student')">Student</div>
+                        <div class="quick-option" onclick="selectQuickOption(6, 'Between jobs')">Between jobs</div>
+                        <div class="quick-option" onclick="selectQuickOption(6, 'Career change')">Career change</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response6" placeholder="Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(6)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator6">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback6"></div>
+
+                    <div class="completion-trigger" id="completionTrigger6">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(6)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection6">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent6"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(6)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(6)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 - Transition -->
+            <div class="question-section" id="question7">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 7 of 12 - Transition Point</div>
+                        <h2 class="question-title">🌟 Transition: Deeper Reflection Ahead</h2>
+                        <p class="question-subtitle">The next questions will ask you to reflect more personally. Take your time - there are no wrong answers.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> How are you feeling about moving into more personal reflection? Any concerns or excitement?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary7">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText7"></div>
+                    <button class="edit-response-btn" onclick="editResponse(7)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection7">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(7, 'I am ready')">I'm ready</div>
+                        <div class="quick-option" onclick="selectQuickOption(7, 'I need a moment')">I need a moment</div>
+                        <div class="quick-option" onclick="selectQuickOption(7, 'Save and pause')">Save and pause</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response7" placeholder="How are you feeling about moving into more personal reflection? Any concerns or excitement?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(7)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator7">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback7"></div>
+
+                    <div class="completion-trigger" id="completionTrigger7">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(7)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection7">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent7"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(7)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(7)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-section" id="question8">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 8 of 12</div>
+                        <h2 class="question-title">Moments of Genuine Engagement</h2>
+                        <p class="question-subtitle">Think about times when you felt truly 'in the zone' - time flew by and you felt capable and engaged.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> Describe a specific time when you felt genuinely engaged - where time seemed to fly by and you felt both capable and energized. What were you doing?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary8">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText8"></div>
+                    <button class="edit-response-btn" onclick="editResponse(8)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection8">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(8, 'Work situation')">Work situation</div>
+                        <div class="quick-option" onclick="selectQuickOption(8, 'Personal project')">Personal project</div>
+                        <div class="quick-option" onclick="selectQuickOption(8, 'Helping others')">Helping others</div>
+                        <div class="quick-option" onclick="selectQuickOption(8, 'Learning something')">Learning something</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response8" placeholder="Describe a specific time when you felt genuinely engaged - where time seemed to fly by and you felt both capable and energized. What were you doing?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(8)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator8">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback8"></div>
+
+                    <div class="completion-trigger" id="completionTrigger8">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(8)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection8">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent8"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(8)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(8)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-section" id="question9">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 9 of 12</div>
+                        <h2 class="question-title">What Drains vs. Energizes You</h2>
+                        <p class="question-subtitle">Identifying patterns in what naturally energizes or depletes you reveals important clues about your inclinations.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> What types of activities or situations consistently drain your energy? What consistently gives you energy? Look for patterns rather than specific jobs.
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary9">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText9"></div>
+                    <button class="edit-response-btn" onclick="editResponse(9)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection9">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(9, 'People vs. tasks')">People vs. tasks</div>
+                        <div class="quick-option" onclick="selectQuickOption(9, 'Creative vs. analytical')">Creative vs. analytical</div>
+                        <div class="quick-option" onclick="selectQuickOption(9, 'Leading vs. supporting')">Leading vs. supporting</div>
+                        <div class="quick-option" onclick="selectQuickOption(9, 'Routine vs. variety')">Routine vs. variety</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response9" placeholder="What types of activities or situations consistently drain your energy? What consistently gives you energy? Look for patterns rather than specific jobs."></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(9)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator9">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback9"></div>
+
+                    <div class="completion-trigger" id="completionTrigger9">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(9)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection9">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent9"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(9)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(9)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-section" id="question10">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 10 of 12</div>
+                        <h2 class="question-title">Your Natural Problem-Solving Style</h2>
+                        <p class="question-subtitle">How you naturally approach challenges reveals important aspects of how you're wired.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> When facing a new challenge or problem, what's your natural first instinct? How do you prefer to figure things out?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary10">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText10"></div>
+                    <button class="edit-response-btn" onclick="editResponse(10)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection10">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(10, 'Research first')">Research first</div>
+                        <div class="quick-option" onclick="selectQuickOption(10, 'Jump in and try')">Jump in and try</div>
+                        <div class="quick-option" onclick="selectQuickOption(10, 'Talk it through')">Talk it through</div>
+                        <div class="quick-option" onclick="selectQuickOption(10, 'Think it through alone')">Think it through alone</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response10" placeholder="When facing a new challenge or problem, what's your natural first instinct? How do you prefer to figure things out?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(10)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator10">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback10"></div>
+
+                    <div class="completion-trigger" id="completionTrigger10">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(10)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection10">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent10"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(10)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(10)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question-section" id="question11">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 11 of 12</div>
+                        <h2 class="question-title">Values in Action</h2>
+                        <p class="question-subtitle">Understanding what you actually value (not what you think you should value) guides authentic decisions.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> Think about decisions you've made that you felt good about afterward. What values were you honoring? What matters most to you in how you spend your time and energy?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary11">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText11"></div>
+                    <button class="edit-response-btn" onclick="editResponse(11)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection11">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(11, 'Security')">Security</div>
+                        <div class="quick-option" onclick="selectQuickOption(11, 'Impact')">Impact</div>
+                        <div class="quick-option" onclick="selectQuickOption(11, 'Freedom')">Freedom</div>
+                        <div class="quick-option" onclick="selectQuickOption(11, 'Connection')">Connection</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response11" placeholder="Think about decisions you've made that you felt good about afterward. What values were you honoring? What matters most to you in how you spend your time and energy?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(11)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator11">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback11"></div>
+
+                    <div class="completion-trigger" id="completionTrigger11">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(11)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection11">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent11"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(11)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(11)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-section" id="question12">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 12 of 12</div>
+                        <h2 class="question-title">Session 1 Reflection</h2>
+                        <p class="question-subtitle">Take a moment to notice what you've discovered about yourself through these questions.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary12">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText12"></div>
+                    <button class="edit-response-btn" onclick="editResponse(12)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection12">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Surprised by answers')">Surprised by answers</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Confirmed suspicions')">Confirmed suspicions</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Raised new questions')">Raised new questions</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Feel clearer')">Feel clearer</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response12" placeholder="What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(12)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator12">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback12"></div>
+
+                    <div class="completion-trigger" id="completionTrigger12">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(12)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection12">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent12"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(12)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(12)">Hide</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1791,8 +2590,227 @@
             }
         }
 
-        function startVoiceInput(questionNum) {
-            alert('Voice input would be available with proper microphone permissions and HTTPS deployment.');
+        // Reflection and completion detection system
+        let reflectionData = {};
+
+        function setupResponseMonitoring() {
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('response-textarea')) {
+                    const questionNum = e.target.id.replace('response', '');
+                    handleResponseChange(questionNum, e.target.value);
+                }
+            });
+        }
+
+        function handleResponseChange(questionNum, value) {
+            const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            const reflection = document.getElementById(`reflection${questionNum}`);
+            
+            // Show completion trigger if response has substance (20+ words) and no reflection shown yet
+            if (wordCount >= 20 && !reflection.classList.contains('show')) {
+                setTimeout(() => {
+                    completionTrigger.classList.add('show');
+                }, 2000); // Small delay to let them finish their thought
+            } else if (wordCount < 20) {
+                completionTrigger.classList.remove('show');
+            }
+        }
+
+        function generateReflection(questionNum) {
+            const responseElement = document.getElementById(`response${questionNum}`);
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            const reflectionContent = document.getElementById(`reflectionContent${questionNum}`);
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            
+            if (!responseElement || !responseElement.value.trim()) {
+                return;
+            }
+
+            const response = responseElement.value.trim();
+            const reflection = analyzeResponse(questionNum, response);
+            
+            // Hide completion trigger and show reflection
+            completionTrigger.classList.remove('show');
+            reflectionContent.innerHTML = reflection;
+            reflectionElement.classList.add('show');
+            
+            // Store reflection data
+            reflectionData[questionNum] = {
+                response: response,
+                reflection: reflection,
+                timestamp: new Date()
+            };
+            
+            // Smooth scroll to reflection
+            setTimeout(() => {
+                reflectionElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+
+        function analyzeResponse(questionNum, response) {
+            const questionAnalysis = {
+                1: analyzeQuestion1,
+                2: analyzeQuestion2,
+                3: analyzeQuestion3,
+                4: analyzeQuestion4,
+                5: analyzeQuestion5,
+                6: analyzeQuestion6,
+                7: analyzeQuestion7,
+                8: analyzeQuestion8,
+                9: analyzeQuestion9,
+                10: analyzeQuestion10,
+                11: analyzeQuestion11,
+                12: analyzeQuestion12
+            };
+            
+            return questionAnalysis[questionNum] ? questionAnalysis[questionNum](response) : getGenericReflection(response);
+        }
+
+        function analyzeQuestion1(response) {
+            const themes = {
+                career: ['career', 'job', 'work', 'profession', 'direction', 'path'],
+                growth: ['growth', 'develop', 'learn', 'improve', 'better'],
+                clarity: ['unclear', 'confused', 'lost', 'direction', 'purpose'],
+                change: ['change', 'transition', 'different', 'new', 'shift']
+            };
+            
+            const detectedThemes = [];
+            const lowerResponse = response.toLowerCase();
+            
+            Object.keys(themes).forEach(theme => {
+                if (themes[theme].some(word => lowerResponse.includes(word))) {
+                    detectedThemes.push(theme);
+                }
+            });
+            
+            let reflection = "";
+            
+            if (detectedThemes.includes('career')) {
+                reflection += "It sounds like career direction is really important to you right now. ";
+            }
+            if (detectedThemes.includes('growth')) {
+                reflection += "I hear a strong desire for personal development and growth. ";
+            }
+            if (detectedThemes.includes('clarity')) {
+                reflection += "It feels like you're seeking more clarity about your path forward. ";
+            }
+            if (detectedThemes.includes('change')) {
+                reflection += "It seems like you're ready for or considering some significant changes. ";
+            }
+            
+            reflection += "What stands out is your willingness to engage in honest self-reflection - that's often the first step toward meaningful discovery.";
+            
+            return reflection;
+        }
+
+        function analyzeQuestion2(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('understand') || lowerResponse.includes('appreciate')) {
+                return "It sounds like you value transparency and appreciate knowing how your data is handled. This kind of awareness shows you're thoughtful about your digital privacy, which is increasingly important in today's world.";
+            } else if (lowerResponse.includes('concern') || lowerResponse.includes('worry')) {
+                return "Your privacy concerns are completely valid and show good digital awareness. It feels like you've probably had experiences that make you cautious about sharing personal information - which is actually quite wise.";
+            } else if (lowerResponse.includes('question') || lowerResponse.includes('more')) {
+                return "It seems like you're someone who likes to understand how things work before fully committing. That analytical approach will serve you well throughout this discovery process.";
+            }
+            
+            return "It sounds like you're approaching this thoughtfully, which suggests you'll get the most value from honest, authentic responses as we continue.";
+        }
+
+        function analyzeQuestion3(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('ready') || lowerResponse.includes('excited')) {
+                return "It feels like you're genuinely ready to invest in yourself and this process. That kind of commitment and openness often leads to the most meaningful insights.";
+            } else if (lowerResponse.includes('nervous') || lowerResponse.includes('unsure')) {
+                return "It sounds like there's some natural nervousness about self-reflection, which is completely normal. Often the things that make us a bit nervous are exactly where we have the most to discover.";
+            } else if (lowerResponse.includes('time') || lowerResponse.includes('busy')) {
+                return "It seems like you're balancing this reflection with other priorities. The fact that you're making time for this kind of self-discovery suggests it matters to you.";
+            }
+            
+            return "It sounds like you're approaching this with the right mindset - thoughtful and intentional about the time you're investing.";
+        }
+
+        function analyzeQuestion4(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('necessity') || lowerResponse.includes('bills') || lowerResponse.includes('survive')) {
+                return "It sounds like work feels more like a requirement than a choice right now. Many people feel this way, and it's honest to acknowledge that survival needs matter. This awareness might be the first step toward finding work that meets both your practical and personal needs.";
+            } else if (lowerResponse.includes('passion') || lowerResponse.includes('purpose') || lowerResponse.includes('calling')) {
+                return "It feels like you see work as potentially much more than just a paycheck - as a way to express who you are or make a meaningful contribution. That kind of perspective often leads to more fulfilling career choices.";
+            } else if (lowerResponse.includes('identity') || lowerResponse.includes('who I am')) {
+                return "It sounds like work is deeply connected to your sense of self. While this can be motivating, it also suggests you might benefit from exploring what aspects of your identity exist beyond your job title.";
+            } else if (lowerResponse.includes('freedom') || lowerResponse.includes('independence')) {
+                return "It seems like autonomy and control over your choices are really important to you. This insight about valuing freedom might guide you toward work situations that offer more flexibility and self-direction.";
+            }
+            
+            return "It sounds like you have a thoughtful perspective on what work means in your life, which will help guide the rest of this discovery process.";
+        }
+
+        function analyzeQuestion5(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('commit') || lowerResponse.includes('honest')) {
+                return "It feels like you're genuinely committed to authentic self-discovery. That willingness to be honest, even when it's uncomfortable, is often what leads to the most valuable insights.";
+            } else if (lowerResponse.includes('nervous') || lowerResponse.includes('scary')) {
+                return "It sounds like the prospect of deep honesty feels vulnerable, which is completely understandable. Often the things that make us nervous are exactly where we have the most to learn about ourselves.";
+            } else if (lowerResponse.includes('encouragement') || lowerResponse.includes('support')) {
+                return "It seems like you recognize that honest self-reflection can feel challenging and you're wise to acknowledge when you need support. That kind of self-awareness is actually a strength.";
+            }
+            
+            return "It sounds like you understand that authentic responses will serve you better than 'correct' ones, which puts you in a great position for meaningful discovery.";
+        }
+
+        function getGenericReflection(response) {
+            const reflections = [
+                "It sounds like you've put genuine thought into your response. What you've shared reveals some important insights about how you see yourself and what matters to you.",
+                "It feels like there's real authenticity in what you've written. These kinds of honest reflections often point toward important patterns worth exploring further.",
+                "It seems like you're being thoughtful about this process. The detail in your response suggests you're ready to engage meaningfully with these questions.",
+                "What stands out is your willingness to be reflective and honest. That openness is often what leads to the most valuable self-discoveries."
+            ];
+            
+            return reflections[Math.floor(Math.random() * reflections.length)];
+        }
+
+        // Additional analysis functions for questions 6-12
+        function analyzeQuestion6(response) {
+            return "It sounds like you're being honest about where you are right now, both the positives and the challenges. That kind of realistic self-assessment is often the foundation for meaningful change.";
+        }
+
+        function analyzeQuestion7(response) {
+            return "It feels like you're thoughtfully preparing yourself for deeper reflection. Your awareness of this transition shows you understand that meaningful self-discovery often requires moving beyond surface-level questions.";
+        }
+
+        function analyzeQuestion8(response) {
+            return "It sounds like you've identified a time when you felt genuinely aligned and energized. These moments of 'flow' often reveal important clues about what naturally engages and motivates you.";
+        }
+
+        function analyzeQuestion9(response) {
+            return "It seems like you're starting to recognize patterns in what energizes versus drains you. This kind of energy awareness is often one of the most practical insights for making better choices about how you spend your time.";
+        }
+
+        function analyzeQuestion10(response) {
+            return "It sounds like you have good self-awareness about your natural problem-solving approach. Understanding your instinctive style can help you choose situations where you'll naturally thrive.";
+        }
+
+        function analyzeQuestion11(response) {
+            return "It feels like you're connecting with what actually matters to you, not just what you think should matter. This distinction between authentic and expected values is often key to making satisfying life choices.";
+        }
+
+        function analyzeQuestion12(response) {
+            return "It sounds like this reflection process has surfaced some meaningful insights. The patterns you're noticing often point toward important directions worth exploring further.";
+        }
+
+        function hideReflection(questionNum) {
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            
+            reflectionElement.classList.remove('show');
+            // Don't show completion trigger again since they've already seen the reflection
         }
 
         // Deployment and sync status functions
@@ -1977,12 +2995,18 @@
             init();
             updateDeploymentInfo();
             monitorDeploymentStatus();
+            setupResponseMonitoring();
         });
         
         if (document.readyState !== 'loading') {
             init();
             updateDeploymentInfo();
             monitorDeploymentStatus();
+            setupResponseMonitoring();
+        }
+
+        function startVoiceInput(questionNum) {
+            alert('Voice input would be available with proper microphone permissions and HTTPS deployment.');
         }
     </script>
 </body>
