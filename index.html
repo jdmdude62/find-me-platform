@@ -85,6 +85,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .question-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
         .question-title {
             font-size: 1.8rem;
             margin-bottom: 10px;
@@ -94,7 +100,46 @@
         .question-subtitle {
             font-size: 1rem;
             color: #7f8c8d;
-            margin-bottom: 30px;
+            margin-bottom: 0;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .response-summary {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #555;
+            display: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .response-summary.show {
+            display: block;
+        }
+
+        .response-summary-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .edit-response-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
         .quick-options {
@@ -424,8 +469,16 @@
 
             <!-- Question 1 -->
             <div class="question-section" id="question1">
-                <h2 class="question-title">What brings you here?</h2>
-                <p class="question-subtitle">Let's start with understanding what brings you here and what you're hoping to discover about yourself.</p>
+                <div class="question-header">
+                    <div class="question-number">Question 1 of 12</div>
+                    <h2 class="question-title">What brings you here?</h2>
+                    <p class="question-subtitle">Let's start with understanding what brings you here and what you're hoping to discover about yourself.</p>
+                </div>
+                
+                <div class="response-summary" id="summary1">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText1"></div>
+                </div>
                 
                 <div class="quick-options">
                     <div class="quick-option" onclick="selectQuickOption(1, 'Career guidance')">Career guidance</div>
@@ -447,8 +500,16 @@
 
             <!-- Question 2 -->
             <div class="question-section" id="question2">
-                <h2 class="question-title">Privacy and Data Ownership</h2>
-                <p class="question-subtitle">Your responses stay completely private on your device. Let's make sure you're comfortable with how this works.</p>
+                <div class="question-header">
+                    <div class="question-number">Question 2 of 12</div>
+                    <h2 class="question-title">Privacy and Data Ownership</h2>
+                    <p class="question-subtitle">Your responses stay completely private on your device. Let's make sure you're comfortable with how this works.</p>
+                </div>
+                
+                <div class="response-summary" id="summary2">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText2"></div>
+                </div>
                 
                 <div class="quick-options">
                     <div class="quick-option" onclick="selectQuickOption(2, 'I understand')">I understand</div>
@@ -469,8 +530,16 @@
 
             <!-- Question 3 -->
             <div class="question-section" id="question3">
-                <h2 class="question-title">Time and Commitment</h2>
-                <p class="question-subtitle">This session takes 12-15 minutes of thoughtful reflection. Let's set realistic expectations.</p>
+                <div class="question-header">
+                    <div class="question-number">Question 3 of 12</div>
+                    <h2 class="question-title">Time and Commitment</h2>
+                    <p class="question-subtitle">This session takes 12-15 minutes of thoughtful reflection. Let's set realistic expectations.</p>
+                </div>
+                
+                <div class="response-summary" id="summary3">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText3"></div>
+                </div>
                 
                 <div class="quick-options">
                     <div class="quick-option" onclick="selectQuickOption(3, 'Ready to continue')">Ready to continue</div>
@@ -491,8 +560,16 @@
 
             <!-- Question 4 -->
             <div class="question-section" id="question4">
-                <h2 class="question-title">What Work Means to You</h2>
-                <p class="question-subtitle">Understanding your personal relationship with work helps us discover what you're naturally drawn to.</p>
+                <div class="question-header">
+                    <div class="question-number">Question 4 of 12</div>
+                    <h2 class="question-title">What Work Means to You</h2>
+                    <p class="question-subtitle">Understanding your personal relationship with work helps us discover what you're naturally drawn to.</p>
+                </div>
+                
+                <div class="response-summary" id="summary4">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText4"></div>
+                </div>
                 
                 <div class="quick-options">
                     <div class="quick-option" onclick="selectQuickOption(4, 'Necessity')">Necessity</div>
@@ -514,8 +591,16 @@
 
             <!-- Question 5 -->
             <div class="question-section" id="question5">
-                <h2 class="question-title">Honesty and Authenticity</h2>
-                <p class="question-subtitle">The most valuable discoveries come from honest self-reflection, not answers you think are 'right.'</p>
+                <div class="question-header">
+                    <div class="question-number">Question 5 of 12</div>
+                    <h2 class="question-title">Honesty and Authenticity</h2>
+                    <p class="question-subtitle">The most valuable discoveries come from honest self-reflection, not answers you think are 'right.'</p>
+                </div>
+                
+                <div class="response-summary" id="summary5">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText5"></div>
+                </div>
                 
                 <div class="quick-options">
                     <div class="quick-option" onclick="selectQuickOption(5, 'I commit to honesty')">I commit to honesty</div>
@@ -536,8 +621,16 @@
 
             <!-- Question 6 -->
             <div class="question-section" id="question6">
-                <h2 class="question-title">Your Current Situation</h2>
-                <p class="question-subtitle">Understanding where you are now helps us identify what you're naturally drawn toward.</p>
+                <div class="question-header">
+                    <div class="question-number">Question 6 of 12</div>
+                    <h2 class="question-title">Your Current Situation</h2>
+                    <p class="question-subtitle">Understanding where you are now helps us identify what you're naturally drawn toward.</p>
+                </div>
+                
+                <div class="response-summary" id="summary6">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText6"></div>
+                </div>
                 
                 <div class="quick-options">
                     <div class="quick-option" onclick="selectQuickOption(6, 'Employed')">Employed</div>
@@ -559,25 +652,31 @@
 
             <!-- Question 7 - Transition -->
             <div class="question-section" id="question7">
-                <div class="transition-screen">
+                <div class="question-header">
+                    <div class="question-number">Question 7 of 12 - Transition Point</div>
                     <div class="transition-icon">🌟</div>
                     <h2 class="question-title">Transition: Deeper Reflection Ahead</h2>
                     <p class="question-subtitle">The next questions will ask you to reflect more personally. Take your time - there are no wrong answers.</p>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(7, 'I am ready')">I'm ready</div>
-                        <div class="quick-option" onclick="selectQuickOption(7, 'I need a moment')">I need a moment</div>
-                        <div class="quick-option" onclick="selectQuickOption(7, 'Save and pause')">Save and pause</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <textarea class="response-textarea" id="response7" placeholder="How are you feeling about moving into more personal reflection? Any concerns or excitement?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(7)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator7">Auto-saved</span>
-                        </div>
+                </div>
+                
+                <div class="response-summary" id="summary7">
+                    <div class="response-summary-title">Your Response:</div>
+                    <div id="summaryText7"></div>
+                </div>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(7, 'I am ready')">I'm ready</div>
+                    <div class="quick-option" onclick="selectQuickOption(7, 'I need a moment')">I need a moment</div>
+                    <div class="quick-option" onclick="selectQuickOption(7, 'Save and pause')">Save and pause</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response7" placeholder="How are you feeling about moving into more personal reflection? Any concerns or excitement?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(7)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator7">Auto-saved</span>
                     </div>
                 </div>
             </div>
@@ -895,6 +994,9 @@
                                  `question${questionNum}`;
             document.getElementById(targetSection).classList.add('active');
 
+            // Update response summaries for review mode
+            updateResponseSummaries(questionNum);
+
             // Update navigation buttons
             updateNavigationButtons();
             updateProgress();
@@ -903,6 +1005,92 @@
             // Save current question progress
             sessionData.currentQuestion = questionNum;
             saveSession();
+        }
+
+        function updateResponseSummaries(currentQuestionNum) {
+            // Hide all summaries first
+            document.querySelectorAll('.response-summary').forEach(summary => {
+                summary.classList.remove('show');
+            });
+
+            // If we're reviewing a previous question that has a response, show the summary
+            if (currentQuestionNum > 0 && currentQuestionNum <= 12) {
+                const responseElement = document.getElementById(`response${currentQuestionNum}`);
+                const summaryElement = document.getElementById(`summary${currentQuestionNum}`);
+                const summaryTextElement = document.getElementById(`summaryText${currentQuestionNum}`);
+                const responseArea = document.querySelector(`#question${currentQuestionNum} .response-area`);
+                const quickOptions = document.querySelector(`#question${currentQuestionNum} .quick-options`);
+                
+                if (responseElement && summaryElement && summaryTextElement && responseElement.value.trim()) {
+                    // Show first 150 characters of response as summary
+                    const responseText = responseElement.value.trim();
+                    const summaryText = responseText.length > 150 ? 
+                        responseText.substring(0, 150) + '...' : 
+                        responseText;
+                    
+                    summaryTextElement.textContent = summaryText;
+                    summaryElement.classList.add('show');
+                    
+                    // Hide the input area and quick options when showing summary
+                    if (responseArea) responseArea.style.display = 'none';
+                    if (quickOptions) quickOptions.style.display = 'none';
+                    
+                    // Add an edit button
+                    addEditButton(currentQuestionNum, summaryElement);
+                } else {
+                    // Show input area and quick options for unanswered questions
+                    if (responseArea) responseArea.style.display = 'block';
+                    if (quickOptions) quickOptions.style.display = 'flex';
+                }
+            }
+        }
+
+        function addEditButton(questionNum, summaryElement) {
+            // Remove existing edit button if present
+            const existingBtn = summaryElement.querySelector('.edit-response-btn');
+            if (existingBtn) existingBtn.remove();
+            
+            // Create edit button
+            const editBtn = document.createElement('button');
+            editBtn.className = 'edit-response-btn';
+            editBtn.innerHTML = '✏️ Edit Response';
+            editBtn.style.cssText = `
+                background: #667eea;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: 0.9rem;
+                margin-top: 10px;
+                transition: all 0.2s ease;
+            `;
+            
+            editBtn.onmouseover = () => editBtn.style.background = '#5a6fd8';
+            editBtn.onmouseout = () => editBtn.style.background = '#667eea';
+            
+            editBtn.onclick = () => editResponse(questionNum);
+            
+            summaryElement.appendChild(editBtn);
+        }
+
+        function editResponse(questionNum) {
+            const summaryElement = document.getElementById(`summary${questionNum}`);
+            const responseArea = document.querySelector(`#question${questionNum} .response-area`);
+            const quickOptions = document.querySelector(`#question${questionNum} .quick-options`);
+            
+            // Hide summary and show input area
+            if (summaryElement) summaryElement.classList.remove('show');
+            if (responseArea) responseArea.style.display = 'block';
+            if (quickOptions) quickOptions.style.display = 'flex';
+            
+            // Focus on the textarea
+            const textarea = document.getElementById(`response${questionNum}`);
+            if (textarea) {
+                textarea.focus();
+                // Place cursor at end
+                textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+            }
         }
 
         function nextQuestion() {
