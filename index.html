@@ -1033,6 +1033,20 @@
                         <button class="conversation-option" onclick="handlePrivacyConversation('verify')">How can I verify this?</button>
                         <button class="conversation-option" onclick="handlePrivacyConversation('concerns')">I have specific concerns</button>
                         <button class="conversation-option" onclick="handlePrivacyConversation('technical')">Show me the technical details</button>
+                        <button class="conversation-option secondary" onclick="enableFreeformQuestion()">Ask a different question</button>
+                    </div>
+                    
+                    <!-- Freeform Question Input -->
+                    <div class="freeform-question" id="freeformQuestion2" style="display: none;">
+                        <div class="response-area">
+                            <label class="response-label">Ask your privacy question:</label>
+                            <textarea class="response-textarea" id="privacyQuestion" placeholder="What specific privacy question or concern do you have?"></textarea>
+                            <div class="voice-controls">
+                                <button class="voice-btn" onclick="startVoiceInput('privacyQuestion')">🎤 Voice Input</button>
+                                <button class="conversation-option" onclick="submitPrivacyQuestion()">Submit Question</button>
+                                <button class="conversation-option secondary" onclick="hideFreeformQuestion()">Back to Options</button>
+                            </div>
+                        </div>
                     </div>
                     
                     <div id="conversationHistory2"></div>
@@ -2983,6 +2997,113 @@
                 button.onclick = () => handlePrivacyConversation(option);
                 container.appendChild(button);
             });
+            
+            // Always add the "Ask a different question" option
+            const freeformButton = document.createElement('button');
+            freeformButton.className = 'conversation-option secondary';
+            freeformButton.textContent = 'Ask a different question';
+            freeformButton.onclick = enableFreeformQuestion;
+            container.appendChild(freeformButton);
+        }
+
+        function enableFreeformQuestion() {
+            document.getElementById('freeformQuestion2').style.display = 'block';
+            document.getElementById('privacyQuestion').focus();
+        }
+
+        function hideFreeformQuestion() {
+            document.getElementById('freeformQuestion2').style.display = 'none';
+            document.getElementById('privacyQuestion').value = '';
+        }
+
+        function submitPrivacyQuestion() {
+            const questionText = document.getElementById('privacyQuestion').value.trim();
+            if (!questionText) {
+                alert('Please enter your privacy question first.');
+                return;
+            }
+
+            const historyContainer = document.getElementById('conversationHistory2');
+            const optionsContainer = document.getElementById('conversationOptions2');
+            
+            // Add user question to history
+            addConversationMessage('user', questionText, historyContainer);
+            
+            // Hide freeform input
+            hideFreeformQuestion();
+            
+            // Generate intelligent response based on question content
+            const response = generateIntelligentPrivacyResponse(questionText);
+            setTimeout(() => {
+                addConversationMessage('system', response.text, historyContainer);
+                
+                if (response.options) {
+                    updateConversationOptions(response.options, optionsContainer);
+                } else {
+                    // Provide follow-up options
+                    updateConversationOptions(['satisfied', 'more_questions', 'ready'], optionsContainer);
+                }
+            }, 500);
+        }
+
+        function generateIntelligentPrivacyResponse(questionText) {
+            const lowerQuestion = questionText.toLowerCase();
+            
+            // Analyze question content and provide intelligent responses
+            if (lowerQuestion.includes('delete') || lowerQuestion.includes('remove') || lowerQuestion.includes('clear')) {
+                return {
+                    text: "You can delete your data anytime in several ways: 1) Clear browser data for this site specifically, 2) Go to browser Settings → Privacy → Clear browsing data → Local storage, 3) Use our 'Clear All Data' button when available. Your data is completely under your control - no permission needed from us.",
+                    options: ['satisfied', 'more_questions']
+                };
+            }
+            
+            if (lowerQuestion.includes('track') || lowerQuestion.includes('monitor') || lowerQuestion.includes('watch')) {
+                return {
+                    text: "We don't track, monitor, or watch your activity at all. No analytics on your responses, no behavior tracking, no usage patterns collected. The only 'tracking' is basic website analytics (page loads, not personal data) which you can block with any ad blocker.",
+                    options: ['verify', 'satisfied']
+                };
+            }
+            
+            if (lowerQuestion.includes('share') || lowerQuestion.includes('sell') || lowerQuestion.includes('third party')) {
+                return {
+                    text: "Never. We cannot share, sell, or give your responses to anyone because we literally don't have access to them. Your responses never leave your device. It's technically impossible for us to share what we don't possess.",
+                    options: ['satisfied', 'more_questions']
+                };
+            }
+            
+            if (lowerQuestion.includes('hack') || lowerQuestion.includes('breach') || lowerQuestion.includes('security')) {
+                return {
+                    text: "Since your data never leaves your device, there's nothing for hackers to breach on our servers. Your responses are as secure as any other files on your computer. If someone gained access to your device, they could potentially see local files - but that's true of any document you save locally.",
+                    options: ['satisfied', 'more_questions']
+                };
+            }
+            
+            if (lowerQuestion.includes('legal') || lowerQuestion.includes('court') || lowerQuestion.includes('subpoena') || lowerQuestion.includes('government')) {
+                return {
+                    text: "Legal requests can't access what doesn't exist on our servers. Your responses are only on your device, so even if we received a subpoena, we'd have nothing to provide. It's like someone requesting copies of your private diary - we simply don't have them.",
+                    options: ['satisfied', 'verify']
+                };
+            }
+            
+            if (lowerQuestion.includes('employee') || lowerQuestion.includes('staff') || lowerQuestion.includes('worker')) {
+                return {
+                    text: "Our employees cannot see your responses because the technical architecture prevents it. Even if someone wanted to snoop (which is against our values), the data isn't accessible to us. Your responses exist only in your browser's local storage on your device.",
+                    options: ['verify', 'satisfied']
+                };
+            }
+            
+            if (lowerQuestion.includes('cookie') || lowerQuestion.includes('session') || lowerQuestion.includes('localStorage')) {
+                return {
+                    text: "We use localStorage (not cookies) which stays on your device and never gets sent anywhere automatically. You can see exactly what's stored by pressing F12 → Application → Local Storage. No tracking cookies, no session data sent to servers - just local storage under your control.",
+                    options: ['verify', 'satisfied']
+                };
+            }
+            
+            // Default intelligent response for unmatched questions
+            return {
+                text: "That's a thoughtful privacy question. The core principle is simple: your responses never leave your device. They're stored in your browser's local storage, which is like a private folder that only you can access. You can verify this anytime using browser developer tools. What specific aspect of this would you like me to clarify further?",
+                options: ['verify', 'technical', 'satisfied']
+            };
         }
 
         function addVerificationTool(verification, container) {
