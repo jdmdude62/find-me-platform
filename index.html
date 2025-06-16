@@ -165,9 +165,29 @@
             border-color: #667eea;
         }
 
+        .question-prompt {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #495057;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
         .response-area {
             position: relative;
             margin-bottom: 20px;
+        }
+
+        .response-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: block;
         }
 
         .response-textarea {
@@ -185,6 +205,11 @@
         .response-textarea:focus {
             outline: none;
             border-color: #667eea;
+        }
+
+        .response-textarea::placeholder {
+            color: #6c757d;
+            font-style: normal;
         }
 
         .voice-controls {
@@ -475,6 +500,10 @@
                     <p class="question-subtitle">Let's start with understanding what brings you here and what you're hoping to discover about yourself.</p>
                 </div>
                 
+                <div class="question-prompt">
+                    <strong>Please reflect on:</strong> What brings you to this discovery process? What are you hoping to learn about yourself or your direction in life?
+                </div>
+                
                 <div class="response-summary" id="summary1">
                     <div class="response-summary-title">Your Response:</div>
                     <div id="summaryText1"></div>
@@ -488,7 +517,8 @@
                 </div>
                 
                 <div class="response-area">
-                    <textarea class="response-textarea" id="response1" placeholder="What brings you to this discovery process? What are you hoping to learn about yourself or your direction in life?"></textarea>
+                    <label class="response-label">Your Response:</label>
+                    <textarea class="response-textarea" id="response1" placeholder="Share your thoughts here..."></textarea>
                     <div class="voice-controls">
                         <button class="voice-btn" onclick="startVoiceInput(1)">
                             🎤 Voice Input
@@ -506,6 +536,10 @@
                     <p class="question-subtitle">Your responses stay completely private on your device. Let's make sure you're comfortable with how this works.</p>
                 </div>
                 
+                <div class="question-prompt">
+                    <strong>Please reflect on:</strong> Do you have any questions about privacy or how your data will be handled? All responses are stored locally on your device only.
+                </div>
+                
                 <div class="response-summary" id="summary2">
                     <div class="response-summary-title">Your Response:</div>
                     <div id="summaryText2"></div>
@@ -518,7 +552,8 @@
                 </div>
                 
                 <div class="response-area">
-                    <textarea class="response-textarea" id="response2" placeholder="Do you have any questions about privacy or how your data will be handled? All responses are stored locally on your device only."></textarea>
+                    <label class="response-label">Your Response:</label>
+                    <textarea class="response-textarea" id="response2" placeholder="Share your thoughts here..."></textarea>
                     <div class="voice-controls">
                         <button class="voice-btn" onclick="startVoiceInput(2)">
                             🎤 Voice Input
@@ -627,6 +662,10 @@
                     <p class="question-subtitle">Understanding where you are now helps us identify what you're naturally drawn toward.</p>
                 </div>
                 
+                <div class="question-prompt">
+                    <strong>Please reflect on:</strong> Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?
+                </div>
+                
                 <div class="response-summary" id="summary6">
                     <div class="response-summary-title">Your Response:</div>
                     <div id="summaryText6"></div>
@@ -640,7 +679,8 @@
                 </div>
                 
                 <div class="response-area">
-                    <textarea class="response-textarea" id="response6" placeholder="Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?"></textarea>
+                    <label class="response-label">Your Response:</label>
+                    <textarea class="response-textarea" id="response6" placeholder="Share your thoughts here..."></textarea>
                     <div class="voice-controls">
                         <button class="voice-btn" onclick="startVoiceInput(6)">
                             🎤 Voice Input
