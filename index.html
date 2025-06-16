@@ -958,57 +958,60 @@
             timeEstimate.textContent = `~${remaining} minutes remaining`;
         }
 
-        // Quick Options
+        // Quick Options with Enhanced Responses
         function selectQuickOption(questionNum, option) {
             const templates = {
                 'Career guidance': "I'm looking for career guidance because I feel uncertain about my professional direction and want to understand what truly motivates me...",
                 'Personal growth': "I'm focused on personal growth and want to understand my natural strengths and what genuinely energizes me...",
                 'Life direction': "I'm feeling uncertain about my life direction and hoping to discover what I'm naturally drawn toward...",
                 'Skills discovery': "I want to discover my natural skills and talents, especially those I might not have recognized or developed yet...",
-                'I understand': "I understand that my responses stay on my device. I appreciate this privacy-first approach because...",
-                'Tell me more': "I'd like to know more about how my privacy is protected and what happens to my responses...",
-                'I have concerns': "I have some concerns about privacy that I'd like addressed before continuing...",
-                'Ready to continue': "I'm ready to invest this time in self-discovery and honest reflection about my direction...",
-                'Need a break first': "I need a few minutes before diving into deep reflection to prepare mentally...",
-                'Questions about process': "I have some questions about how this process works and what to expect...",
-                'Necessity': "Work is primarily a necessity for me - a way to pay bills and survive, though I wonder if it could be more...",
-                'Passion': "Work represents passion and purpose in my life, or at least I hope it can...",
-                'Identity': "Work is a big part of my identity and how I see myself, which sometimes feels limiting...",
-                'Freedom': "Work is a means to freedom and independence, giving me the resources to live as I choose...",
-                'I commit to honesty': "I commit to being honest, even if my answers surprise me or challenge what I think I should want...",
-                'This makes me nervous': "Being completely honest makes me nervous because I'm not sure I'm ready for what I might discover...",
-                'I need encouragement': "I could use some encouragement to be fully honest because it feels vulnerable...",
-                'Employed': "I'm currently employed but questioning whether this is the right path for me...",
-                'Student': "I'm a student and thinking about what direction to take after graduation...",
-                'Between jobs': "I'm between jobs right now and wondering if this is an opportunity to reassess my direction...",
-                'Career change': "I'm looking to change careers because my current path doesn't feel aligned with who I am...",
-                'I am ready': "I'm ready to explore more personal questions and see what I discover about myself...",
-                'I need a moment': "I need a moment to prepare for deeper reflection and get in the right mindset...",
-                'Save and pause': "I'd like to save my progress and pause here to continue this journey later...",
-                'Work situation': "There was a work situation where I felt completely engaged and time seemed to disappear...",
-                'Personal project': "I remember a personal project that had me so absorbed I lost track of time...",
-                'Helping others': "I felt most engaged when helping someone else solve a problem or learn something new...",
-                'Learning something': "I was learning something new and felt completely absorbed in the discovery process...",
-                'People vs. tasks': "I notice patterns in whether I'm energized more by working with people or focusing on tasks...",
-                'Creative vs. analytical': "I see differences in my energy when doing creative work versus analytical work...",
-                'Leading vs. supporting': "I notice whether I'm more energized when leading initiatives or supporting others' ideas...",
-                'Routine vs. variety': "I have clear preferences about routine, predictable work versus varied, changing challenges...",
-                'Research first': "When facing challenges, my natural instinct is to research and understand before acting...",
-                'Jump in and try': "I prefer to jump in and try things, learning through experimentation and iteration...",
-                'Talk it through': "I work best when I can talk through problems with others and think out loud...",
-                'Think it through alone': "I need quiet time alone to think through challenges and develop my approach...",
-                'Security': "Security and stability are important values that guide many of my decisions...",
-                'Impact': "Making a meaningful impact and contributing something valuable drives many of my choices...",
-                'Freedom': "Freedom and autonomy to make my own choices are core values for me...",
-                'Connection': "Connection with others and building meaningful relationships is very important to me...",
-                'Surprised by answers': "I was surprised by some of my responses and what they revealed about my true preferences...",
-                'Confirmed suspicions': "These questions confirmed things I suspected about myself but hadn't fully acknowledged...",
-                'Raised new questions': "This process has raised new questions about myself that I want to explore further...",
-                'Feel clearer': "I feel clearer about my direction and what I'm naturally drawn toward..."
+                'I understand': "I understand that my responses stay on my device. I appreciate this privacy-first approach because it means I can be completely honest without worrying about who might see or use my personal reflections...",
+                'Tell me more': "I'd like to know more about how my privacy is protected. How can I verify that my responses aren't being sent anywhere? What happens if I close my browser - will my answers be saved? Can I delete my data anytime I want?",
+                'I have concerns': "I have some concerns about privacy that I'd like addressed. In today's digital world, I'm cautious about sharing personal information. How is this different from other platforms that claim to protect privacy?",
+                'Ready to continue': "I'm ready to invest this time in self-discovery and honest reflection about my direction. I understand this is about discovering what I'm naturally drawn toward, not what I think I should want...",
+                'Need a break first': "I need a few minutes before diving into deep reflection to prepare mentally. This kind of honest self-assessment feels important and I want to be in the right mindset...",
+                'Questions about process': "I have some questions about how this process works and what to expect. Will the questions get more personal? How do I know if I'm answering 'correctly'? What happens with my responses at the end?",
+                'Necessity': "Work is primarily a necessity for me - a way to pay bills and survive. I often wonder if there's more meaningful work out there that could still meet my financial needs, but I'm not sure what that would look like...",
+                'Passion': "Work represents passion and purpose in my life, or at least I hope it can. I want to feel energized by what I do rather than drained by it...",
+                'Identity': "Work is a big part of my identity and how I see myself. Sometimes this feels limiting because I wonder if I'm more than just my job title or career path...",
+                'Freedom': "Work is a means to freedom and independence, giving me the resources to live as I choose. I value autonomy and the ability to make my own decisions about how I spend my time...",
+                'I commit to honesty': "I commit to being honest, even if my answers surprise me or challenge what I think I should want. I understand that the most valuable discoveries come from authentic responses, not 'correct' ones...",
+                'This makes me nervous': "Being completely honest makes me nervous because I'm not sure I'm ready for what I might discover about myself. What if my true interests don't align with my current path?",
+                'I need encouragement': "I could use some encouragement to be fully honest because it feels vulnerable to examine my real motivations and desires rather than what I think sounds good...",
+                'Employed': "I'm currently employed but questioning whether this is the right path for me. Something feels off or missing, though I can't quite put my finger on what...",
+                'Student': "I'm a student and thinking about what direction to take after graduation. I want to make choices based on what I'm actually drawn toward, not just what seems practical or impressive...",
+                'Between jobs': "I'm between jobs right now and wondering if this is an opportunity to reassess my direction rather than just finding another similar position...",
+                'Career change': "I'm looking to change careers because my current path doesn't feel aligned with who I am. I want to find work that energizes rather than drains me...",
+                'I am ready': "I'm ready to explore more personal questions and see what I discover about myself. I understand that the deeper questions might reveal things I haven't fully acknowledged before...",
+                'I need a moment': "I need a moment to prepare for deeper reflection and get in the right mindset. This transition from practical questions to personal ones feels significant...",
+                'Save and pause': "I'd like to save my progress and pause here to continue this journey later. It's helpful to know I can take breaks and come back to this when I'm ready for deeper reflection...",
+                'Work situation': "There was a work situation where I felt completely engaged and time seemed to disappear. I was energized rather than drained, and everything felt natural and flowing...",
+                'Personal project': "I remember a personal project that had me so absorbed I lost track of time. I felt capable, creative, and genuinely excited about what I was doing...",
+                'Helping others': "I felt most engaged when helping someone else solve a problem or learn something new. There's something about seeing others succeed that energizes me deeply...",
+                'Learning something': "I was learning something new and felt completely absorbed in the discovery process. The curiosity and growth felt more energizing than any external reward...",
+                'People vs. tasks': "I notice patterns in whether I'm energized more by working with people - collaborating, teaching, or supporting others - versus focusing on tasks, analysis, or independent work...",
+                'Creative vs. analytical': "I see clear differences in my energy when doing creative work - brainstorming, designing, or expressing ideas - versus analytical work like problem-solving, organizing, or systematic thinking...",
+                'Leading vs. supporting': "I notice whether I'm more energized when leading initiatives and making decisions versus supporting others' ideas and helping them succeed...",
+                'Routine vs. variety': "I have clear preferences about routine, predictable work that I can master versus varied, changing challenges that keep me learning and adapting...",
+                'Research first': "When facing challenges, my natural instinct is to research and understand thoroughly before acting. I want to know the context, options, and potential outcomes...",
+                'Jump in and try': "I prefer to jump in and try things, learning through experimentation and iteration. I figure things out by doing rather than by planning extensively...",
+                'Talk it through': "I work best when I can talk through problems with others and think out loud. External processing and collaboration help me see solutions more clearly...",
+                'Think it through alone': "I need quiet time alone to think through challenges and develop my approach. I process internally and prefer to work through ideas before sharing them...",
+                'Security': "Security and stability are important values that guide many of my decisions. I want to know that my basic needs are met and that I have a solid foundation...",
+                'Impact': "Making a meaningful impact and contributing something valuable drives many of my choices. I want my work and efforts to matter and make a positive difference...",
+                'Freedom': "Freedom and autonomy to make my own choices are core values for me. I want control over my schedule, decisions, and how I approach my work and life...",
+                'Connection': "Connection with others and building meaningful relationships is very important to me. I value collaboration, community, and feeling part of something larger than myself...",
+                'Surprised by answers': "I was surprised by some of my responses and what they revealed about my true preferences. Some things I thought I valued aren't as important as I expected...",
+                'Confirmed suspicions': "These questions confirmed things I suspected about myself but hadn't fully acknowledged. It's validating to see patterns in my responses that align with my intuitions...",
+                'Raised new questions': "This process has raised new questions about myself that I want to explore further. I'm curious about patterns I'm noticing and what they might mean for my direction...",
+                'Feel clearer': "I feel clearer about my direction and what I'm naturally drawn toward. The patterns in my responses are helping me see preferences I hadn't fully recognized before..."
             };
 
             const textarea = document.getElementById(`response${questionNum}`);
             const template = templates[option] || `I selected: ${option}. `;
+            
+            // Show immediate feedback
+            showQuickOptionFeedback(questionNum, option);
             
             if (textarea.value.trim() === '') {
                 textarea.value = template;
@@ -1019,6 +1022,52 @@
             textarea.focus();
             saveCurrentResponse();
             saveSession();
+        }
+
+        function showQuickOptionFeedback(questionNum, option) {
+            // Create feedback element if it doesn't exist
+            let feedback = document.getElementById(`feedback${questionNum}`);
+            if (!feedback) {
+                feedback = document.createElement('div');
+                feedback.id = `feedback${questionNum}`;
+                feedback.style.cssText = `
+                    background: #e8f5e8;
+                    border: 1px solid #4caf50;
+                    padding: 10px;
+                    margin: 10px 0;
+                    border-radius: 5px;
+                    color: #2e7d32;
+                    font-size: 0.9rem;
+                    display: none;
+                `;
+                
+                const questionSection = document.getElementById(`question${questionNum}`);
+                if (questionSection) {
+                    const responseArea = questionSection.querySelector('.response-area');
+                    responseArea.parentNode.insertBefore(feedback, responseArea);
+                }
+            }
+            
+            // Set feedback message based on option
+            const feedbackMessages = {
+                'Tell me more': "Great question! This platform uses browser localStorage, which means your responses are saved only on your device - like a private diary that never leaves your computer. You can verify this by checking your browser's developer tools (F12 → Application → Local Storage). No data is transmitted to servers, and you can delete everything anytime by clearing your browser data.",
+                'I have concerns': "Your privacy concerns are completely valid. Unlike most platforms, this system is designed so that even the developers cannot see your responses. Everything stays in your browser's local storage. You can verify this by checking your browser's Network tab (F12) - you'll see no data being sent anywhere.",
+                'I understand': "Perfect! You've got it. This privacy-first approach means you can be completely honest without any concerns about who might see your responses.",
+                'Questions about process': "The questions will gradually become more personal and reflective. There are no 'correct' answers - the goal is honest self-discovery. Your responses help identify patterns in what energizes you versus what drains you. At the end, you'll get insights about your natural inclinations and can export all your data.",
+                'Need a break first': "Absolutely fine! This kind of self-reflection works best when you're mentally prepared. Take your time - your progress is automatically saved every 30 seconds, so you can return anytime.",
+                'This makes me nervous': "It's completely normal to feel nervous about honest self-reflection. Remember, these responses are for you alone. Sometimes our most valuable discoveries come from acknowledging things we haven't wanted to admit, even to ourselves."
+            };
+            
+            const message = feedbackMessages[option];
+            if (message) {
+                feedback.innerHTML = `<strong>💡 ${option}:</strong> ${message}`;
+                feedback.style.display = 'block';
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 10000);
+            }
         }
 
         // Voice Recognition
