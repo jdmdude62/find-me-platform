@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Find.Me - Discover Your True Direction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .question-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .question-subtitle {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .quick-option:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .response-area {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .response-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        .response-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .voice-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .voice-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .voice-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .voice-btn.recording {
+            background: #e74c3c;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .save-indicator {
+            color: #27ae60;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .save-indicator.visible {
+            opacity: 1;
+        }
+
+        .time-estimate {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+            max-width: 200px;
+            display: none;
+        }
+
+        .admin-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .transition-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .transition-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .export-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .main-content {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .question-title {
+                font-size: 1.5rem;
+            }
+
+            .quick-options {
+                flex-direction: column;
+            }
+
+            .quick-option {
+                text-align: center;
+                padding: 12px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .admin-panel {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px 0;
+                max-width: none;
+            }
+
+            .admin-toggle {
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+
+        .privacy-notice {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-screen h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .welcome-screen p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Find.Me</h1>
+            <p>Discover your true direction through honest self-reflection</p>
+        </div>
+
+        <button class="admin-toggle" onclick="toggleAdminPanel()">Analytics</button>
+        
+        <div class="admin-panel" id="adminPanel">
+            <h4>Live Analytics</h4>
+            <div id="analytics">
+                <p>Active Sessions: <span id="activeSessions">1</span></p>
+                <p>Completion Rate: <span id="completionRate">0%</span></p>
+                <p>Current Question: <span id="currentQuestionStat">Welcome</span></p>
+                <p>Session Duration: <span id="sessionDuration">0:00</span></p>
+                <p>Device: <span id="deviceType">Desktop</span></p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Welcome Screen -->
+            <div class="question-section active" id="welcome">
+                <div class="welcome-screen">
+                    <h2>Welcome to Your Discovery Journey</h2>
+                    <p>This is a privacy-first platform designed to help you discover what you're naturally drawn toward. Your responses stay completely private on your device.</p>
+                    <p>The session takes 12-15 minutes of thoughtful reflection. There are no wrong answers - only honest discoveries.</p>
+                    <div class="privacy-notice">
+                        <strong>🔒 Your Privacy:</strong> All responses are stored locally on your device only. No data is sent to servers. You own and control everything you share.
+                    </div>
+                    <button class="start-btn" onclick="startSession(); console.log('Start button clicked');">Begin Discovery</button>
+                </div>
+            </div>
+
+            <!-- Question 1 -->
+            <div class="question-section" id="question1">
+                <h2 class="question-title">What brings you here?</h2>
+                <p class="question-subtitle">Let's start with understanding what brings you here and what you're hoping to discover about yourself.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(1, 'Career guidance')">Career guidance</div>
+                    <div class="quick-option" onclick="selectQuickOption(1, 'Personal growth')">Personal growth</div>
+                    <div class="quick-option" onclick="selectQuickOption(1, 'Life direction')">Life direction</div>
+                    <div class="quick-option" onclick="selectQuickOption(1, 'Skills discovery')">Skills discovery</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response1" placeholder="What brings you to this discovery process? What are you hoping to learn about yourself or your direction in life?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(1)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator1">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-section" id="question2">
+                <h2 class="question-title">Privacy and Data Ownership</h2>
+                <p class="question-subtitle">Your responses stay completely private on your device. Let's make sure you're comfortable with how this works.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(2, 'I understand')">I understand</div>
+                    <div class="quick-option" onclick="selectQuickOption(2, 'Tell me more')">Tell me more</div>
+                    <div class="quick-option" onclick="selectQuickOption(2, 'I have concerns')">I have concerns</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response2" placeholder="Do you have any questions about privacy or how your data will be handled? All responses are stored locally on your device only."></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(2)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator2">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-section" id="question3">
+                <h2 class="question-title">Time and Commitment</h2>
+                <p class="question-subtitle">This session takes 12-15 minutes of thoughtful reflection. Let's set realistic expectations.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(3, 'Ready to continue')">Ready to continue</div>
+                    <div class="quick-option" onclick="selectQuickOption(3, 'Need a break first')">Need a break first</div>
+                    <div class="quick-option" onclick="selectQuickOption(3, 'Questions about process')">Questions about process</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response3" placeholder="How are you feeling about dedicating 12-15 minutes to deep personal reflection right now?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(3)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator3">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-section" id="question4">
+                <h2 class="question-title">What Work Means to You</h2>
+                <p class="question-subtitle">Understanding your personal relationship with work helps us discover what you're naturally drawn to.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(4, 'Necessity')">Necessity</div>
+                    <div class="quick-option" onclick="selectQuickOption(4, 'Passion')">Passion</div>
+                    <div class="quick-option" onclick="selectQuickOption(4, 'Identity')">Identity</div>
+                    <div class="quick-option" onclick="selectQuickOption(4, 'Freedom')">Freedom</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response4" placeholder="What does 'work' mean to you personally? Is it a necessity, a calling, a way to express yourself, or something else entirely?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(4)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator4">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-section" id="question5">
+                <h2 class="question-title">Honesty and Authenticity</h2>
+                <p class="question-subtitle">The most valuable discoveries come from honest self-reflection, not answers you think are 'right.'</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(5, 'I commit to honesty')">I commit to honesty</div>
+                    <div class="quick-option" onclick="selectQuickOption(5, 'This makes me nervous')">This makes me nervous</div>
+                    <div class="quick-option" onclick="selectQuickOption(5, 'I need encouragement')">I need encouragement</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response5" placeholder="Can you commit to answering these questions as honestly as possible, even if the answers surprise you or don't match what you think you 'should' say?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(5)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator5">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-section" id="question6">
+                <h2 class="question-title">Your Current Situation</h2>
+                <p class="question-subtitle">Understanding where you are now helps us identify what you're naturally drawn toward.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(6, 'Employed')">Employed</div>
+                    <div class="quick-option" onclick="selectQuickOption(6, 'Student')">Student</div>
+                    <div class="quick-option" onclick="selectQuickOption(6, 'Between jobs')">Between jobs</div>
+                    <div class="quick-option" onclick="selectQuickOption(6, 'Career change')">Career change</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response6" placeholder="Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(6)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator6">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 - Transition -->
+            <div class="question-section" id="question7">
+                <div class="transition-screen">
+                    <div class="transition-icon">🌟</div>
+                    <h2 class="question-title">Transition: Deeper Reflection Ahead</h2>
+                    <p class="question-subtitle">The next questions will ask you to reflect more personally. Take your time - there are no wrong answers.</p>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(7, 'I am ready')">I'm ready</div>
+                        <div class="quick-option" onclick="selectQuickOption(7, 'I need a moment')">I need a moment</div>
+                        <div class="quick-option" onclick="selectQuickOption(7, 'Save and pause')">Save and pause</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <textarea class="response-textarea" id="response7" placeholder="How are you feeling about moving into more personal reflection? Any concerns or excitement?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(7)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator7">Auto-saved</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-section" id="question8">
+                <h2 class="question-title">Moments of Genuine Engagement</h2>
+                <p class="question-subtitle">Think about times when you felt truly 'in the zone' - time flew by and you felt capable and engaged.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(8, 'Work situation')">Work situation</div>
+                    <div class="quick-option" onclick="selectQuickOption(8, 'Personal project')">Personal project</div>
+                    <div class="quick-option" onclick="selectQuickOption(8, 'Helping others')">Helping others</div>
+                    <div class="quick-option" onclick="selectQuickOption(8, 'Learning something')">Learning something</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response8" placeholder="Describe a specific time when you felt genuinely engaged - where time seemed to fly by and you felt both capable and energized. What were you doing?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(8)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator8">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-section" id="question9">
+                <h2 class="question-title">What Drains vs. Energizes You</h2>
+                <p class="question-subtitle">Identifying patterns in what naturally energizes or depletes you reveals important clues about your inclinations.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(9, 'People vs. tasks')">People vs. tasks</div>
+                    <div class="quick-option" onclick="selectQuickOption(9, 'Creative vs. analytical')">Creative vs. analytical</div>
+                    <div class="quick-option" onclick="selectQuickOption(9, 'Leading vs. supporting')">Leading vs. supporting</div>
+                    <div class="quick-option" onclick="selectQuickOption(9, 'Routine vs. variety')">Routine vs. variety</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response9" placeholder="What types of activities or situations consistently drain your energy? What consistently gives you energy? Look for patterns rather than specific jobs."></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(9)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator9">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-section" id="question10">
+                <h2 class="question-title">Your Natural Problem-Solving Style</h2>
+                <p class="question-subtitle">How you naturally approach challenges reveals important aspects of how you're wired.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(10, 'Research first')">Research first</div>
+                    <div class="quick-option" onclick="selectQuickOption(10, 'Jump in and try')">Jump in and try</div>
+                    <div class="quick-option" onclick="selectQuickOption(10, 'Talk it through')">Talk it through</div>
+                    <div class="quick-option" onclick="selectQuickOption(10, 'Think it through alone')">Think it through alone</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response10" placeholder="When facing a new challenge or problem, what's your natural first instinct? How do you prefer to figure things out?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(10)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator10">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question-section" id="question11">
+                <h2 class="question-title">Values in Action</h2>
+                <p class="question-subtitle">Understanding what you actually value (not what you think you should value) guides authentic decisions.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(11, 'Security')">Security</div>
+                    <div class="quick-option" onclick="selectQuickOption(11, 'Impact')">Impact</div>
+                    <div class="quick-option" onclick="selectQuickOption(11, 'Freedom')">Freedom</div>
+                    <div class="quick-option" onclick="selectQuickOption(11, 'Connection')">Connection</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response11" placeholder="Think about decisions you've made that you felt good about afterward. What values were you honoring? What matters most to you in how you spend your time and energy?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(11)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator11">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-section" id="question12">
+                <h2 class="question-title">Session 1 Reflection</h2>
+                <p class="question-subtitle">Take a moment to notice what you've discovered about yourself through these questions.</p>
+                
+                <div class="quick-options">
+                    <div class="quick-option" onclick="selectQuickOption(12, 'Surprised by answers')">Surprised by answers</div>
+                    <div class="quick-option" onclick="selectQuickOption(12, 'Confirmed suspicions')">Confirmed suspicions</div>
+                    <div class="quick-option" onclick="selectQuickOption(12, 'Raised new questions')">Raised new questions</div>
+                    <div class="quick-option" onclick="selectQuickOption(12, 'Feel clearer')">Feel clearer</div>
+                </div>
+                
+                <div class="response-area">
+                    <textarea class="response-textarea" id="response12" placeholder="What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?"></textarea>
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="startVoiceInput(12)">
+                            🎤 Voice Input
+                        </button>
+                        <span class="save-indicator" id="saveIndicator12">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completion Screen -->
+            <div class="question-section" id="completion">
+                <div class="completion-screen">
+                    <h2>🎉 Congratulations!</h2>
+                    <p>You've completed Session 1 of your discovery journey. Your insights are valuable and completely private.</p>
+                    
+                    <div class="privacy-notice">
+                        <strong>What happens next:</strong><br>
+                        • Your responses are saved locally on your device<br>
+                        • You can export your data anytime<br>
+                        • Session 2 will focus on energy detection and deeper patterns<br>
+                        • You own and control all your discovery data
+                    </div>
+                    
+                    <button class="export-btn" onclick="exportData()">📥 Export My Responses</button>
+                    <button class="export-btn" onclick="startNewSession()">🔄 Start New Session</button>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
+                <div class="time-estimate" id="timeEstimate">~12 minutes remaining</div>
+                <div class="save-indicator" id="globalSaveIndicator">All changes saved</div>
+                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Session Management
+        let currentQuestion = 0;
+        let sessionData = {
+            sessionId: generateSessionId(),
+            startTime: new Date(),
+            responses: {},
+            device: detectDevice(),
+            userAgent: navigator.userAgent
+        };
+
+        // Analytics and Tracking
+        let analytics = {
+            activeSessions: 1,
+            completionRate: 0,
+            dropOffPoints: {},
+            sessionDuration: 0,
+            deviceBreakdown: {}
+        };
+
+        // Voice Recognition
+        let recognition = null;
+        let isRecording = false;
+
+        // Initialize platform
+        function init() {
+            loadSession();
+            updateProgress();
+            updateAnalytics();
+            setupVoiceRecognition();
+            setupAutoSave();
+            detectEnvironment();
+            startSessionTimer();
+        }
+
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function detectDevice() {
+            const width = window.innerWidth;
+            if (width <= 768) return 'Mobile';
+            if (width <= 1024) return 'Tablet';
+            return 'Desktop';
+        }
+
+        function detectEnvironment() {
+            // Detect if localStorage is available
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+            } catch (e) {
+                console.warn('localStorage not available - using memory storage');
+                showEnvironmentNotice();
+            }
+        }
+
+        function showEnvironmentNotice() {
+            const notice = document.createElement('div');
+            notice.style.cssText = `
+                position: fixed; bottom: 20px; left: 20px; right: 20px;
+                background: #f39c12; color: white; padding: 15px;
+                border-radius: 10px; z-index: 1000; text-align: center;
+                font-size: 0.9rem;
+            `;
+            notice.innerHTML = `
+                <strong>Note:</strong> Running in sandbox mode. 
+                Full functionality available after deployment to live hosting.
+            `;
+            document.body.appendChild(notice);
+            setTimeout(() => notice.remove(), 10000);
+        }
+
+        // Session Management
+        function saveSession() {
+            try {
+                sessionData.lastSaved = new Date();
+                localStorage.setItem('findme_session', JSON.stringify(sessionData));
+                showSaveIndicator();
+            } catch (e) {
+                console.log('Session saved to memory (localStorage unavailable)');
+            }
+        }
+
+        function loadSession() {
+            try {
+                const saved = localStorage.getItem('findme_session');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.sessionId && data.startTime) {
+                        sessionData = { ...sessionData, ...data };
+                        // Restore responses
+                        Object.keys(sessionData.responses).forEach(key => {
+                            const element = document.getElementById(key);
+                            if (element) element.value = sessionData.responses[key];
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log('Starting new session (localStorage unavailable)');
+            }
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('globalSaveIndicator');
+            indicator.classList.add('visible');
+            setTimeout(() => indicator.classList.remove('visible'), 2000);
+        }
+
+        function setupAutoSave() {
+            // Auto-save every 30 seconds
+            setInterval(() => {
+                if (currentQuestion > 0) {
+                    saveCurrentResponse();
+                    saveSession();
+                }
+            }, 30000);
+
+            // Save on input changes
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('response-textarea')) {
+                    clearTimeout(e.target.saveTimeout);
+                    e.target.saveTimeout = setTimeout(() => {
+                        saveCurrentResponse();
+                        saveSession();
+                        showQuestionSaveIndicator(e.target.id);
+                    }, 3000);
+                }
+            });
+        }
+
+        function saveCurrentResponse() {
+            if (currentQuestion > 0 && currentQuestion <= 12) {
+                const responseId = `response${currentQuestion}`;
+                const element = document.getElementById(responseId);
+                if (element) {
+                    sessionData.responses[responseId] = element.value;
+                }
+            }
+        }
+
+        function showQuestionSaveIndicator(responseId) {
+            const questionNum = responseId.replace('response', '');
+            const indicator = document.getElementById(`saveIndicator${questionNum}`);
+            if (indicator) {
+                indicator.classList.add('visible');
+                setTimeout(() => indicator.classList.remove('visible'), 2000);
+            }
+        }
+
+        // Navigation
+        function startSession() {
+            currentQuestion = 1;
+            showQuestion(1);
+            updateProgress();
+            updateAnalytics();
+        }
+
+        function showQuestion(questionNum) {
+            // Hide all sections
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = questionNum === 0 ? 'welcome' : 
+                                 questionNum === 13 ? 'completion' : 
+                                 `question${questionNum}`;
+            document.getElementById(targetSection).classList.add('active');
+
+            // Update navigation buttons
+            updateNavigationButtons();
+            updateProgress();
+            updateAnalytics();
+
+            // Save current question progress
+            sessionData.currentQuestion = questionNum;
+            saveSession();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion === 0) {
+                startSession();
+                return;
+            }
+
+            saveCurrentResponse();
+            
+            if (currentQuestion < 12) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else if (currentQuestion === 12) {
+                currentQuestion = 13;
+                showQuestion(13);
+                completeSession();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                saveCurrentResponse();
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.disabled = currentQuestion <= 1;
+            
+            if (currentQuestion === 12) {
+                nextBtn.textContent = 'Complete Session';
+            } else if (currentQuestion === 13) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.textContent = 'Next';
+                nextBtn.style.display = 'inline-block';
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progress = currentQuestion === 0 ? 0 : (currentQuestion / 12) * 100;
+            progressFill.style.width = progress + '%';
+
+            // Update time estimate
+            const timeEstimate = document.getElementById('timeEstimate');
+            const remaining = Math.max(0, 12 - currentQuestion);
+            timeEstimate.textContent = `~${remaining} minutes remaining`;
+        }
+
+        // Quick Options
+        function selectQuickOption(questionNum, option) {
+            const templates = {
+                'Career guidance': "I'm looking for career guidance because I feel uncertain about my professional direction and want to understand what truly motivates me...",
+                'Personal growth': "I'm focused on personal growth and want to understand my natural strengths and what genuinely energizes me...",
+                'Life direction': "I'm feeling uncertain about my life direction and hoping to discover what I'm naturally drawn toward...",
+                'Skills discovery': "I want to discover my natural skills and talents, especially those I might not have recognized or developed yet...",
+                'I understand': "I understand that my responses stay on my device. I appreciate this privacy-first approach because...",
+                'Tell me more': "I'd like to know more about how my privacy is protected and what happens to my responses...",
+                'I have concerns': "I have some concerns about privacy that I'd like addressed before continuing...",
+                'Ready to continue': "I'm ready to invest this time in self-discovery and honest reflection about my direction...",
+                'Need a break first': "I need a few minutes before diving into deep reflection to prepare mentally...",
+                'Questions about process': "I have some questions about how this process works and what to expect...",
+                'Necessity': "Work is primarily a necessity for me - a way to pay bills and survive, though I wonder if it could be more...",
+                'Passion': "Work represents passion and purpose in my life, or at least I hope it can...",
+                'Identity': "Work is a big part of my identity and how I see myself, which sometimes feels limiting...",
+                'Freedom': "Work is a means to freedom and independence, giving me the resources to live as I choose...",
+                'I commit to honesty': "I commit to being honest, even if my answers surprise me or challenge what I think I should want...",
+                'This makes me nervous': "Being completely honest makes me nervous because I'm not sure I'm ready for what I might discover...",
+                'I need encouragement': "I could use some encouragement to be fully honest because it feels vulnerable...",
+                'Employed': "I'm currently employed but questioning whether this is the right path for me...",
+                'Student': "I'm a student and thinking about what direction to take after graduation...",
+                'Between jobs': "I'm between jobs right now and wondering if this is an opportunity to reassess my direction...",
+                'Career change': "I'm looking to change careers because my current path doesn't feel aligned with who I am...",
+                'I am ready': "I'm ready to explore more personal questions and see what I discover about myself...",
+                'I need a moment': "I need a moment to prepare for deeper reflection and get in the right mindset...",
+                'Save and pause': "I'd like to save my progress and pause here to continue this journey later...",
+                'Work situation': "There was a work situation where I felt completely engaged and time seemed to disappear...",
+                'Personal project': "I remember a personal project that had me so absorbed I lost track of time...",
+                'Helping others': "I felt most engaged when helping someone else solve a problem or learn something new...",
+                'Learning something': "I was learning something new and felt completely absorbed in the discovery process...",
+                'People vs. tasks': "I notice patterns in whether I'm energized more by working with people or focusing on tasks...",
+                'Creative vs. analytical': "I see differences in my energy when doing creative work versus analytical work...",
+                'Leading vs. supporting': "I notice whether I'm more energized when leading initiatives or supporting others' ideas...",
+                'Routine vs. variety': "I have clear preferences about routine, predictable work versus varied, changing challenges...",
+                'Research first': "When facing challenges, my natural instinct is to research and understand before acting...",
+                'Jump in and try': "I prefer to jump in and try things, learning through experimentation and iteration...",
+                'Talk it through': "I work best when I can talk through problems with others and think out loud...",
+                'Think it through alone': "I need quiet time alone to think through challenges and develop my approach...",
+                'Security': "Security and stability are important values that guide many of my decisions...",
+                'Impact': "Making a meaningful impact and contributing something valuable drives many of my choices...",
+                'Freedom': "Freedom and autonomy to make my own choices are core values for me...",
+                'Connection': "Connection with others and building meaningful relationships is very important to me...",
+                'Surprised by answers': "I was surprised by some of my responses and what they revealed about my true preferences...",
+                'Confirmed suspicions': "These questions confirmed things I suspected about myself but hadn't fully acknowledged...",
+                'Raised new questions': "This process has raised new questions about myself that I want to explore further...",
+                'Feel clearer': "I feel clearer about my direction and what I'm naturally drawn toward..."
+            };
+
+            const textarea = document.getElementById(`response${questionNum}`);
+            const template = templates[option] || `I selected: ${option}. `;
+            
+            if (textarea.value.trim() === '') {
+                textarea.value = template;
+            } else {
+                textarea.value += ' ' + template;
+            }
+            
+            textarea.focus();
+            saveCurrentResponse();
+            saveSession();
+        }
+
+        // Voice Recognition
+        function setupVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = function(event) {
+                    let finalTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    
+                    if (finalTranscript) {
+                        const activeTextarea = document.querySelector('.question-section.active .response-textarea');
+                        if (activeTextarea) {
+                            if (activeTextarea.value.trim()) {
+                                activeTextarea.value += ' ' + finalTranscript;
+                            } else {
+                                activeTextarea.value = finalTranscript;
+                            }
+                            saveCurrentResponse();
+                            saveSession();
+                        }
+                    }
+                };
+
+                recognition.onerror = function(event) {
+                    console.log('Speech recognition error:', event.error);
+                    stopVoiceInput();
+                };
+
+                recognition.onend = function() {
+                    stopVoiceInput();
+                };
+            }
+        }
+
+        function startVoiceInput(questionNum) {
+            if (!recognition) {
+                alert('Voice input not supported in this browser. Try Chrome or Safari.');
+                return;
+            }
+
+            if (isRecording) {
+                stopVoiceInput();
+                return;
+            }
+
+            const button = document.querySelector(`#question${questionNum} .voice-btn`);
+            button.classList.add('recording');
+            button.innerHTML = '🔴 Recording...';
+            
+            isRecording = true;
+            recognition.start();
+        }
+
+        function stopVoiceInput() {
+            if (recognition && isRecording) {
+                recognition.stop();
+            }
+            
+            isRecording = false;
+            document.querySelectorAll('.voice-btn').forEach(btn => {
+                btn.classList.remove('recording');
+                btn.innerHTML = '🎤 Voice Input';
+            });
+        }
+
+        // Analytics
+        function updateAnalytics() {
+            analytics.completionRate = currentQuestion === 0 ? 0 : Math.round((currentQuestion / 12) * 100);
+            
+            document.getElementById('activeSessions').textContent = analytics.activeSessions;
+            document.getElementById('completionRate').textContent = analytics.completionRate + '%';
+            document.getElementById('currentQuestionStat').textContent = 
+                currentQuestion === 0 ? 'Welcome' : 
+                currentQuestion === 13 ? 'Completed' : 
+                `Question ${currentQuestion}`;
+            document.getElementById('deviceType').textContent = sessionData.device;
+        }
+
+        function startSessionTimer() {
+            setInterval(() => {
+                if (sessionData.startTime) {
+                    const duration = Math.floor((new Date() - new Date(sessionData.startTime)) / 1000);
+                    const minutes = Math.floor(duration / 60);
+                    const seconds = duration % 60;
+                    document.getElementById('sessionDuration').textContent = 
+                        `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Completion and Export
+        function completeSession() {
+            sessionData.completedAt = new Date();
+            sessionData.totalDuration = Math.floor((new Date() - new Date(sessionData.startTime)) / 1000);
+            analytics.completionRate = 100;
+            saveSession();
+            updateAnalytics();
+        }
+
+        function exportData() {
+            const exportData = {
+                sessionInfo: {
+                    sessionId: sessionData.sessionId,
+                    startTime: sessionData.startTime,
+                    completedAt: sessionData.completedAt,
+                    totalDuration: sessionData.totalDuration,
+                    device: sessionData.device
+                },
+                responses: sessionData.responses,
+                exportedAt: new Date(),
+                platform: 'Find.Me Discovery Platform v1.0'
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `findme-session-${sessionData.sessionId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function startNewSession() {
+            if (confirm('Start a new session? This will save your current responses and begin fresh.')) {
+                // Save current session as backup
+                const backupKey = `findme_backup_${sessionData.sessionId}`;
+                try {
+                    localStorage.setItem(backupKey, JSON.stringify(sessionData));
+                } catch (e) {
+                    console.log('Backup saved to memory');
+                }
+                
+                // Reset for new session
+                sessionData = {
+                    sessionId: generateSessionId(),
+                    startTime: new Date(),
+                    responses: {},
+                    device: detectDevice(),
+                    userAgent: navigator.userAgent
+                };
+                
+                currentQuestion = 0;
+                
+                // Clear all responses
+                document.querySelectorAll('.response-textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                
+                showQuestion(0);
+                saveSession();
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        if (currentQuestion > 1) previousQuestion();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        if (currentQuestion < 12) nextQuestion();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        saveCurrentResponse();
+                        saveSession();
+                        showSaveIndicator();
+                        break;
+                }
+            }
+        });
+
+        // Prevent zoom on iOS
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Initialize immediately in case DOMContentLoaded already fired
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        // Save before page unload
+        window.addEventListener('beforeunload', () => {
+            saveCurrentResponse();
+            saveSession();
+        });
+
+        // Debug function to check if JS is working
+        function debugCheck() {
+            console.log('Find.Me JavaScript loaded successfully');
+            console.log('Current question:', currentQuestion);
+            console.log('Session data:', sessionData);
+        }
+
+        // Call debug on load
+        debugCheck();
+    </script>
+</body>
+</html>
