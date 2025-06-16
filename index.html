@@ -1068,23 +1068,29 @@
                         </div>
                     </div>
 
-                    <div class="completion-trigger" id="completionTrigger2">
-                        When you feel ready to move on, click below to get a reflection on your response:
-                        <br>
-                        <button class="completion-trigger-btn" onclick="generateReflection(2)">
-                            ✨ Get Reflection
-                        </button>
+                    <div class="completion-trigger" id="completionTrigger2" style="display: none;">
+                        <!-- Hidden for Q2 - no reflection needed -->
                     </div>
 
-                    <div class="reflection-response" id="reflection2">
-                        <div class="reflection-header">
-                            Reflection on Your Response
+                    <div class="reflection-response" id="reflection2" style="display: none;">
+                        <!-- Hidden for Q2 - no reflection appropriate -->
+                    </div>
+
+                    <!-- Concern Resolution Section -->
+                    <div class="concern-resolution" id="concernResolution2" style="display: none;">
+                        <div class="conversation-message system">
+                            <div class="conversation-header">Address Any Remaining Concerns</div>
+                            <p>If you still have any privacy doubts or questions, let's resolve them now. Your comfort with the privacy approach is essential for honest responses ahead.</p>
+                            
+                            <div class="conversation-options">
+                                <button class="conversation-option" onclick="handleConcernResolution('still_unsure')">I'm still not completely sure</button>
+                                <button class="conversation-option" onclick="handleConcernResolution('need_proof')">I need more proof this is secure</button>
+                                <button class="conversation-option" onclick="handleConcernResolution('comfortable')">I'm comfortable proceeding</button>
+                                <button class="conversation-option secondary" onclick="handleConcernResolution('pause')">I need to think about this</button>
+                            </div>
                         </div>
-                        <div class="reflection-content" id="reflectionContent2"></div>
-                        <div class="reflection-actions">
-                            <button class="reflection-btn" onclick="editResponse(2)">Edit Response</button>
-                            <button class="reflection-btn secondary" onclick="hideReflection(2)">Hide</button>
-                        </div>
+                        
+                        <div id="concernResolutionHistory"></div>
                     </div>
                 </div>
             </div>
@@ -2997,9 +3003,13 @@
             document.getElementById('conversationComplete2').classList.add('show');
             document.getElementById('summary2').classList.add('show');
             
-            // Show optional response section
+            // Show concern resolution instead of reflection for Q2
             setTimeout(() => {
-                document.getElementById('responseSection2').style.display = 'block';
+                const responseSection = document.getElementById('responseSection2');
+                responseSection.style.display = 'block';
+                
+                // Show concern resolution check
+                document.getElementById('concernResolution2').classList.add('show');
             }, 1000);
             
             // Save conversation completion
@@ -3007,11 +3017,64 @@
             saveSession();
         }
 
+        function handleConcernResolution(choice) {
+            const historyContainer = document.getElementById('concernResolutionHistory');
+            const resolutionContainer = document.getElementById('concernResolution2');
+            
+            // Add user choice to history
+            addConversationMessage('user', getConcernChoiceText(choice), historyContainer);
+            
+            const response = generateConcernResolution(choice);
+            setTimeout(() => {
+                addConversationMessage('system', response.text, historyContainer);
+                
+                if (response.complete) {
+                    setTimeout(() => {
+                        resolutionContainer.classList.remove('show');
+                    }, 2000);
+                }
+            }, 500);
+        }
+
+        function getConcernChoiceText(choice) {
+            const choices = {
+                'still_unsure': "I'm still not completely sure about the privacy.",
+                'need_proof': "I need more concrete proof this is secure.",
+                'comfortable': "I'm comfortable proceeding with the privacy approach.",
+                'pause': "I need to think about this more before continuing."
+            };
+            return choices[choice] || choice;
+        }
+
+        function generateConcernResolution(choice) {
+            const responses = {
+                'still_unsure': {
+                    text: "That's completely understandable. Privacy is important and you should feel confident. Here's what I suggest: try the browser verification steps (F12 → Application → Local Storage) to see your data staying local. You can also start with just one question and verify nothing gets transmitted. Take your time - there's no rush.",
+                    complete: false
+                },
+                'need_proof': {
+                    text: "Perfect approach! Here's concrete proof: 1) Open Network tab in developer tools (F12) and watch - no personal data gets sent. 2) Check Application → Local Storage to see your data staying put. 3) Our code is open source on GitHub for full transparency. 4) Try disconnecting your internet and the platform still works with your saved responses. This is real, verifiable privacy.",
+                    complete: false
+                },
+                'comfortable': {
+                    text: "Excellent! Your comfort with the privacy approach means you can focus on honest self-reflection without worrying about who might see your responses. That's exactly the foundation we need for meaningful discovery.",
+                    complete: true
+                },
+                'pause': {
+                    text: "Absolutely the right call. Take all the time you need to feel confident about privacy. Your responses will be saved locally, so you can come back anytime when you're ready. Privacy decisions shouldn't be rushed.",
+                    complete: true
+                }
+            };
+            
+            return responses[choice] || { text: "I understand. What would help address your specific concern?" };
+        }
+
         function reopenPrivacyConversation() {
             document.getElementById('conversationFlow2').style.display = 'block';
             document.getElementById('conversationComplete2').classList.remove('show');
             document.getElementById('summary2').classList.remove('show');
             document.getElementById('responseSection2').style.display = 'none';
+            document.getElementById('concernResolution2').classList.remove('show');
         }
 
         // Deployment and sync status functions
