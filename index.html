@@ -1,74 +1,4 @@
-/* Additional Styles for New Elements */
-        .completion-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .completion-screen h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-
-        .completion-screen p {
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .export-btn {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 10px;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .export-btn:hover {
-            background: #229954;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-        }
-        .completion-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .completion-screen h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-
-        .completion-screen p {
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .export-btn {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 10px;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .export-btn:hover {
-            background: #229954;
-            transform:<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -503,62 +433,42 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        /* Mobile Optimizations */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
+        /* Completion Screen */
+        .completion-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
 
-            .main-content {
-                padding: 25px;
-                border-radius: 15px;
-            }
+        .completion-screen h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
 
-            .header h1 {
-                font-size: 2rem;
-            }
+        .completion-screen p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
 
-            .question-title {
-                font-size: 1.5rem;
-            }
+        .export-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
 
-            .question-container {
-                padding: 20px;
-            }
-
-            .response-section {
-                padding: 20px;
-            }
-
-            .quick-options {
-                flex-direction: column;
-            }
-
-            .quick-option {
-                text-align: center;
-                padding: 12px 20px;
-                width: 100%;
-            }
-
-            .navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .nav-btn {
-                width: 100%;
-                padding: 18px;
-            }
-
-            .voice-controls {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-            }
-
-            .voice-btn {
-                justify-content: center;
-            }
+        .export-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
         }
 
         /* Feedback Messages */
@@ -779,8 +689,63 @@
             text-align: right;
         }
 
-        /* Mobile Footer Adjustments */
+        /* Mobile Optimizations */
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .main-content {
+                padding: 25px;
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .question-title {
+                font-size: 1.5rem;
+            }
+
+            .question-container {
+                padding: 20px;
+            }
+
+            .response-section {
+                padding: 20px;
+            }
+
+            .quick-options {
+                flex-direction: column;
+            }
+
+            .quick-option {
+                text-align: center;
+                padding: 12px 20px;
+                width: 100%;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                padding: 18px;
+            }
+
+            .voice-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .voice-btn {
+                justify-content: center;
+            }
+
             .footer-content {
                 flex-direction: column;
                 gap: 15px;
@@ -1423,8 +1388,8 @@
                             Last Updated: <span id="lastUpdated">June 16, 2025 - 3:47 PM CST</span>
                         </div>
                         <div class="build-details">
-                            Build: <span id="buildNumber">v1.2.3</span> | 
-                            Commit: <span id="commitHash">a1b2c3d</span> |
+                            Build: <span id="buildNumber">v1.3.1</span> | 
+                            Commit: <span id="commitHash">a7f2d1e</span> |
                             Environment: <span id="environment">Production</span>
                         </div>
                     </div>
@@ -1560,7 +1525,9 @@
             });
 
             // Show target section
-            const targetSection = questionNum === 0 ? 'welcome' : `question${questionNum}`;
+            const targetSection = questionNum === 0 ? 'welcome' : 
+                                 questionNum === 13 ? 'completion' : 
+                                 `question${questionNum}`;
             const targetElement = document.getElementById(targetSection);
             if (targetElement) {
                 targetElement.classList.add('active');
@@ -1822,7 +1789,6 @@
 
         // Deployment and sync status functions
         function updateDeploymentInfo() {
-            // This would typically be set by your build process
             const buildInfo = {
                 lastUpdated: new Date().toLocaleString('en-US', {
                     timeZone: 'America/Chicago',
@@ -1839,13 +1805,11 @@
                            window.location.hostname.includes('vercel') ? 'Production' : 'Staging'
             };
 
-            // Update footer elements
             document.getElementById('lastUpdated').textContent = buildInfo.lastUpdated;
             document.getElementById('buildNumber').textContent = buildInfo.buildNumber;
             document.getElementById('commitHash').textContent = buildInfo.commitHash;
             document.getElementById('environment').textContent = buildInfo.environment;
 
-            // Update sync status based on environment
             const syncStatus = document.getElementById('syncStatus');
             const syncIndicator = syncStatus.querySelector('.sync-indicator');
             
@@ -1859,7 +1823,6 @@
         }
 
         function showDeploymentDetails() {
-            // Create modal if it doesn't exist
             let modal = document.getElementById('deploymentModal');
             if (!modal) {
                 modal = document.createElement('div');
@@ -1953,7 +1916,6 @@
                 `;
                 document.body.appendChild(modal);
 
-                // Close modal on outside click
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         closeDeploymentModal();
@@ -1961,13 +1923,11 @@
                 });
             }
 
-            // Update modal content with current values
             document.getElementById('modalBuildNumber').textContent = document.getElementById('buildNumber').textContent;
             document.getElementById('modalCommitHash').textContent = document.getElementById('commitHash').textContent;
             document.getElementById('modalEnvironment').textContent = document.getElementById('environment').textContent;
             document.getElementById('modalLastUpdated').textContent = document.getElementById('lastUpdated').textContent;
             
-            // Show current sync status
             const now = new Date().toLocaleString('en-US', {
                 timeZone: 'America/Chicago',
                 hour: 'numeric',
@@ -1987,9 +1947,7 @@
             }
         }
 
-        // Check deployment status periodically
         function monitorDeploymentStatus() {
-            // Simulate checking deployment status
             setInterval(() => {
                 const syncStatus = document.getElementById('syncStatus');
                 const currentTime = new Date().toLocaleString('en-US', {
@@ -1999,12 +1957,11 @@
                     hour12: true
                 });
                 
-                // Update last sync time in modal if open
                 const modalLastSync = document.getElementById('modalLastSync');
                 if (modalLastSync && document.getElementById('deploymentModal')?.classList.contains('show')) {
                     modalLastSync.textContent = `${currentTime} CST - Monitoring`;
                 }
-            }, 30000); // Check every 30 seconds
+            }, 30000);
         }
 
         // Initialize
