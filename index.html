@@ -1,4 +1,1900 @@
-<!DOCTYPE html>
+<div class="reflection-response" id="reflection11">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent11"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(11)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(11)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-section" id="question12">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 12 of 12</div>
+                        <h2 class="question-title">Session 1 Reflection</h2>
+                        <p class="question-subtitle">Take a moment to notice what you've discovered about yourself through these questions.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary12">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText12"></div>
+                    <button class="edit-response-btn" onclick="editResponse(12)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection12">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Surprised by answers')">Surprised by answers</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Confirmed suspicions')">Confirmed suspicions</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Raised new questions')">Raised new questions</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Feel clearer')">Feel clearer</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response12" placeholder="What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(12)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator12">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback12"></div>
+
+                    <div class="completion-trigger" id="completionTrigger12">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(12)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection12">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent12"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(12)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(12)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completion Screen -->
+            <div class="question-section" id="completion">
+                <div class="completion-screen">
+                    <h2>🎉 Congratulations!</h2>
+                    <p>You've completed Session 1 of your discovery journey. Your insights are valuable and completely private.</p>
+                    
+                    <div class="privacy-notice">
+                        <strong>What happens next:</strong><br>
+                        • Your responses are saved locally on your device<br>
+                        • You can export your data anytime<br>
+                        • Session 2 will focus on energy detection and deeper patterns<br>
+                        • You own and control all your discovery data
+                    </div>
+                    
+                    <button class="export-btn" onclick="exportData()">📥 Export My Responses</button>
+                    <button class="export-btn" onclick="startNewSession()">🔄 Start New Session</button>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>← Previous</button>
+                <div class="nav-info">
+                    <div class="time-estimate" id="timeEstimate">~12 minutes remaining</div>
+                    <div class="save-indicator" id="globalSaveIndicator">All changes saved</div>
+                </div>
+                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Footer with deployment info -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="deployment-info">
+                    <span class="deployment-status">
+                        <span class="status-indicator"></span>
+                        Deployment Status: Live
+                    </span>
+                    <div class="build-info">
+                        <div class="last-updated">
+                            Last Updated: <span id="lastUpdated">June 17, 2025 - 4:15 PM CST</span>
+                        </div>
+                        <div class="build-details">
+                            Build: <span id="buildNumber">v1.4.0</span> | 
+                            Commit: <span id="commitHash">b8g3e2f</span> |
+                            Environment: <span id="environment">Production</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/jdmdude62/find-me-platform" target="_blank" rel="noopener">
+                        GitHub Repository
+                    </a>
+                    <span class="separator">•</span>
+                    <a href="#" onclick="showDeploymentDetails()">
+                        Deployment Details
+                    </a>
+                    <span class="separator">•</span>
+                    <span class="sync-status" id="syncStatus">
+                        <span class="sync-indicator"></span>
+                        Sync: Active
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Core variables
+        let currentQuestion = 0;
+        let sessionData = {
+            sessionId: generateSessionId(),
+            startTime: new Date(),
+            responses: {},
+            device: detectDevice()
+        };
+
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function detectDevice() {
+            const width = window.innerWidth;
+            if (width <= 768) return 'Mobile';
+            if (width <= 1024) return 'Tablet';
+            return 'Desktop';
+        }
+
+        function init() {
+            loadSession();
+            updateProgress();
+            setupAutoSave();
+        }
+
+        function saveSession() {
+            try {
+                sessionData.lastSaved = new Date();
+                localStorage.setItem('findme_session', JSON.stringify(sessionData));
+                showSaveIndicator();
+            } catch (e) {
+                console.log('Session saved to memory');
+            }
+        }
+
+        function loadSession() {
+            try {
+                const saved = localStorage.getItem('findme_session');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.sessionId && data.startTime) {
+                        sessionData = { ...sessionData, ...data };
+                        Object.keys(sessionData.responses).forEach(key => {
+                            const element = document.getElementById(key);
+                            if (element) element.value = sessionData.responses[key];
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log('Starting new session');
+            }
+        }
+
+        function setupAutoSave() {
+            setInterval(() => {
+                if (currentQuestion > 0) {
+                    saveCurrentResponse();
+                    saveSession();
+                }
+            }, 30000);
+
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('response-textarea')) {
+                    clearTimeout(e.target.saveTimeout);
+                    e.target.saveTimeout = setTimeout(() => {
+                        saveCurrentResponse();
+                        saveSession();
+                        showQuestionSaveIndicator(e.target.id);
+                    }, 3000);
+                }
+            });
+        }
+
+        function saveCurrentResponse() {
+            if (currentQuestion > 0 && currentQuestion <= 12) {
+                const responseId = `response${currentQuestion}`;
+                const element = document.getElementById(responseId);
+                if (element) {
+                    sessionData.responses[responseId] = element.value;
+                }
+            }
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('globalSaveIndicator');
+            indicator.classList.add('visible');
+            setTimeout(() => indicator.classList.remove('visible'), 2000);
+        }
+
+        function showQuestionSaveIndicator(responseId) {
+            const questionNum = responseId.replace('response', '');
+            const indicator = document.getElementById(`saveIndicator${questionNum}`);
+            if (indicator) {
+                indicator.classList.add('visible');
+                setTimeout(() => indicator.classList.remove('visible'), 2000);
+            }
+        }
+
+        function startSession() {
+            currentQuestion = 1;
+            showQuestion(1);
+            updateProgress();
+        }
+
+        function showQuestion(questionNum) {
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const targetSection = questionNum === 0 ? 'welcome' : 
+                                 questionNum === 13 ? 'completion' : 
+                                 `question${questionNum}`;
+            const targetElement = document.getElementById(targetSection);
+            if (targetElement) {
+                targetElement.classList.add('active');
+            }
+
+            updateResponseDisplay(questionNum);
+            updateNavigationButtons();
+            updateProgress();
+
+            sessionData.currentQuestion = questionNum;
+            saveSession();
+        }
+
+        function updateResponseDisplay(questionNum) {
+            if (questionNum > 0 && questionNum <= 12) {
+                const responseElement = document.getElementById(`response${questionNum}`);
+                const summaryElement = document.getElementById(`summary${questionNum}`);
+                const summaryTextElement = document.getElementById(`summaryText${questionNum}`);
+                const responseSectionElement = document.getElementById(`responseSection${questionNum}`);
+                
+                if (responseElement && summaryElement && summaryTextElement && responseSectionElement) {
+                    const hasResponse = responseElement.value.trim();
+                    
+                    if (hasResponse) {
+                        const responseText = responseElement.value.trim();
+                        const summaryText = responseText.length > 150 ? 
+                            responseText.substring(0, 150) + '...' : 
+                            responseText;
+                        
+                        summaryTextElement.textContent = summaryText;
+                        summaryElement.classList.add('show');
+                        responseSectionElement.style.display = 'none';
+                    } else {
+                        summaryElement.classList.remove('show');
+                        responseSectionElement.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function editResponse(questionNum) {
+            const summaryElement = document.getElementById(`summary${questionNum}`);
+            const responseSectionElement = document.getElementById(`responseSection${questionNum}`);
+            
+            if (summaryElement && responseSectionElement) {
+                summaryElement.classList.remove('show');
+                responseSectionElement.style.display = 'block';
+                
+                const textarea = document.getElementById(`response${questionNum}`);
+                if (textarea) {
+                    textarea.focus();
+                    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+                }
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion === 0) {
+                startSession();
+                return;
+            }
+
+            saveCurrentResponse();
+            
+            if (currentQuestion < 12) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else if (currentQuestion === 12) {
+                currentQuestion = 13;
+                showQuestion(13);
+                completeSession();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                saveCurrentResponse();
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.disabled = currentQuestion <= 1;
+            
+            if (currentQuestion === 12) {
+                nextBtn.textContent = 'Complete Session →';
+            } else if (currentQuestion === 13) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.textContent = 'Next →';
+                nextBtn.style.display = 'inline-block';
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progress = currentQuestion === 0 ? 0 : (currentQuestion / 12) * 100;
+            progressFill.style.width = progress + '%';
+
+            const timeEstimate = document.getElementById('timeEstimate');
+            const remaining = Math.max(0, 12 - currentQuestion);
+            timeEstimate.textContent = `~${remaining} minutes remaining`;
+        }
+
+        function selectQuickOption(questionNum, option) {
+            const templates = {
+                'Career guidance': "I'm looking for career guidance because I feel uncertain about my professional direction and want to understand what truly motivates me...",
+                'Personal growth': "I'm focused on personal growth and want to understand my natural strengths and what genuinely energizes me...",
+                'Life direction': "I'm feeling uncertain about my life direction and hoping to discover what I'm naturally drawn toward...",
+                'Skills discovery': "I want to discover my natural skills and talents, especially those I might not have recognized or developed yet...",
+                'I understand': "I understand that my responses stay on my device. I appreciate this privacy-first approach because it means I can be completely honest...",
+                'Tell me more': "I'd like to know more about how my privacy is protected. How can I verify that my responses aren't being sent anywhere?",
+                'I have concerns': "I have some concerns about privacy that I'd like addressed. In today's digital world, I'm cautious about sharing personal information...",
+                'Ready to continue': "I'm ready to invest this time in self-discovery and honest reflection about my direction. I understand this is about discovering what I'm naturally drawn toward...",
+                'Need a break first': "I need a few minutes before diving into deep reflection to prepare mentally. This kind of honest self-assessment feels important...",
+                'Questions about process': "I have some questions about how this process works and what to expect. Will the questions get more personal?",
+                'Necessity': "Work is primarily a necessity for me - a way to pay bills and survive. I often wonder if there's more meaningful work out there...",
+                'Passion': "Work represents passion and purpose in my life, or at least I hope it can. I want to feel energized by what I do rather than drained...",
+                'Identity': "Work is a big part of my identity and how I see myself. Sometimes this feels limiting because I wonder if I'm more than just my job...",
+                'Freedom': "Work is a means to freedom and independence, giving me the resources to live as I choose. I value autonomy...",
+                'I commit to honesty': "I commit to being honest, even if my answers surprise me or challenge what I think I should want...",
+                'This makes me nervous': "Being completely honest makes me nervous because I'm not sure I'm ready for what I might discover about myself...",
+                'I need encouragement': "I could use some encouragement to be fully honest because it feels vulnerable to examine my real motivations...",
+                'Employed': "I'm currently employed but questioning whether this is the right path for me. Something feels off or missing...",
+                'Student': "I'm a student and thinking about what direction to take after graduation. I want to make choices based on what I'm actually drawn toward...",
+                'Between jobs': "I'm between jobs right now and wondering if this is an opportunity to reassess my direction...",
+                'Career change': "I'm looking to change careers because my current path doesn't feel aligned with who I am...",
+                'I am ready': "I'm ready to explore more personal questions and see what I discover about myself...",
+                'I need a moment': "I need a moment to prepare for deeper reflection and get in the right mindset...",
+                'Save and pause': "I'd like to save my progress and pause here to continue this journey later...",
+                'Work situation': "There was a work situation where I felt completely engaged and time seemed to disappear...",
+                'Personal project': "I remember a personal project that had me so absorbed I lost track of time...",
+                'Helping others': "I felt most engaged when helping someone else solve a problem or learn something new...",
+                'Learning something': "I was learning something new and felt completely absorbed in the discovery process...",
+                'People vs. tasks': "I notice patterns in whether I'm energized more by working with people versus focusing on tasks...",
+                'Creative vs. analytical': "I see clear differences in my energy when doing creative work versus analytical work...",
+                'Leading vs. supporting': "I notice whether I'm more energized when leading initiatives versus supporting others' ideas...",
+                'Routine vs. variety': "I have clear preferences about routine, predictable work versus varied, changing challenges...",
+                'Research first': "When facing challenges, my natural instinct is to research and understand thoroughly before acting...",
+                'Jump in and try': "I prefer to jump in and try things, learning through experimentation and iteration...",
+                'Talk it through': "I work best when I can talk through problems with others and think out loud...",
+                'Think it through alone': "I need quiet time alone to think through challenges and develop my approach...",
+                'Security': "Security and stability are important values that guide many of my decisions...",
+                'Impact': "Making a meaningful impact and contributing something valuable drives many of my choices...",
+                'Freedom': "Freedom and autonomy to make my own choices are core values for me...",
+                'Connection': "Connection with others and building meaningful relationships is very important to me...",
+                'Surprised by answers': "I was surprised by some of my responses and what they revealed about my true preferences...",
+                'Confirmed suspicions': "These questions confirmed things I suspected about myself but hadn't fully acknowledged...",
+                'Raised new questions': "This process has raised new questions about myself that I want to explore further...",
+                'Feel clearer': "I feel clearer about my direction and what I'm naturally drawn toward..."
+            };
+
+            const textarea = document.getElementById(`response${questionNum}`);
+            const template = templates[option] || `I selected: ${option}. `;
+            
+            showQuickOptionFeedback(questionNum, option);
+            
+            if (textarea.value.trim() === '') {
+                textarea.value = template;
+            } else {
+                textarea.value += ' ' + template;
+            }
+            
+            textarea.focus();
+            saveCurrentResponse();
+            saveSession();
+        }
+
+        function showQuickOptionFeedback(questionNum, option) {
+            const feedback = document.getElementById(`feedback${questionNum}`);
+            if (!feedback) return;
+            
+            const feedbackMessages = {
+                'Tell me more': "This platform uses browser localStorage, which means your responses are saved only on your device - like a private diary that never leaves your computer.",
+                'I have concerns': "Your privacy concerns are completely valid. Unlike most platforms, this system is designed so that even the developers cannot see your responses.",
+                'I understand': "Perfect! This privacy-first approach means you can be completely honest without any concerns.",
+                'Questions about process': "The questions will gradually become more personal and reflective. There are no 'correct' answers - the goal is honest self-discovery.",
+                'Need a break first': "Absolutely fine! This kind of self-reflection works best when you're mentally prepared. Your progress is automatically saved.",
+                'This makes me nervous': "It's completely normal to feel nervous about honest self-reflection. Remember, these responses are for you alone."
+            };
+            
+            const message = feedbackMessages[option];
+            if (message) {
+                feedback.innerHTML = `<strong>💡 ${option}:</strong> ${message}`;
+                feedback.classList.add('show');
+                setTimeout(() => feedback.classList.remove('show'), 8000);
+            }
+        }
+
+        // UPDATED: Enhanced completeSession function with value delivery integration
+        function completeSession() {
+            sessionData.completedAt = new Date();
+            sessionData.totalDuration = Math.floor((new Date() - new Date(sessionData.startTime)) / 1000);
+            saveSession();
+            
+            // NEW: Trigger value delivery after existing completion logic
+            triggerValueDelivery();
+        }
+
+        // NEW: Add this function to handle value delivery
+        async function triggerValueDelivery() {
+            // Small delay to ensure completion screen is shown first
+            setTimeout(async () => {
+                if (window.FindMeValueDelivery) {
+                    try {
+                        console.log('🔍 Processing session through value delivery system...');
+                        
+                        const results = await window.FindMeValueDelivery.processSession(sessionData);
+                        
+                        if (results) {
+                            console.log('✅ Value delivery completed successfully');
+                            console.log('User Type:', results.analysis.userType);
+                            console.log('Authenticity Score:', Math.round(results.analysis.authenticityScore * 100) + '%');
+                        } else {
+                            console.log('⚠️ Value delivery processing failed, showing fallback');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Value delivery error:', error);
+                        // Platform continues normally even if value delivery fails
+                    }
+                } else {
+                    console.log('📋 Value delivery system not loaded - normal completion flow');
+                }
+            }, 500); // 500ms delay to let completion screen render first
+        }
+
+        // NEW: Helper functions for testing and debugging
+        function testValueDeliveryNow() {
+            if (window.FindMeValueDelivery && sessionData && sessionData.responses) {
+                console.log('🧪 Testing value delivery with current session...');
+                window.FindMeValueDelivery.processSession(sessionData);
+            } else {
+                console.log('Cannot test: missing components');
+                console.log('- FindMeValueDelivery available:', !!window.FindMeValueDelivery);
+                console.log('- sessionData exists:', !!sessionData);
+                console.log('- responses exist:', !!(sessionData && sessionData.responses));
+                console.log('- response count:', sessionData && sessionData.responses ? Object.keys(sessionData.responses).length : 0);
+            }
+        }
+
+        function checkValueDeliveryStatus() {
+            if (window.FindMeValueDelivery) {
+                const status = window.FindMeValueDelivery.getStatus();
+                console.log('✅ Value Delivery Status:', status);
+                return status;
+            } else {
+                console.log('❌ Value delivery system not loaded');
+                return null;
+            }
+        }
+
+        function exportData() {
+            const exportData = {
+                sessionInfo: {
+                    sessionId: sessionData.sessionId,
+                    startTime: sessionData.startTime,
+                    completedAt: sessionData.completedAt,
+                    totalDuration: sessionData.totalDuration,
+                    device: sessionData.device
+                },
+                responses: sessionData.responses,
+                exportedAt: new Date(),
+                platform: 'Find.Me Discovery Platform v1.4.0'
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `findme-session-${sessionData.sessionId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function startNewSession() {
+            if (confirm('Start a new session? This will save your current responses and begin fresh.')) {
+                const backupKey = `findme_backup_${sessionData.sessionId}`;
+                try {
+                    localStorage.setItem(backupKey, JSON.stringify(sessionData));
+                } catch (e) {
+                    console.log('Backup saved to memory');
+                }
+                
+                sessionData = {
+                    sessionId: generateSessionId(),
+                    startTime: new Date(),
+                    responses: {},
+                    device: detectDevice()
+                };
+                
+                currentQuestion = 0;
+                
+                document.querySelectorAll('.response-textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                
+                showQuestion(0);
+                saveSession();
+            }
+        }
+
+        // Reflection and completion detection system
+        let reflectionData = {};
+
+        function setupResponseMonitoring() {
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('response-textarea')) {
+                    const questionNum = e.target.id.replace('response', '');
+                    handleResponseChange(questionNum, e.target.value);
+                }
+            });
+        }
+
+        function handleResponseChange(questionNum, value) {
+            const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            const reflection = document.getElementById(`reflection${questionNum}`);
+            
+            if (wordCount >= 20 && !reflection.classList.contains('show')) {
+                setTimeout(() => {
+                    completionTrigger.classList.add('show');
+                }, 2000);
+            } else if (wordCount < 20) {
+                completionTrigger.classList.remove('show');
+            }
+        }
+
+        function generateReflection(questionNum) {
+            const responseElement = document.getElementById(`response${questionNum}`);
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            const reflectionContent = document.getElementById(`reflectionContent${questionNum}`);
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            
+            if (!responseElement || !responseElement.value.trim()) {
+                return;
+            }
+
+            const response = responseElement.value.trim();
+            const reflection = analyzeResponse(questionNum, response);
+            
+            completionTrigger.classList.remove('show');
+            reflectionContent.innerHTML = reflection;
+            reflectionElement.classList.add('show');
+            
+            reflectionData[questionNum] = {
+                response: response,
+                reflection: reflection,
+                timestamp: new Date()
+            };
+            
+            setTimeout(() => {
+                reflectionElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+
+        function hideReflection(questionNum) {
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            reflectionElement.classList.remove('show');
+        }
+
+        function analyzeResponse(questionNum, response) {
+            const questionAnalysis = {
+                1: analyzeQuestion1,
+                2: analyzeQuestion2,
+                3: analyzeQuestion3,
+                4: analyzeQuestion4,
+                5: analyzeQuestion5,
+                6: analyzeQuestion6,
+                7: analyzeQuestion7,
+                8: analyzeQuestion8,
+                9: analyzeQuestion9,
+                10: analyzeQuestion10,
+                11: analyzeQuestion11,
+                12: analyzeQuestion12
+            };
+            
+            return questionAnalysis[questionNum] ? questionAnalysis[questionNum](response) : getGenericReflection(response);
+        }
+
+        function analyzeQuestion1(response) {
+            const themes = {
+                career: ['career', 'job', 'work', 'profession', 'direction', 'path'],
+                growth: ['growth', 'develop', 'learn', 'improve', 'better'],
+                clarity: ['unclear', 'confused', 'lost', 'direction', 'purpose'],
+                change: ['change', 'transition', 'different', 'new', 'shift']
+            };
+            
+            const detectedThemes = [];
+            const lowerResponse = response.toLowerCase();
+            
+            Object.keys(themes).forEach(theme => {
+                if (themes[theme].some(word => lowerResponse.includes(word))) {
+                    detectedThemes.push(theme);
+                }
+            });
+            
+            let reflection = "";
+            
+            if (detectedThemes.includes('career')) {
+                reflection += "It sounds like career direction is really important to you right now. ";
+            }
+            if (detectedThemes.includes('growth')) {
+                reflection += "I hear a strong desire for personal development and growth. ";
+            }
+            if (detectedThemes.includes('clarity')) {
+                reflection += "It feels like you're seeking more clarity about your path forward. ";
+            }
+            if (detectedThemes.includes('change')) {
+                reflection += "It seems like you're ready for or considering some significant changes. ";
+            }
+            
+            reflection += "What stands out is your willingness to engage in honest self-reflection - that's often the first step toward meaningful discovery.";
+            
+            return reflection;
+        }
+
+        function analyzeQuestion2(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('understand') || lowerResponse.includes('appreciate')) {
+                return "It sounds like you value transparency and appreciate knowing how your data is handled. This kind of awareness shows you're thoughtful about your digital privacy, which is increasingly important in today's world.";
+            } else if (lowerResponse.includes('concern') || lowerResponse.includes('worry')) {
+                return "Your privacy concerns are completely valid and show good digital awareness. It feels like you've probably had experiences that make you cautious about sharing personal information - which is actually quite wise.";
+            } else if (lowerResponse.includes('question') || lowerResponse.includes('more')) {
+                return "It seems like you're someone who likes to understand how things work before fully committing. That analytical approach will serve you well throughout this discovery process.";
+            }
+            
+            return "It sounds like you're approaching this with the right mindset - thoughtful and intentional about the time you're investing.";
+        }
+
+        function analyzeQuestion4(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('necessity') || lowerResponse.includes('bills') || lowerResponse.includes('survive')) {
+                return "It sounds like work feels more like a requirement than a choice right now. Many people feel this way, and it's honest to acknowledge that survival needs matter. This awareness might be the first step toward finding work that meets both your practical and personal needs.";
+            } else if (lowerResponse.includes('passion') || lowerResponse.includes('purpose') || lowerResponse.includes('calling')) {
+                return "It feels like you see work as potentially much more than just a paycheck - as a way to express who you are or make a meaningful contribution. That kind of perspective often leads to more fulfilling career choices.";
+            } else if (lowerResponse.includes('identity') || lowerResponse.includes('who I am')) {
+                return "It sounds like work is deeply connected to your sense of self. While this can be motivating, it also suggests you might benefit from exploring what aspects of your identity exist beyond your job title.";
+            } else if (lowerResponse.includes('freedom') || lowerResponse.includes('independence')) {
+                return "It seems like autonomy and control over your choices are really important to you. This insight about valuing freedom might guide you toward work situations that offer more flexibility and self-direction.";
+            }
+            
+            return "It sounds like you have a thoughtful perspective on what work means in your life, which will help guide the rest of this discovery process.";
+        }
+
+        function analyzeQuestion5(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('commit') || lowerResponse.includes('honest')) {
+                return "It feels like you're genuinely committed to authentic self-discovery. That willingness to be honest, even when it's uncomfortable, is often what leads to the most valuable insights.";
+            } else if (lowerResponse.includes('nervous') || lowerResponse.includes('scary')) {
+                return "It sounds like the prospect of deep honesty feels vulnerable, which is completely understandable. Often the things that make us nervous are exactly where we have the most to learn about ourselves.";
+            } else if (lowerResponse.includes('encouragement') || lowerResponse.includes('support')) {
+                return "It seems like you recognize that honest self-reflection can feel challenging and you're wise to acknowledge when you need support. That kind of self-awareness is actually a strength.";
+            }
+            
+            return "It sounds like you understand that authentic responses will serve you better than 'correct' ones, which puts you in a great position for meaningful discovery.";
+        }
+
+        function analyzeQuestion6(response) {
+            return "It sounds like you're being honest about where you are right now, both the positives and the challenges. That kind of realistic self-assessment is often the foundation for meaningful change.";
+        }
+
+        function analyzeQuestion7(response) {
+            return "It feels like you're thoughtfully preparing yourself for deeper reflection. Your awareness of this transition shows you understand that meaningful self-discovery often requires moving beyond surface-level questions.";
+        }
+
+        function analyzeQuestion8(response) {
+            return "It sounds like you've identified a time when you felt genuinely aligned and energized. These moments of 'flow' often reveal important clues about what naturally engages and motivates you.";
+        }
+
+        function analyzeQuestion9(response) {
+            return "It seems like you're starting to recognize patterns in what energizes versus drains you. This kind of energy awareness is often one of the most practical insights for making better choices about how you spend your time.";
+        }
+
+        function analyzeQuestion10(response) {
+            return "It sounds like you have good self-awareness about your natural problem-solving approach. Understanding your instinctive style can help you choose situations where you'll naturally thrive.";
+        }
+
+        function analyzeQuestion11(response) {
+            return "It feels like you're connecting with what actually matters to you, not just what you think should matter. This distinction between authentic and expected values is often key to making satisfying life choices.";
+        }
+
+        function analyzeQuestion12(response) {
+            return "It sounds like this reflection process has surfaced some meaningful insights. The patterns you're noticing often point toward important directions worth exploring further.";
+        }
+
+        function getGenericReflection(response) {
+            const reflections = [
+                "It sounds like you've put genuine thought into your response. What you've shared reveals some important insights about how you see yourself and what matters to you.",
+                "It feels like there's real authenticity in what you've written. These kinds of honest reflections often point toward important patterns worth exploring further.",
+                "It seems like you're being thoughtful about this process. The detail in your response suggests you're ready to engage meaningfully with these questions.",
+                "What stands out is your willingness to be reflective and honest. That openness is often what leads to the most valuable self-discoveries."
+            ];
+            
+            return reflections[Math.floor(Math.random() * reflections.length)];
+        }
+
+        function updateDeploymentInfo() {
+            const buildInfo = {
+                lastUpdated: new Date().toLocaleString('en-US', {
+                    timeZone: 'America/Chicago',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                }) + ' CST',
+                buildNumber: 'v1.4.0',
+                commitHash: 'b8g3e2f',
+                environment: window.location.hostname.includes('localhost') ? 'Development' : 
+                           window.location.hostname.includes('vercel') ? 'Production' : 'Staging'
+            };
+
+            document.getElementById('lastUpdated').textContent = buildInfo.lastUpdated;
+            document.getElementById('buildNumber').textContent = buildInfo.buildNumber;
+            document.getElementById('commitHash').textContent = buildInfo.commitHash;
+            document.getElementById('environment').textContent = buildInfo.environment;
+
+            const syncStatus = document.getElementById('syncStatus');
+            const syncIndicator = syncStatus.querySelector('.sync-indicator');
+            
+            if (buildInfo.environment === 'Production') {
+                syncStatus.innerHTML = '<span class="sync-indicator"></span> Sync: Active';
+                if (syncIndicator) syncIndicator.style.background = '#27ae60';
+            } else if (buildInfo.environment === 'Development') {
+                syncStatus.innerHTML = '<span class="sync-indicator"></span> Sync: Local';
+                if (syncIndicator) syncIndicator.style.background = '#f39c12';
+            }
+        }
+
+        function showDeploymentDetails() {
+            let modal = document.getElementById('deploymentModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'deploymentModal';
+                modal.className = 'deployment-modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Deployment Details</h3>
+                            <button class="close-modal" onclick="closeDeploymentModal()">&times;</button>
+                        </div>
+                        <div class="deployment-details">
+                            <div class="detail-section">
+                                <h4>Build Information</h4>
+                                <div class="detail-item">
+                                    <span class="detail-label">Build Version:</span>
+                                    <span class="detail-value" id="modalBuildNumber">v1.4.0</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Commit Hash:</span>
+                                    <span class="detail-value" id="modalCommitHash">b8g3e2f</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Environment:</span>
+                                    <span class="detail-value" id="modalEnvironment">Production</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Deployment Time:</span>
+                                    <span class="detail-value" id="modalLastUpdated">June 17, 2025 - 4:15 PM CST</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Platform Information</h4>
+                                <div class="detail-item">
+                                    <span class="detail-label">Hosting Platform:</span>
+                                    <span class="detail-value">Vercel</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">CDN Status:</span>
+                                    <span class="detail-value">Active</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">SSL Certificate:</span>
+                                    <span class="detail-value">Valid</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Auto-Deploy:</span>
+                                    <span class="detail-value">Enabled</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Value Delivery System</h4>
+                                <div class="detail-item">
+                                    <span class="detail-label">Pattern Recognition:</span>
+                                    <span class="detail-value">Active</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Insight Generation:</span>
+                                    <span class="detail-value">Enabled</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">User Type Detection:</span>
+                                    <span class="detail-value">3 Types Supported</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Authenticity Scoring:</span>
+                                    <span class="detail-value">Operational</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeDeploymentModal();
+                    }
+                });
+            }
+
+            document.getElementById('modalBuildNumber').textContent = document.getElementById('buildNumber').textContent;
+            document.getElementById('modalCommitHash').textContent = document.getElementById('commitHash').textContent;
+            document.getElementById('modalEnvironment').textContent = document.getElementById('environment').textContent;
+            document.getElementById('modalLastUpdated').textContent = document.getElementById('lastUpdated').textContent;
+
+            modal.classList.add('show');
+        }
+
+        function closeDeploymentModal() {
+            const modal = document.getElementById('deploymentModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        function monitorDeploymentStatus() {
+            setInterval(() => {
+                const syncStatus = document.getElementById('syncStatus');
+                if (syncStatus && document.getElementById('deploymentModal')?.classList.contains('show')) {
+                    const currentTime = new Date().toLocaleString('en-US', {
+                        timeZone: 'America/Chicago',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
+                }
+            }, 30000);
+        }
+
+        function startVoiceInput(questionNum) {
+            alert('Voice input would be available with proper microphone permissions and HTTPS deployment.');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            updateDeploymentInfo();
+            monitorDeploymentStatus();
+            setupResponseMonitoring();
+        });
+        
+        if (document.readyState !== 'loading') {
+            init();
+            updateDeploymentInfo();
+            monitorDeploymentStatus();
+            setupResponseMonitoring();
+        }
+    </script>
+
+    <!-- Value Delivery System Integration -->
+    <script type="module" src="js/value-delivery/platform-integration.js"></script>
+</body>
+</html> this thoughtfully, which suggests you'll get the most value from honest, authentic responses as we continue.";
+        }
+
+        function analyzeQuestion3(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('ready') || lowerResponse.includes('excited')) {
+                return "It feels like you're genuinely ready to invest in yourself and this process. That kind of commitment and openness often leads to the most meaningful insights.";
+            } else if (lowerResponse.includes('nervous') || lowerResponse.includes('unsure')) {
+                return "It sounds like there's some natural nervousness about self-reflection, which is completely normal. Often the things that make us a bit nervous are exactly where we have the most to discover.";
+            } else if (lowerResponse.includes('time') || lowerResponse.includes('busy')) {
+                return "It seems like you're balancing this reflection with other priorities. The fact that you're making time for this kind of self-discovery suggests it matters to you.";
+            }
+            
+            return "It sounds like you're approaching                    <div class="reflection-response" id="reflection11">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent11"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(11)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(11)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-section" id="question12">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-number">Question 12 of 12</div>
+                        <h2 class="question-title">Session 1 Reflection</h2>
+                        <p class="question-subtitle">Take a moment to notice what you've discovered about yourself through these questions.</p>
+                    </div>
+                    
+                    <div class="question-prompt">
+                        <strong>Please reflect on:</strong> What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?
+                    </div>
+                </div>
+
+                <div class="response-summary" id="summary12">
+                    <div class="response-summary-title">Your Response Completed</div>
+                    <div id="summaryText12"></div>
+                    <button class="edit-response-btn" onclick="editResponse(12)">✏️ Edit Response</button>
+                </div>
+
+                <div class="response-section" id="responseSection12">
+                    <h3>Your Response</h3>
+                    
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Surprised by answers')">Surprised by answers</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Confirmed suspicions')">Confirmed suspicions</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Raised new questions')">Raised new questions</div>
+                        <div class="quick-option" onclick="selectQuickOption(12, 'Feel clearer')">Feel clearer</div>
+                    </div>
+                    
+                    <div class="response-area">
+                        <label class="response-label">Share your thoughts:</label>
+                        <textarea class="response-textarea" id="response12" placeholder="What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?"></textarea>
+                        <div class="voice-controls">
+                            <button class="voice-btn" onclick="startVoiceInput(12)">
+                                🎤 Voice Input
+                            </button>
+                            <span class="save-indicator" id="saveIndicator12">Auto-saved</span>
+                        </div>
+                    </div>
+
+                    <div class="feedback-message" id="feedback12"></div>
+
+                    <div class="completion-trigger" id="completionTrigger12">
+                        When you feel ready to move on, click below to get a reflection on your response:
+                        <br>
+                        <button class="completion-trigger-btn" onclick="generateReflection(12)">
+                            ✨ Get Reflection
+                        </button>
+                    </div>
+
+                    <div class="reflection-response" id="reflection12">
+                        <div class="reflection-header">
+                            Reflection on Your Response
+                        </div>
+                        <div class="reflection-content" id="reflectionContent12"></div>
+                        <div class="reflection-actions">
+                            <button class="reflection-btn" onclick="editResponse(12)">Edit Response</button>
+                            <button class="reflection-btn secondary" onclick="hideReflection(12)">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completion Screen -->
+            <div class="question-section" id="completion">
+                <div class="completion-screen">
+                    <h2>🎉 Congratulations!</h2>
+                    <p>You've completed Session 1 of your discovery journey. Your insights are valuable and completely private.</p>
+                    
+                    <div class="privacy-notice">
+                        <strong>What happens next:</strong><br>
+                        • Your responses are saved locally on your device<br>
+                        • You can export your data anytime<br>
+                        • Session 2 will focus on energy detection and deeper patterns<br>
+                        • You own and control all your discovery data
+                    </div>
+                    
+                    <button class="export-btn" onclick="exportData()">📥 Export My Responses</button>
+                    <button class="export-btn" onclick="startNewSession()">🔄 Start New Session</button>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>← Previous</button>
+                <div class="nav-info">
+                    <div class="time-estimate" id="timeEstimate">~12 minutes remaining</div>
+                    <div class="save-indicator" id="globalSaveIndicator">All changes saved</div>
+                </div>
+                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+            </div>
+        </div>
+
+        <!-- Footer with deployment info -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="deployment-info">
+                    <span class="deployment-status">
+                        <span class="status-indicator"></span>
+                        Deployment Status: Live
+                    </span>
+                    <div class="build-info">
+                        <div class="last-updated">
+                            Last Updated: <span id="lastUpdated">June 17, 2025 - 4:15 PM CST</span>
+                        </div>
+                        <div class="build-details">
+                            Build: <span id="buildNumber">v1.4.0</span> | 
+                            Commit: <span id="commitHash">b8g3e2f</span> |
+                            Environment: <span id="environment">Production</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/jdmdude62/find-me-platform" target="_blank" rel="noopener">
+                        GitHub Repository
+                    </a>
+                    <span class="separator">•</span>
+                    <a href="#" onclick="showDeploymentDetails()">
+                        Deployment Details
+                    </a>
+                    <span class="separator">•</span>
+                    <span class="sync-status" id="syncStatus">
+                        <span class="sync-indicator"></span>
+                        Sync: Active
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Core variables
+        let currentQuestion = 0;
+        let sessionData = {
+            sessionId: generateSessionId(),
+            startTime: new Date(),
+            responses: {},
+            device: detectDevice()
+        };
+
+        function analyzeQuestion4(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('necessity') || lowerResponse.includes('bills') || lowerResponse.includes('survive')) {
+                return "It sounds like work feels more like a requirement than a choice right now. Many people feel this way, and it's honest to acknowledge that survival needs matter. This awareness might be the first step toward finding work that meets both your practical and personal needs.";
+            } else if (lowerResponse.includes('passion') || lowerResponse.includes('purpose') || lowerResponse.includes('calling')) {
+                return "It feels like you see work as potentially much more than just a paycheck - as a way to express who you are or make a meaningful contribution. That kind of perspective often leads to more fulfilling career choices.";
+            } else if (lowerResponse.includes('identity') || lowerResponse.includes('who I am')) {
+                return "It sounds like work is deeply connected to your sense of self. While this can be motivating, it also suggests you might benefit from exploring what aspects of your identity exist beyond your job title.";
+            } else if (lowerResponse.includes('freedom') || lowerResponse.includes('independence')) {
+                return "It seems like autonomy and control over your choices are really important to you. This insight about valuing freedom might guide you toward work situations that offer more flexibility and self-direction.";
+            }
+            
+            return "It sounds like you have a thoughtful perspective on what work means in your life, which will help guide the rest of this discovery process.";
+        }
+
+        function analyzeQuestion5(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('commit') || lowerResponse.includes('honest')) {
+                return "It feels like you're genuinely committed to authentic self-discovery. That willingness to be honest, even when it's uncomfortable, is often what leads to the most valuable insights.";
+            } else if (lowerResponse.includes('nervous') || lowerResponse.includes('scary')) {
+                return "It sounds like the prospect of deep honesty feels vulnerable, which is completely understandable. Often the things that make us nervous are exactly where we have the most to learn about ourselves.";
+            } else if (lowerResponse.includes('encouragement') || lowerResponse.includes('support')) {
+                return "It seems like you recognize that honest self-reflection can feel challenging and you're wise to acknowledge when you need support. That kind of self-awareness is actually a strength.";
+            }
+            
+            return "It sounds like you understand that authentic responses will serve you better than 'correct' ones, which puts you in a great position for meaningful discovery.";
+        }
+
+        function analyzeQuestion6(response) {
+            return "It sounds like you're being honest about where you are right now, both the positives and the challenges. That kind of realistic self-assessment is often the foundation for meaningful change.";
+        }
+
+        function analyzeQuestion7(response) {
+            return "It feels like you're thoughtfully preparing yourself for deeper reflection. Your awareness of this transition shows you understand that meaningful self-discovery often requires moving beyond surface-level questions.";
+        }
+
+        function analyzeQuestion8(response) {
+            return "It sounds like you've identified a time when you felt genuinely aligned and energized. These moments of 'flow' often reveal important clues about what naturally engages and motivates you.";
+        }
+
+        function analyzeQuestion9(response) {
+            return "It seems like you're starting to recognize patterns in what energizes versus drains you. This kind of energy awareness is often one of the most practical insights for making better choices about how you spend your time.";
+        }
+
+        function analyzeQuestion10(response) {
+            return "It sounds like you have good self-awareness about your natural problem-solving approach. Understanding your instinctive style can help you choose situations where you'll naturally thrive.";
+        }
+
+        function analyzeQuestion11(response) {
+            return "It feels like you're connecting with what actually matters to you, not just what you think should matter. This distinction between authentic and expected values is often key to making satisfying life choices.";
+        }
+
+        function analyzeQuestion12(response) {
+            return "It sounds like this reflection process has surfaced some meaningful insights. The patterns you're noticing often point toward important directions worth exploring further.";
+        }
+
+        function getGenericReflection(response) {
+            const reflections = [
+                "It sounds like you've put genuine thought into your response. What you've shared reveals some important insights about how you see yourself and what matters to you.",
+                "It feels like there's real authenticity in what you've written. These kinds of honest reflections often point toward important patterns worth exploring further.",
+                "It seems like you're being thoughtful about this process. The detail in your response suggests you're ready to engage meaningfully with these questions.",
+                "What stands out is your willingness to be reflective and honest. That openness is often what leads to the most valuable self-discoveries."
+            ];
+            
+            return reflections[Math.floor(Math.random() * reflections.length)];
+        }
+
+        function updateDeploymentInfo() {
+            const buildInfo = {
+                lastUpdated: new Date().toLocaleString('en-US', {
+                    timeZone: 'America/Chicago',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                }) + ' CST',
+                buildNumber: 'v1.4.0',
+                commitHash: 'b8g3e2f',
+                environment: window.location.hostname.includes('localhost') ? 'Development' : 
+                           window.location.hostname.includes('vercel') ? 'Production' : 'Staging'
+            };
+
+            document.getElementById('lastUpdated').textContent = buildInfo.lastUpdated;
+            document.getElementById('buildNumber').textContent = buildInfo.buildNumber;
+            document.getElementById('commitHash').textContent = buildInfo.commitHash;
+            document.getElementById('environment').textContent = buildInfo.environment;
+
+            const syncStatus = document.getElementById('syncStatus');
+            const syncIndicator = syncStatus.querySelector('.sync-indicator');
+            
+            if (buildInfo.environment === 'Production') {
+                syncStatus.innerHTML = '<span class="sync-indicator"></span> Sync: Active';
+                if (syncIndicator) syncIndicator.style.background = '#27ae60';
+            } else if (buildInfo.environment === 'Development') {
+                syncStatus.innerHTML = '<span class="sync-indicator"></span> Sync: Local';
+                if (syncIndicator) syncIndicator.style.background = '#f39c12';
+            }
+        }
+
+        function showDeploymentDetails() {
+            let modal = document.getElementById('deploymentModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'deploymentModal';
+                modal.className = 'deployment-modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Deployment Details</h3>
+                            <button class="close-modal" onclick="closeDeploymentModal()">&times;</button>
+                        </div>
+                        <div class="deployment-details">
+                            <div class="detail-section">
+                                <h4>Build Information</h4>
+                                <div class="detail-item">
+                                    <span class="detail-label">Build Version:</span>
+                                    <span class="detail-value" id="modalBuildNumber">v1.4.0</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Commit Hash:</span>
+                                    <span class="detail-value" id="modalCommitHash">b8g3e2f</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Environment:</span>
+                                    <span class="detail-value" id="modalEnvironment">Production</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Deployment Time:</span>
+                                    <span class="detail-value" id="modalLastUpdated">June 17, 2025 - 4:15 PM CST</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Platform Information</h4>
+                                <div class="detail-item">
+                                    <span class="detail-label">Hosting Platform:</span>
+                                    <span class="detail-value">Vercel</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">CDN Status:</span>
+                                    <span class="detail-value">Active</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">SSL Certificate:</span>
+                                    <span class="detail-value">Valid</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Auto-Deploy:</span>
+                                    <span class="detail-value">Enabled</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <h4>Value Delivery System</h4>
+                                <div class="detail-item">
+                                    <span class="detail-label">Pattern Recognition:</span>
+                                    <span class="detail-value">Active</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Insight Generation:</span>
+                                    <span class="detail-value">Enabled</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">User Type Detection:</span>
+                                    <span class="detail-value">3 Types Supported</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Authenticity Scoring:</span>
+                                    <span class="detail-value">Operational</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeDeploymentModal();
+                    }
+                });
+            }
+
+            document.getElementById('modalBuildNumber').textContent = document.getElementById('buildNumber').textContent;
+            document.getElementById('modalCommitHash').textContent = document.getElementById('commitHash').textContent;
+            document.getElementById('modalEnvironment').textContent = document.getElementById('environment').textContent;
+            document.getElementById('modalLastUpdated').textContent = document.getElementById('lastUpdated').textContent;
+
+            modal.classList.add('show');
+        }
+
+        function closeDeploymentModal() {
+            const modal = document.getElementById('deploymentModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        function monitorDeploymentStatus() {
+            setInterval(() => {
+                const syncStatus = document.getElementById('syncStatus');
+                if (syncStatus && document.getElementById('deploymentModal')?.classList.contains('show')) {
+                    const currentTime = new Date().toLocaleString('en-US', {
+                        timeZone: 'America/Chicago',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
+                }
+            }, 30000);
+        }
+
+        function startVoiceInput(questionNum) {
+            alert('Voice input would be available with proper microphone permissions and HTTPS deployment.');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            updateDeploymentInfo();
+            monitorDeploymentStatus();
+            setupResponseMonitoring();
+        });
+        
+        if (document.readyState !== 'loading') {
+            init();
+            updateDeploymentInfo();
+            monitorDeploymentStatus();
+            setupResponseMonitoring();
+        }
+    </script>
+
+    <!-- Value Delivery System Integration -->
+    <script type="module" src="js/value-delivery/platform-integration.js"></script>
+</body>
+</html> generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function detectDevice() {
+            const width = window.innerWidth;
+            if (width <= 768) return 'Mobile';
+            if (width <= 1024) return 'Tablet';
+            return 'Desktop';
+        }
+
+        function init() {
+            loadSession();
+            updateProgress();
+            setupAutoSave();
+        }
+
+        function saveSession() {
+            try {
+                sessionData.lastSaved = new Date();
+                localStorage.setItem('findme_session', JSON.stringify(sessionData));
+                showSaveIndicator();
+            } catch (e) {
+                console.log('Session saved to memory');
+            }
+        }
+
+        function loadSession() {
+            try {
+                const saved = localStorage.getItem('findme_session');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.sessionId && data.startTime) {
+                        sessionData = { ...sessionData, ...data };
+                        Object.keys(sessionData.responses).forEach(key => {
+                            const element = document.getElementById(key);
+                            if (element) element.value = sessionData.responses[key];
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log('Starting new session');
+            }
+        }
+
+        function setupAutoSave() {
+            setInterval(() => {
+                if (currentQuestion > 0) {
+                    saveCurrentResponse();
+                    saveSession();
+                }
+            }, 30000);
+
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('response-textarea')) {
+                    clearTimeout(e.target.saveTimeout);
+                    e.target.saveTimeout = setTimeout(() => {
+                        saveCurrentResponse();
+                        saveSession();
+                        showQuestionSaveIndicator(e.target.id);
+                    }, 3000);
+                }
+            });
+        }
+
+        function saveCurrentResponse() {
+            if (currentQuestion > 0 && currentQuestion <= 12) {
+                const responseId = `response${currentQuestion}`;
+                const element = document.getElementById(responseId);
+                if (element) {
+                    sessionData.responses[responseId] = element.value;
+                }
+            }
+        }
+
+        function showSaveIndicator() {
+            const indicator = document.getElementById('globalSaveIndicator');
+            indicator.classList.add('visible');
+            setTimeout(() => indicator.classList.remove('visible'), 2000);
+        }
+
+        function showQuestionSaveIndicator(responseId) {
+            const questionNum = responseId.replace('response', '');
+            const indicator = document.getElementById(`saveIndicator${questionNum}`);
+            if (indicator) {
+                indicator.classList.add('visible');
+                setTimeout(() => indicator.classList.remove('visible'), 2000);
+            }
+        }
+
+        function startSession() {
+            currentQuestion = 1;
+            showQuestion(1);
+            updateProgress();
+        }
+
+        function showQuestion(questionNum) {
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const targetSection = questionNum === 0 ? 'welcome' : 
+                                 questionNum === 13 ? 'completion' : 
+                                 `question${questionNum}`;
+            const targetElement = document.getElementById(targetSection);
+            if (targetElement) {
+                targetElement.classList.add('active');
+            }
+
+            updateResponseDisplay(questionNum);
+            updateNavigationButtons();
+            updateProgress();
+
+            sessionData.currentQuestion = questionNum;
+            saveSession();
+        }
+
+        function updateResponseDisplay(questionNum) {
+            if (questionNum > 0 && questionNum <= 12) {
+                const responseElement = document.getElementById(`response${questionNum}`);
+                const summaryElement = document.getElementById(`summary${questionNum}`);
+                const summaryTextElement = document.getElementById(`summaryText${questionNum}`);
+                const responseSectionElement = document.getElementById(`responseSection${questionNum}`);
+                
+                if (responseElement && summaryElement && summaryTextElement && responseSectionElement) {
+                    const hasResponse = responseElement.value.trim();
+                    
+                    if (hasResponse) {
+                        const responseText = responseElement.value.trim();
+                        const summaryText = responseText.length > 150 ? 
+                            responseText.substring(0, 150) + '...' : 
+                            responseText;
+                        
+                        summaryTextElement.textContent = summaryText;
+                        summaryElement.classList.add('show');
+                        responseSectionElement.style.display = 'none';
+                    } else {
+                        summaryElement.classList.remove('show');
+                        responseSectionElement.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function editResponse(questionNum) {
+            const summaryElement = document.getElementById(`summary${questionNum}`);
+            const responseSectionElement = document.getElementById(`responseSection${questionNum}`);
+            
+            if (summaryElement && responseSectionElement) {
+                summaryElement.classList.remove('show');
+                responseSectionElement.style.display = 'block';
+                
+                const textarea = document.getElementById(`response${questionNum}`);
+                if (textarea) {
+                    textarea.focus();
+                    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+                }
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion === 0) {
+                startSession();
+                return;
+            }
+
+            saveCurrentResponse();
+            
+            if (currentQuestion < 12) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else if (currentQuestion === 12) {
+                currentQuestion = 13;
+                showQuestion(13);
+                completeSession();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                saveCurrentResponse();
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.disabled = currentQuestion <= 1;
+            
+            if (currentQuestion === 12) {
+                nextBtn.textContent = 'Complete Session →';
+            } else if (currentQuestion === 13) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.textContent = 'Next →';
+                nextBtn.style.display = 'inline-block';
+            }
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progress = currentQuestion === 0 ? 0 : (currentQuestion / 12) * 100;
+            progressFill.style.width = progress + '%';
+
+            const timeEstimate = document.getElementById('timeEstimate');
+            const remaining = Math.max(0, 12 - currentQuestion);
+            timeEstimate.textContent = `~${remaining} minutes remaining`;
+        }
+
+        function selectQuickOption(questionNum, option) {
+            const templates = {
+                'Career guidance': "I'm looking for career guidance because I feel uncertain about my professional direction and want to understand what truly motivates me...",
+                'Personal growth': "I'm focused on personal growth and want to understand my natural strengths and what genuinely energizes me...",
+                'Life direction': "I'm feeling uncertain about my life direction and hoping to discover what I'm naturally drawn toward...",
+                'Skills discovery': "I want to discover my natural skills and talents, especially those I might not have recognized or developed yet...",
+                'I understand': "I understand that my responses stay on my device. I appreciate this privacy-first approach because it means I can be completely honest...",
+                'Tell me more': "I'd like to know more about how my privacy is protected. How can I verify that my responses aren't being sent anywhere?",
+                'I have concerns': "I have some concerns about privacy that I'd like addressed. In today's digital world, I'm cautious about sharing personal information...",
+                'Ready to continue': "I'm ready to invest this time in self-discovery and honest reflection about my direction. I understand this is about discovering what I'm naturally drawn toward...",
+                'Need a break first': "I need a few minutes before diving into deep reflection to prepare mentally. This kind of honest self-assessment feels important...",
+                'Questions about process': "I have some questions about how this process works and what to expect. Will the questions get more personal?",
+                'Necessity': "Work is primarily a necessity for me - a way to pay bills and survive. I often wonder if there's more meaningful work out there...",
+                'Passion': "Work represents passion and purpose in my life, or at least I hope it can. I want to feel energized by what I do rather than drained...",
+                'Identity': "Work is a big part of my identity and how I see myself. Sometimes this feels limiting because I wonder if I'm more than just my job...",
+                'Freedom': "Work is a means to freedom and independence, giving me the resources to live as I choose. I value autonomy...",
+                'I commit to honesty': "I commit to being honest, even if my answers surprise me or challenge what I think I should want...",
+                'This makes me nervous': "Being completely honest makes me nervous because I'm not sure I'm ready for what I might discover about myself...",
+                'I need encouragement': "I could use some encouragement to be fully honest because it feels vulnerable to examine my real motivations...",
+                'Employed': "I'm currently employed but questioning whether this is the right path for me. Something feels off or missing...",
+                'Student': "I'm a student and thinking about what direction to take after graduation. I want to make choices based on what I'm actually drawn toward...",
+                'Between jobs': "I'm between jobs right now and wondering if this is an opportunity to reassess my direction...",
+                'Career change': "I'm looking to change careers because my current path doesn't feel aligned with who I am...",
+                'I am ready': "I'm ready to explore more personal questions and see what I discover about myself...",
+                'I need a moment': "I need a moment to prepare for deeper reflection and get in the right mindset...",
+                'Save and pause': "I'd like to save my progress and pause here to continue this journey later...",
+                'Work situation': "There was a work situation where I felt completely engaged and time seemed to disappear...",
+                'Personal project': "I remember a personal project that had me so absorbed I lost track of time...",
+                'Helping others': "I felt most engaged when helping someone else solve a problem or learn something new...",
+                'Learning something': "I was learning something new and felt completely absorbed in the discovery process...",
+                'People vs. tasks': "I notice patterns in whether I'm energized more by working with people versus focusing on tasks...",
+                'Creative vs. analytical': "I see clear differences in my energy when doing creative work versus analytical work...",
+                'Leading vs. supporting': "I notice whether I'm more energized when leading initiatives versus supporting others' ideas...",
+                'Routine vs. variety': "I have clear preferences about routine, predictable work versus varied, changing challenges...",
+                'Research first': "When facing challenges, my natural instinct is to research and understand thoroughly before acting...",
+                'Jump in and try': "I prefer to jump in and try things, learning through experimentation and iteration...",
+                'Talk it through': "I work best when I can talk through problems with others and think out loud...",
+                'Think it through alone': "I need quiet time alone to think through challenges and develop my approach...",
+                'Security': "Security and stability are important values that guide many of my decisions...",
+                'Impact': "Making a meaningful impact and contributing something valuable drives many of my choices...",
+                'Freedom': "Freedom and autonomy to make my own choices are core values for me...",
+                'Connection': "Connection with others and building meaningful relationships is very important to me...",
+                'Surprised by answers': "I was surprised by some of my responses and what they revealed about my true preferences...",
+                'Confirmed suspicions': "These questions confirmed things I suspected about myself but hadn't fully acknowledged...",
+                'Raised new questions': "This process has raised new questions about myself that I want to explore further...",
+                'Feel clearer': "I feel clearer about my direction and what I'm naturally drawn toward..."
+            };
+
+            const textarea = document.getElementById(`response${questionNum}`);
+            const template = templates[option] || `I selected: ${option}. `;
+            
+            showQuickOptionFeedback(questionNum, option);
+            
+            if (textarea.value.trim() === '') {
+                textarea.value = template;
+            } else {
+                textarea.value += ' ' + template;
+            }
+            
+            textarea.focus();
+            saveCurrentResponse();
+            saveSession();
+        }
+
+        function showQuickOptionFeedback(questionNum, option) {
+            const feedback = document.getElementById(`feedback${questionNum}`);
+            if (!feedback) return;
+            
+            const feedbackMessages = {
+                'Tell me more': "This platform uses browser localStorage, which means your responses are saved only on your device - like a private diary that never leaves your computer.",
+                'I have concerns': "Your privacy concerns are completely valid. Unlike most platforms, this system is designed so that even the developers cannot see your responses.",
+                'I understand': "Perfect! This privacy-first approach means you can be completely honest without any concerns.",
+                'Questions about process': "The questions will gradually become more personal and reflective. There are no 'correct' answers - the goal is honest self-discovery.",
+                'Need a break first': "Absolutely fine! This kind of self-reflection works best when you're mentally prepared. Your progress is automatically saved.",
+                'This makes me nervous': "It's completely normal to feel nervous about honest self-reflection. Remember, these responses are for you alone."
+            };
+            
+            const message = feedbackMessages[option];
+            if (message) {
+                feedback.innerHTML = `<strong>💡 ${option}:</strong> ${message}`;
+                feedback.classList.add('show');
+                setTimeout(() => feedback.classList.remove('show'), 8000);
+            }
+        }
+
+        // UPDATED: Enhanced completeSession function with value delivery integration
+        function completeSession() {
+            sessionData.completedAt = new Date();
+            sessionData.totalDuration = Math.floor((new Date() - new Date(sessionData.startTime)) / 1000);
+            saveSession();
+            
+            // NEW: Trigger value delivery after existing completion logic
+            triggerValueDelivery();
+        }
+
+        // NEW: Add this function to handle value delivery
+        async function triggerValueDelivery() {
+            // Small delay to ensure completion screen is shown first
+            setTimeout(async () => {
+                if (window.FindMeValueDelivery) {
+                    try {
+                        console.log('🔍 Processing session through value delivery system...');
+                        
+                        const results = await window.FindMeValueDelivery.processSession(sessionData);
+                        
+                        if (results) {
+                            console.log('✅ Value delivery completed successfully');
+                            console.log('User Type:', results.analysis.userType);
+                            console.log('Authenticity Score:', Math.round(results.analysis.authenticityScore * 100) + '%');
+                        } else {
+                            console.log('⚠️ Value delivery processing failed, showing fallback');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Value delivery error:', error);
+                        // Platform continues normally even if value delivery fails
+                    }
+                } else {
+                    console.log('📋 Value delivery system not loaded - normal completion flow');
+                }
+            }, 500); // 500ms delay to let completion screen render first
+        }
+
+        // NEW: Helper functions for testing and debugging
+        function testValueDeliveryNow() {
+            if (window.FindMeValueDelivery && sessionData && sessionData.responses) {
+                console.log('🧪 Testing value delivery with current session...');
+                window.FindMeValueDelivery.processSession(sessionData);
+            } else {
+                console.log('Cannot test: missing components');
+                console.log('- FindMeValueDelivery available:', !!window.FindMeValueDelivery);
+                console.log('- sessionData exists:', !!sessionData);
+                console.log('- responses exist:', !!(sessionData && sessionData.responses));
+                console.log('- response count:', sessionData && sessionData.responses ? Object.keys(sessionData.responses).length : 0);
+            }
+        }
+
+        function checkValueDeliveryStatus() {
+            if (window.FindMeValueDelivery) {
+                const status = window.FindMeValueDelivery.getStatus();
+                console.log('✅ Value Delivery Status:', status);
+                return status;
+            } else {
+                console.log('❌ Value delivery system not loaded');
+                return null;
+            }
+        }
+
+        function exportData() {
+            const exportData = {
+                sessionInfo: {
+                    sessionId: sessionData.sessionId,
+                    startTime: sessionData.startTime,
+                    completedAt: sessionData.completedAt,
+                    totalDuration: sessionData.totalDuration,
+                    device: sessionData.device
+                },
+                responses: sessionData.responses,
+                exportedAt: new Date(),
+                platform: 'Find.Me Discovery Platform v1.4.0'
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `findme-session-${sessionData.sessionId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function startNewSession() {
+            if (confirm('Start a new session? This will save your current responses and begin fresh.')) {
+                const backupKey = `findme_backup_${sessionData.sessionId}`;
+                try {
+                    localStorage.setItem(backupKey, JSON.stringify(sessionData));
+                } catch (e) {
+                    console.log('Backup saved to memory');
+                }
+                
+                sessionData = {
+                    sessionId: generateSessionId(),
+                    startTime: new Date(),
+                    responses: {},
+                    device: detectDevice()
+                };
+                
+                currentQuestion = 0;
+                
+                document.querySelectorAll('.response-textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                
+                showQuestion(0);
+                saveSession();
+            }
+        }
+
+        // Reflection and completion detection system
+        let reflectionData = {};
+
+        function setupResponseMonitoring() {
+            document.addEventListener('input', (e) => {
+                if (e.target.classList.contains('response-textarea')) {
+                    const questionNum = e.target.id.replace('response', '');
+                    handleResponseChange(questionNum, e.target.value);
+                }
+            });
+        }
+
+        function handleResponseChange(questionNum, value) {
+            const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            const reflection = document.getElementById(`reflection${questionNum}`);
+            
+            if (wordCount >= 20 && !reflection.classList.contains('show')) {
+                setTimeout(() => {
+                    completionTrigger.classList.add('show');
+                }, 2000);
+            } else if (wordCount < 20) {
+                completionTrigger.classList.remove('show');
+            }
+        }
+
+        function generateReflection(questionNum) {
+            const responseElement = document.getElementById(`response${questionNum}`);
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            const reflectionContent = document.getElementById(`reflectionContent${questionNum}`);
+            const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
+            
+            if (!responseElement || !responseElement.value.trim()) {
+                return;
+            }
+
+            const response = responseElement.value.trim();
+            const reflection = analyzeResponse(questionNum, response);
+            
+            completionTrigger.classList.remove('show');
+            reflectionContent.innerHTML = reflection;
+            reflectionElement.classList.add('show');
+            
+            reflectionData[questionNum] = {
+                response: response,
+                reflection: reflection,
+                timestamp: new Date()
+            };
+            
+            setTimeout(() => {
+                reflectionElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+
+        function hideReflection(questionNum) {
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            reflectionElement.classList.remove('show');
+        }
+
+        function analyzeResponse(questionNum, response) {
+            const questionAnalysis = {
+                1: analyzeQuestion1,
+                2: analyzeQuestion2,
+                3: analyzeQuestion3,
+                4: analyzeQuestion4,
+                5: analyzeQuestion5,
+                6: analyzeQuestion6,
+                7: analyzeQuestion7,
+                8: analyzeQuestion8,
+                9: analyzeQuestion9,
+                10: analyzeQuestion10,
+                11: analyzeQuestion11,
+                12: analyzeQuestion12
+            };
+            
+            return questionAnalysis[questionNum] ? questionAnalysis[questionNum](response) : getGenericReflection(response);
+        }
+
+        function analyzeQuestion1(response) {
+            const themes = {
+                career: ['career', 'job', 'work', 'profession', 'direction', 'path'],
+                growth: ['growth', 'develop', 'learn', 'improve', 'better'],
+                clarity: ['unclear', 'confused', 'lost', 'direction', 'purpose'],
+                change: ['change', 'transition', 'different', 'new', 'shift']
+            };
+            
+            const detectedThemes = [];
+            const lowerResponse = response.toLowerCase();
+            
+            Object.keys(themes).forEach(theme => {
+                if (themes[theme].some(word => lowerResponse.includes(word))) {
+                    detectedThemes.push(theme);
+                }
+            });
+            
+            let reflection = "";
+            
+            if (detectedThemes.includes('career')) {
+                reflection += "It sounds like career direction is really important to you right now. ";
+            }
+            if (detectedThemes.includes('growth')) {
+                reflection += "I hear a strong desire for personal development and growth. ";
+            }
+            if (detectedThemes.includes('clarity')) {
+                reflection += "It feels like you're seeking more clarity about your path forward. ";
+            }
+            if (detectedThemes.includes('change')) {
+                reflection += "It seems like you're ready for or considering some significant changes. ";
+            }
+            
+            reflection += "What stands out is your willingness to engage in honest self-reflection - that's often the first step toward meaningful discovery.";
+            
+            return reflection;
+        }
+
+        function analyzeQuestion2(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('understand') || lowerResponse.includes('appreciate')) {
+                return "It sounds like you value transparency and appreciate knowing how your data is handled. This kind of awareness shows you're thoughtful about your digital privacy, which is increasingly important in today's world.";
+            } else if (lowerResponse.includes('concern') || lowerResponse.includes('worry')) {
+                return "Your privacy concerns are completely valid and show good digital awareness. It feels like you've probably had experiences that make you cautious about sharing personal information - which is actually quite wise.";
+            } else if (lowerResponse.includes('question') || lowerResponse.includes('more')) {
+                return "It seems like you're someone who likes to understand how things work before fully committing. That analytical approach will serve you well throughout this discovery process.";
+            }
+            
+            return "It sounds like you're approaching this thoughtfully, which suggests you'll get the most value from honest, authentic responses as we continue.";
+        }
+
+        function analyzeQuestion3(response) {
+            const lowerResponse = response.toLowerCase();
+            
+            if (lowerResponse.includes('ready') || lowerResponse.includes('excited')) {
+                return "It feels like you're genuinely ready to invest in yourself and this process. That kind of commitment and openness often leads to the most meaningful insights.";
+            } else if (lowerResponse.includes('nervous') || lowerResponse.includes('unsure')) {
+                return "It sounds like there's some natural nervousness about self-reflection, which is completely normal. Often the things that make us a bit nervous are exactly where we have the most to discover.";
+            } else if (lowerResponse.includes('time') || lowerResponse.includes('busy')) {
+                return "It seems like you're balancing this reflection with other priorities. The fact that you're making time for this kind of self-discovery suggests it matters to you.";
+            }
+            
+            return "It sounds like you're approaching this with the right mindset - thoughtful and intentional about the time you're investing.";
+        }
+
+        function<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -48,7 +1944,7 @@
         .main-content {
             background: white;
             border-radius: 20px;
-            padding: 40px;
+            padding: 40px 40px 120px 40px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             flex: 1;
             display: flex;
@@ -85,7 +1981,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Enhanced Question Container - Always Visible */
         .question-container {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
@@ -144,7 +2039,6 @@
             font-weight: 600;
         }
 
-        /* Response Section - Separate and Clear */
         .response-section {
             background: white;
             border: 2px solid #e9ecef;
@@ -228,7 +2122,6 @@
             font-style: italic;
         }
 
-        /* Response Summary - When Completed */
         .response-summary {
             background: #f8f9fa;
             border-left: 4px solid #27ae60;
@@ -357,29 +2250,50 @@
             margin: 0 auto;
         }
 
-        /* Add bottom padding to main content to prevent overlap */
-        .main-content {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 40px 120px 40px; /* Added bottom padding for fixed nav */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            min-width: 120px;
         }
 
-        /* Update footer to account for fixed navigation */
+        .nav-btn:hover:not(:disabled) {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-info {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .time-estimate {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
         .app-footer {
             background: rgba(255, 255, 255, 0.95);
             border-top: 1px solid #e9ecef;
             margin-top: 30px;
-            margin-bottom: 100px; /* Space for fixed navigation */
+            margin-bottom: 100px;
             padding: 20px 0;
             backdrop-filter: blur(10px);
             border-radius: 15px 15px 0 0;
         }
 
-        /* Welcome Screen */
         .welcome-screen {
             text-align: center;
             padding: 40px 20px;
@@ -427,7 +2341,6 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        /* Completion Screen */
         .completion-screen {
             text-align: center;
             padding: 40px 20px;
@@ -465,7 +2378,6 @@
             box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
         }
 
-        /* Reflection Response Styles */
         .reflection-response {
             background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
             border: 2px solid #667eea;
@@ -586,6 +2498,7 @@
             background: #229954;
             transform: translateY(-1px);
         }
+
         .feedback-message {
             background: #e8f5e8;
             border: 2px solid #4caf50;
@@ -605,16 +2518,6 @@
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Footer Styles */
-        .app-footer {
-            background: rgba(255, 255, 255, 0.95);
-            border-top: 1px solid #e9ecef;
-            margin-top: 30px;
-            padding: 20px 0;
-            backdrop-filter: blur(10px);
-            border-radius: 15px 15px 0 0;
         }
 
         .footer-content {
@@ -714,7 +2617,6 @@
             51%, 100% { opacity: 0.3; }
         }
 
-        /* Deployment Details Modal */
         .deployment-modal {
             position: fixed;
             top: 0;
@@ -803,14 +2705,13 @@
             text-align: right;
         }
 
-        /* Mobile Optimizations */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
             }
 
             .main-content {
-                padding: 25px 25px 140px 25px; /* Increased bottom padding for mobile nav */
+                padding: 25px 25px 140px 25px;
                 border-radius: 15px;
             }
 
@@ -857,7 +2758,7 @@
 
             .nav-info {
                 margin: 10px 0;
-                order: -1; /* Put info above buttons on mobile */
+                order: -1;
             }
 
             .voice-controls {
@@ -905,7 +2806,7 @@
             }
 
             .app-footer {
-                margin-bottom: 140px; /* More space for mobile fixed nav */
+                margin-bottom: 140px;
             }
         }
     </style>
@@ -937,7 +2838,6 @@
 
             <!-- Question 1 -->
             <div class="question-section" id="question1">
-                <!-- Question Container - Always Visible -->
                 <div class="question-container">
                     <div class="question-header">
                         <div class="question-number">Question 1 of 12</div>
@@ -950,14 +2850,12 @@
                     </div>
                 </div>
 
-                <!-- Response Summary (shown when completed) -->
                 <div class="response-summary" id="summary1">
                     <div class="response-summary-title">Your Response Completed</div>
                     <div id="summaryText1"></div>
                     <button class="edit-response-btn" onclick="editResponse(1)">✏️ Edit Response</button>
                 </div>
 
-                <!-- Response Section -->
                 <div class="response-section" id="responseSection1">
                     <h3>Your Response</h3>
                     
@@ -981,7 +2879,6 @@
 
                     <div class="feedback-message" id="feedback1"></div>
 
-                    <!-- Completion Trigger -->
                     <div class="completion-trigger" id="completionTrigger1">
                         When you feel ready to move on, click below to get a reflection on your response:
                         <br>
@@ -990,121 +2887,15 @@
                         </button>
                     </div>
 
-                    <!-- Reflection Response -->
                     <div class="reflection-response" id="reflection1">
                         <div class="reflection-header">
                             Reflection on Your Response
                         </div>
-                        <div class="reflection-content" id="reflectionContent1">
-                            <!-- Generated reflection will appear here -->
-                        </div>
+                        <div class="reflection-content" id="reflectionContent1"></div>
                         <div class="reflection-actions">
                             <button class="reflection-btn" onclick="editResponse(1)">Edit Response</button>
                             <button class="reflection-btn secondary" onclick="hideReflection(1)">Hide</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Question 2 -->
-            <div class="question-section" id="question2">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 2 of 12</div>
-                        <h2 class="question-title">Privacy and Data Ownership</h2>
-                        <p class="question-subtitle">Your responses stay completely private on your device. Let's make sure you're comfortable with how this works.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Let's have a conversation:</strong> This is important enough that we should talk it through. What questions or concerns do you have about privacy and how your data will be handled?
-                    </div>
-                </div>
-
-                <!-- Interactive Conversation Flow -->
-                <div class="conversation-flow active" id="conversationFlow2">
-                    <div class="conversation-message system">
-                        <div class="conversation-header">Find.Me Platform</div>
-                        <p>I want to be completely transparent about privacy because this matters. All your responses are stored locally on your device only - like a private diary that never leaves your computer.</p>
-                        <p><strong>What would help you feel confident about this?</strong></p>
-                    </div>
-                    
-                    <div class="conversation-options" id="conversationOptions2">
-                        <button class="conversation-option" onclick="handlePrivacyConversation('understand')">I understand and trust this</button>
-                        <button class="conversation-option" onclick="handlePrivacyConversation('verify')">How can I verify this?</button>
-                        <button class="conversation-option" onclick="handlePrivacyConversation('concerns')">I have specific concerns</button>
-                        <button class="conversation-option" onclick="handlePrivacyConversation('technical')">Show me the technical details</button>
-                        <button class="conversation-option secondary" onclick="enableFreeformQuestion()">Ask a different question</button>
-                    </div>
-                    
-                    <!-- Freeform Question Input -->
-                    <div class="freeform-question" id="freeformQuestion2" style="display: none;">
-                        <div class="response-area">
-                            <label class="response-label">Ask your privacy question:</label>
-                            <textarea class="response-textarea" id="privacyQuestion" placeholder="What specific privacy question or concern do you have?"></textarea>
-                            <div class="voice-controls">
-                                <button class="voice-btn" onclick="startVoiceInput('privacyQuestion')">🎤 Voice Input</button>
-                                <button class="conversation-option" onclick="submitPrivacyQuestion()">Submit Question</button>
-                                <button class="conversation-option secondary" onclick="hideFreeformQuestion()">Back to Options</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="conversationHistory2"></div>
-                </div>
-
-                <!-- Conversation Complete -->
-                <div class="conversation-complete" id="conversationComplete2">
-                    <h4>✅ Privacy Conversation Complete</h4>
-                    <p>Great! It sounds like we've addressed your privacy questions. You can always revisit this conversation or check the verification steps anytime.</p>
-                    <div class="trust-indicator">
-                        Your data stays on your device. You're in complete control.
-                    </div>
-                </div>
-
-                <!-- Standard Response Section (shown after conversation) -->
-                <div class="response-summary" id="summary2">
-                    <div class="response-summary-title">Privacy Questions Addressed</div>
-                    <div id="summaryText2">Completed interactive privacy conversation</div>
-                    <button class="edit-response-btn" onclick="reopenPrivacyConversation()">↻ Revisit Privacy Discussion</button>
-                </div>
-
-                <div class="response-section" id="responseSection2" style="display: none;">
-                    <h3>Additional Thoughts (Optional)</h3>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Any other privacy thoughts or concerns:</label>
-                        <textarea class="response-textarea" id="response2" placeholder="Optional: Any additional thoughts about privacy, data ownership, or this process..."></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(2)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator2">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="completion-trigger" id="completionTrigger2" style="display: none;">
-                        <!-- Hidden for Q2 - no reflection needed -->
-                    </div>
-
-                    <div class="reflection-response" id="reflection2" style="display: none;">
-                        <!-- Hidden for Q2 - no reflection appropriate -->
-                    </div>
-
-                    <!-- Concern Resolution Section -->
-                    <div class="concern-resolution" id="concernResolution2" style="display: none;">
-                        <div class="conversation-message system">
-                            <div class="conversation-header">Address Any Remaining Concerns</div>
-                            <p>If you still have any privacy doubts or questions, let's resolve them now. Your comfort with the privacy approach is essential for honest responses ahead.</p>
-                            
-                            <div class="conversation-options">
-                                <button class="conversation-option" onclick="handleConcernResolution('still_unsure')">I'm still not completely sure</button>
-                                <button class="conversation-option" onclick="handleConcernResolution('need_proof')">I need more proof this is secure</button>
-                                <button class="conversation-option" onclick="handleConcernResolution('comfortable')">I'm comfortable proceeding</button>
-                                <button class="conversation-option secondary" onclick="handleConcernResolution('pause')">I need to think about this</button>
-                            </div>
-                        </div>
-                        
-                        <div id="concernResolutionHistory"></div>
                     </div>
                 </div>
             </div>
@@ -1790,409 +3581,6 @@
                 </div>
             </div>
 
-            <!-- Question 4 -->
-            <div class="question-section" id="question4">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 4 of 12</div>
-                        <h2 class="question-title">What Work Means to You</h2>
-                        <p class="question-subtitle">Understanding your personal relationship with work helps us discover what you're naturally drawn to.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> What does 'work' mean to you personally? Is it a necessity, a calling, a way to express yourself, or something else entirely?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary4">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText4"></div>
-                    <button class="edit-response-btn" onclick="editResponse(4)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection4">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(4, 'Necessity')">Necessity</div>
-                        <div class="quick-option" onclick="selectQuickOption(4, 'Passion')">Passion</div>
-                        <div class="quick-option" onclick="selectQuickOption(4, 'Identity')">Identity</div>
-                        <div class="quick-option" onclick="selectQuickOption(4, 'Freedom')">Freedom</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response4" placeholder="What does 'work' mean to you personally? Is it a necessity, a calling, a way to express yourself, or something else entirely?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(4)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator4">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback4"></div>
-                </div>
-            </div>
-
-            <!-- Question 5 -->
-            <div class="question-section" id="question5">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 5 of 12</div>
-                        <h2 class="question-title">Honesty and Authenticity</h2>
-                        <p class="question-subtitle">The most valuable discoveries come from honest self-reflection, not answers you think are 'right.'</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> Can you commit to answering these questions as honestly as possible, even if the answers surprise you or don't match what you think you 'should' say?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary5">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText5"></div>
-                    <button class="edit-response-btn" onclick="editResponse(5)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection5">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(5, 'I commit to honesty')">I commit to honesty</div>
-                        <div class="quick-option" onclick="selectQuickOption(5, 'This makes me nervous')">This makes me nervous</div>
-                        <div class="quick-option" onclick="selectQuickOption(5, 'I need encouragement')">I need encouragement</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response5" placeholder="Can you commit to answering these questions as honestly as possible, even if the answers surprise you or don't match what you think you 'should' say?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(5)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator5">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback5"></div>
-                </div>
-            </div>
-
-            <!-- Question 6 -->
-            <div class="question-section" id="question6">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 6 of 12</div>
-                        <h2 class="question-title">Your Current Situation</h2>
-                        <p class="question-subtitle">Understanding where you are now helps us identify what you're naturally drawn toward.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary6">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText6"></div>
-                    <button class="edit-response-btn" onclick="editResponse(6)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection6">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(6, 'Employed')">Employed</div>
-                        <div class="quick-option" onclick="selectQuickOption(6, 'Student')">Student</div>
-                        <div class="quick-option" onclick="selectQuickOption(6, 'Between jobs')">Between jobs</div>
-                        <div class="quick-option" onclick="selectQuickOption(6, 'Career change')">Career change</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response6" placeholder="Describe your current work or life situation honestly. What's working well? What feels off? What questions do you have about your direction?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(6)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator6">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback6"></div>
-                </div>
-            </div>
-
-            <!-- Question 7 - Transition -->
-            <div class="question-section" id="question7">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 7 of 12 - Transition Point</div>
-                        <h2 class="question-title">🌟 Transition: Deeper Reflection Ahead</h2>
-                        <p class="question-subtitle">The next questions will ask you to reflect more personally. Take your time - there are no wrong answers.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> How are you feeling about moving into more personal reflection? Any concerns or excitement?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary7">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText7"></div>
-                    <button class="edit-response-btn" onclick="editResponse(7)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection7">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(7, 'I am ready')">I'm ready</div>
-                        <div class="quick-option" onclick="selectQuickOption(7, 'I need a moment')">I need a moment</div>
-                        <div class="quick-option" onclick="selectQuickOption(7, 'Save and pause')">Save and pause</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response7" placeholder="How are you feeling about moving into more personal reflection? Any concerns or excitement?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(7)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator7">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback7"></div>
-                </div>
-            </div>
-
-            <!-- Question 8 -->
-            <div class="question-section" id="question8">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 8 of 12</div>
-                        <h2 class="question-title">Moments of Genuine Engagement</h2>
-                        <p class="question-subtitle">Think about times when you felt truly 'in the zone' - time flew by and you felt capable and engaged.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> Describe a specific time when you felt genuinely engaged - where time seemed to fly by and you felt both capable and energized. What were you doing?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary8">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText8"></div>
-                    <button class="edit-response-btn" onclick="editResponse(8)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection8">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(8, 'Work situation')">Work situation</div>
-                        <div class="quick-option" onclick="selectQuickOption(8, 'Personal project')">Personal project</div>
-                        <div class="quick-option" onclick="selectQuickOption(8, 'Helping others')">Helping others</div>
-                        <div class="quick-option" onclick="selectQuickOption(8, 'Learning something')">Learning something</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response8" placeholder="Describe a specific time when you felt genuinely engaged - where time seemed to fly by and you felt both capable and energized. What were you doing?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(8)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator8">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback8"></div>
-                </div>
-            </div>
-
-            <!-- Question 9 -->
-            <div class="question-section" id="question9">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 9 of 12</div>
-                        <h2 class="question-title">What Drains vs. Energizes You</h2>
-                        <p class="question-subtitle">Identifying patterns in what naturally energizes or depletes you reveals important clues about your inclinations.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> What types of activities or situations consistently drain your energy? What consistently gives you energy? Look for patterns rather than specific jobs.
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary9">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText9"></div>
-                    <button class="edit-response-btn" onclick="editResponse(9)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection9">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(9, 'People vs. tasks')">People vs. tasks</div>
-                        <div class="quick-option" onclick="selectQuickOption(9, 'Creative vs. analytical')">Creative vs. analytical</div>
-                        <div class="quick-option" onclick="selectQuickOption(9, 'Leading vs. supporting')">Leading vs. supporting</div>
-                        <div class="quick-option" onclick="selectQuickOption(9, 'Routine vs. variety')">Routine vs. variety</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response9" placeholder="What types of activities or situations consistently drain your energy? What consistently gives you energy? Look for patterns rather than specific jobs."></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(9)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator9">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback9"></div>
-                </div>
-            </div>
-
-            <!-- Question 10 -->
-            <div class="question-section" id="question10">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 10 of 12</div>
-                        <h2 class="question-title">Your Natural Problem-Solving Style</h2>
-                        <p class="question-subtitle">How you naturally approach challenges reveals important aspects of how you're wired.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> When facing a new challenge or problem, what's your natural first instinct? How do you prefer to figure things out?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary10">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText10"></div>
-                    <button class="edit-response-btn" onclick="editResponse(10)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection10">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(10, 'Research first')">Research first</div>
-                        <div class="quick-option" onclick="selectQuickOption(10, 'Jump in and try')">Jump in and try</div>
-                        <div class="quick-option" onclick="selectQuickOption(10, 'Talk it through')">Talk it through</div>
-                        <div class="quick-option" onclick="selectQuickOption(10, 'Think it through alone')">Think it through alone</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response10" placeholder="When facing a new challenge or problem, what's your natural first instinct? How do you prefer to figure things out?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(10)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator10">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback10"></div>
-                </div>
-            </div>
-
-            <!-- Question 11 -->
-            <div class="question-section" id="question11">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 11 of 12</div>
-                        <h2 class="question-title">Values in Action</h2>
-                        <p class="question-subtitle">Understanding what you actually value (not what you think you should value) guides authentic decisions.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> Think about decisions you've made that you felt good about afterward. What values were you honoring? What matters most to you in how you spend your time and energy?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary11">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText11"></div>
-                    <button class="edit-response-btn" onclick="editResponse(11)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection11">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(11, 'Security')">Security</div>
-                        <div class="quick-option" onclick="selectQuickOption(11, 'Impact')">Impact</div>
-                        <div class="quick-option" onclick="selectQuickOption(11, 'Freedom')">Freedom</div>
-                        <div class="quick-option" onclick="selectQuickOption(11, 'Connection')">Connection</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response11" placeholder="Think about decisions you've made that you felt good about afterward. What values were you honoring? What matters most to you in how you spend your time and energy?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(11)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator11">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback11"></div>
-                </div>
-            </div>
-
-            <!-- Question 12 -->
-            <div class="question-section" id="question12">
-                <div class="question-container">
-                    <div class="question-header">
-                        <div class="question-number">Question 12 of 12</div>
-                        <h2 class="question-title">Session 1 Reflection</h2>
-                        <p class="question-subtitle">Take a moment to notice what you've discovered about yourself through these questions.</p>
-                    </div>
-                    
-                    <div class="question-prompt">
-                        <strong>Please reflect on:</strong> What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?
-                    </div>
-                </div>
-
-                <div class="response-summary" id="summary12">
-                    <div class="response-summary-title">Your Response Completed</div>
-                    <div id="summaryText12"></div>
-                    <button class="edit-response-btn" onclick="editResponse(12)">✏️ Edit Response</button>
-                </div>
-
-                <div class="response-section" id="responseSection12">
-                    <h3>Your Response</h3>
-                    
-                    <div class="quick-options">
-                        <div class="quick-option" onclick="selectQuickOption(12, 'Surprised by answers')">Surprised by answers</div>
-                        <div class="quick-option" onclick="selectQuickOption(12, 'Confirmed suspicions')">Confirmed suspicions</div>
-                        <div class="quick-option" onclick="selectQuickOption(12, 'Raised new questions')">Raised new questions</div>
-                        <div class="quick-option" onclick="selectQuickOption(12, 'Feel clearer')">Feel clearer</div>
-                    </div>
-                    
-                    <div class="response-area">
-                        <label class="response-label">Share your thoughts:</label>
-                        <textarea class="response-textarea" id="response12" placeholder="What stood out to you from your responses? What surprised you? What patterns do you notice? What questions are you left with?"></textarea>
-                        <div class="voice-controls">
-                            <button class="voice-btn" onclick="startVoiceInput(12)">
-                                🎤 Voice Input
-                            </button>
-                            <span class="save-indicator" id="saveIndicator12">Auto-saved</span>
-                        </div>
-                    </div>
-
-                    <div class="feedback-message" id="feedback12"></div>
-                </div>
-            </div>
-
             <!-- Completion Screen -->
             <div class="question-section" id="completion">
                 <div class="completion-screen">
@@ -2232,11 +3620,11 @@
                     </span>
                     <div class="build-info">
                         <div class="last-updated">
-                            Last Updated: <span id="lastUpdated">June 16, 2025 - 3:47 PM CST</span>
+                            Last Updated: <span id="lastUpdated">June 17, 2025 - 4:15 PM CST</span>
                         </div>
                         <div class="build-details">
-                            Build: <span id="buildNumber">v1.3.1</span> | 
-                            Commit: <span id="commitHash">a7f2d1e</span> |
+                            Build: <span id="buildNumber">v1.4.0</span> | 
+                            Commit: <span id="commitHash">b8g3e2f</span> |
                             Environment: <span id="environment">Production</span>
                         </div>
                     </div>
@@ -2366,12 +3754,10 @@
         }
 
         function showQuestion(questionNum) {
-            // Hide all sections
             document.querySelectorAll('.question-section').forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Show target section
             const targetSection = questionNum === 0 ? 'welcome' : 
                                  questionNum === 13 ? 'completion' : 
                                  `question${questionNum}`;
@@ -2380,7 +3766,6 @@
                 targetElement.classList.add('active');
             }
 
-            // Update response display based on completion status
             updateResponseDisplay(questionNum);
             updateNavigationButtons();
             updateProgress();
@@ -2400,7 +3785,6 @@
                     const hasResponse = responseElement.value.trim();
                     
                     if (hasResponse) {
-                        // Show summary, hide response section
                         const responseText = responseElement.value.trim();
                         const summaryText = responseText.length > 150 ? 
                             responseText.substring(0, 150) + '...' : 
@@ -2410,7 +3794,6 @@
                         summaryElement.classList.add('show');
                         responseSectionElement.style.display = 'none';
                     } else {
-                        // Show response section, hide summary
                         summaryElement.classList.remove('show');
                         responseSectionElement.style.display = 'block';
                     }
@@ -2426,7 +3809,6 @@
                 summaryElement.classList.remove('show');
                 responseSectionElement.style.display = 'block';
                 
-                // Focus on textarea
                 const textarea = document.getElementById(`response${questionNum}`);
                 if (textarea) {
                     textarea.focus();
@@ -2572,10 +3954,67 @@
             }
         }
 
+        // UPDATED: Enhanced completeSession function with value delivery integration
         function completeSession() {
             sessionData.completedAt = new Date();
             sessionData.totalDuration = Math.floor((new Date() - new Date(sessionData.startTime)) / 1000);
             saveSession();
+            
+            // NEW: Trigger value delivery after existing completion logic
+            triggerValueDelivery();
+        }
+
+        // NEW: Add this function to handle value delivery
+        async function triggerValueDelivery() {
+            // Small delay to ensure completion screen is shown first
+            setTimeout(async () => {
+                if (window.FindMeValueDelivery) {
+                    try {
+                        console.log('🔍 Processing session through value delivery system...');
+                        
+                        const results = await window.FindMeValueDelivery.processSession(sessionData);
+                        
+                        if (results) {
+                            console.log('✅ Value delivery completed successfully');
+                            console.log('User Type:', results.analysis.userType);
+                            console.log('Authenticity Score:', Math.round(results.analysis.authenticityScore * 100) + '%');
+                        } else {
+                            console.log('⚠️ Value delivery processing failed, showing fallback');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Value delivery error:', error);
+                        // Platform continues normally even if value delivery fails
+                    }
+                } else {
+                    console.log('📋 Value delivery system not loaded - normal completion flow');
+                }
+            }, 500); // 500ms delay to let completion screen render first
+        }
+
+        // NEW: Helper functions for testing and debugging
+        function testValueDeliveryNow() {
+            if (window.FindMeValueDelivery && sessionData && sessionData.responses) {
+                console.log('🧪 Testing value delivery with current session...');
+                window.FindMeValueDelivery.processSession(sessionData);
+            } else {
+                console.log('Cannot test: missing components');
+                console.log('- FindMeValueDelivery available:', !!window.FindMeValueDelivery);
+                console.log('- sessionData exists:', !!sessionData);
+                console.log('- responses exist:', !!(sessionData && sessionData.responses));
+                console.log('- response count:', sessionData && sessionData.responses ? Object.keys(sessionData.responses).length : 0);
+            }
+        }
+
+        function checkValueDeliveryStatus() {
+            if (window.FindMeValueDelivery) {
+                const status = window.FindMeValueDelivery.getStatus();
+                console.log('✅ Value Delivery Status:', status);
+                return status;
+            } else {
+                console.log('❌ Value delivery system not loaded');
+                return null;
+            }
         }
 
         function exportData() {
@@ -2589,7 +4028,7 @@
                 },
                 responses: sessionData.responses,
                 exportedAt: new Date(),
-                platform: 'Find.Me Discovery Platform v1.3.1'
+                platform: 'Find.Me Discovery Platform v1.4.0'
             };
 
             const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
@@ -2647,11 +4086,10 @@
             const completionTrigger = document.getElementById(`completionTrigger${questionNum}`);
             const reflection = document.getElementById(`reflection${questionNum}`);
             
-            // Show completion trigger if response has substance (20+ words) and no reflection shown yet
             if (wordCount >= 20 && !reflection.classList.contains('show')) {
                 setTimeout(() => {
                     completionTrigger.classList.add('show');
-                }, 2000); // Small delay to let them finish their thought
+                }, 2000);
             } else if (wordCount < 20) {
                 completionTrigger.classList.remove('show');
             }
@@ -2670,25 +4108,27 @@
             const response = responseElement.value.trim();
             const reflection = analyzeResponse(questionNum, response);
             
-            // Hide completion trigger and show reflection
             completionTrigger.classList.remove('show');
             reflectionContent.innerHTML = reflection;
             reflectionElement.classList.add('show');
             
-            // Store reflection data
             reflectionData[questionNum] = {
                 response: response,
                 reflection: reflection,
                 timestamp: new Date()
             };
             
-            // Smooth scroll to reflection
             setTimeout(() => {
                 reflectionElement.scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'center' 
                 });
             }, 100);
+        }
+
+        function hideReflection(questionNum) {
+            const reflectionElement = document.getElementById(`reflection${questionNum}`);
+            reflectionElement.classList.remove('show');
         }
 
         function analyzeResponse(questionNum, response) {
@@ -2805,18 +4245,6 @@
             return "It sounds like you understand that authentic responses will serve you better than 'correct' ones, which puts you in a great position for meaningful discovery.";
         }
 
-        function getGenericReflection(response) {
-            const reflections = [
-                "It sounds like you've put genuine thought into your response. What you've shared reveals some important insights about how you see yourself and what matters to you.",
-                "It feels like there's real authenticity in what you've written. These kinds of honest reflections often point toward important patterns worth exploring further.",
-                "It seems like you're being thoughtful about this process. The detail in your response suggests you're ready to engage meaningfully with these questions.",
-                "What stands out is your willingness to be reflective and honest. That openness is often what leads to the most valuable self-discoveries."
-            ];
-            
-            return reflections[Math.floor(Math.random() * reflections.length)];
-        }
-
-        // Additional analysis functions for questions 6-12
         function analyzeQuestion6(response) {
             return "It sounds like you're being honest about where you are right now, both the positives and the challenges. That kind of realistic self-assessment is often the foundation for meaningful change.";
         }
@@ -2845,360 +4273,17 @@
             return "It sounds like this reflection process has surfaced some meaningful insights. The patterns you're noticing often point toward important directions worth exploring further.";
         }
 
-        // Privacy conversation system
-        let privacyConversationState = {
-            currentStep: 'initial',
-            userConcerns: [],
-            conversationHistory: [],
-            isComplete: false
-        };
-
-        function handlePrivacyConversation(choice) {
-            const historyContainer = document.getElementById('conversationHistory2');
-            const optionsContainer = document.getElementById('conversationOptions2');
+        function getGenericReflection(response) {
+            const reflections = [
+                "It sounds like you've put genuine thought into your response. What you've shared reveals some important insights about how you see yourself and what matters to you.",
+                "It feels like there's real authenticity in what you've written. These kinds of honest reflections often point toward important patterns worth exploring further.",
+                "It seems like you're being thoughtful about this process. The detail in your response suggests you're ready to engage meaningfully with these questions.",
+                "What stands out is your willingness to be reflective and honest. That openness is often what leads to the most valuable self-discoveries."
+            ];
             
-            // Add user choice to history
-            addConversationMessage('user', getChoiceText(choice), historyContainer);
-            
-            // Generate appropriate response
-            const response = generatePrivacyResponse(choice);
-            setTimeout(() => {
-                addConversationMessage('system', response.text, historyContainer);
-                
-                if (response.options) {
-                    updateConversationOptions(response.options, optionsContainer);
-                } else if (response.verification) {
-                    addVerificationTool(response.verification, historyContainer);
-                } else {
-                    completePrivacyConversation();
-                }
-            }, 500);
+            return reflections[Math.floor(Math.random() * reflections.length)];
         }
 
-        function getChoiceText(choice) {
-            const choices = {
-                'understand': "I understand and trust this approach.",
-                'verify': "I'd like to verify that my data really stays local.",
-                'concerns': "I have some specific privacy concerns.",
-                'technical': "Show me the technical details about how this works.",
-                'browser_tools': "Show me how to verify with browser tools.",
-                'localStorage': "Explain localStorage and how it protects my data.",
-                'company_access': "How do I know your company can't access my responses?",
-                'data_deletion': "How can I delete my data if I want to?",
-                'satisfied': "I'm satisfied with the privacy protection.",
-                'more_questions': "I have more questions.",
-                'government': "What about government access or legal requests?",
-                'hacking': "What if someone hacks my computer?",
-                'sharing': "Will you ever ask to share my data later?",
-                'ready': "I'm ready to proceed with confidence."
-            };
-            return choices[choice] || choice;
-        }
-
-        function generatePrivacyResponse(choice) {
-            const responses = {
-                'understand': {
-                    text: "Perfect! I appreciate your trust. Just so you know, you can verify this anytime by checking your browser's developer tools (F12 → Application → Local Storage). Is there anything else you'd like to know before we continue?",
-                    options: ['ready', 'more_questions']
-                },
-                'verify': {
-                    text: "Great question! There are several ways to verify this. Here's how you can check right now:",
-                    verification: {
-                        title: "Verification Steps",
-                        steps: [
-                            "1. Press F12 to open browser developer tools",
-                            "2. Click 'Application' or 'Storage' tab",
-                            "3. Look for 'Local Storage' in the left sidebar",
-                            "4. You'll see 'findme_session' data stored locally",
-                            "5. Close tools and check Network tab - no data sent to servers"
-                        ]
-                    },
-                    options: ['browser_tools', 'localStorage', 'satisfied']
-                },
-                'concerns': {
-                    text: "I completely understand having privacy concerns - it shows good digital awareness. What specifically would you like to know about?",
-                    options: ['company_access', 'data_deletion', 'government', 'hacking', 'sharing']
-                },
-                'technical': {
-                    text: "Here's exactly how it works: We use browser localStorage, which saves data only on your device. No network requests send your responses anywhere. The code is open source on GitHub so you can verify exactly what it does.",
-                    options: ['verify', 'localStorage', 'satisfied']
-                },
-                'browser_tools': {
-                    text: "The browser developer tools are your verification friend! Press F12, go to Application → Local Storage, and you'll see your data right there on your device. The Network tab shows no personal data being transmitted.",
-                    options: ['satisfied', 'more_questions']
-                },
-                'localStorage': {
-                    text: "localStorage is a browser feature that saves data only on your device - like a local file. It never gets sent to websites automatically. Only you control it, and you can delete it anytime by clearing browser data.",
-                    options: ['data_deletion', 'satisfied']
-                },
-                'company_access': {
-                    text: "We literally cannot access your responses. The data never leaves your device. Even if we wanted to (which we don't), the technical architecture prevents it. Your responses are as private as a diary you keep in your desk drawer.",
-                    options: ['verify', 'satisfied']
-                },
-                'data_deletion': {
-                    text: "You can delete your data anytime by: 1) Clearing browser data for this site, 2) Using browser settings to clear localStorage, or 3) Using our 'Clear All Data' button. It's completely under your control.",
-                    options: ['satisfied', 'more_questions']
-                },
-                'government': {
-                    text: "Since your data never leaves your device, there's nothing for governments to request from us. Your responses are only accessible to you, on your device. It's like asking for copies of your private thoughts - we simply don't have them.",
-                    options: ['satisfied', 'more_questions']
-                },
-                'hacking': {
-                    text: "If someone had full access to your computer, they could potentially access any local files - just like they could read documents on your desktop. But your responses aren't more vulnerable than any other private files you keep locally.",
-                    options: ['satisfied', 'more_questions']
-                },
-                'sharing': {
-                    text: "Never. The entire point is that you own your discovery data completely. We'll never ask you to share it, upload it, or send it anywhere. If you want to share insights, that's entirely your choice and under your control.",
-                    options: ['satisfied', 'ready']
-                },
-                'satisfied': {
-                    text: "Excellent! It sounds like you're comfortable with the privacy approach. You can always revisit these verification steps anytime. Ready to dive into some meaningful self-discovery?",
-                    options: ['ready']
-                },
-                'more_questions': {
-                    text: "Of course! What else would you like to know?",
-                    options: ['verify', 'company_access', 'data_deletion', 'government', 'ready']
-                },
-                'ready': {
-                    text: "Perfect! I'm glad we could address your privacy questions. You're all set to proceed with confidence, knowing your responses stay completely private and under your control."
-                }
-            };
-            
-            return responses[choice] || { text: "I understand your concern. What specific aspect of privacy would you like to discuss?" };
-        }
-
-        function addConversationMessage(type, text, container) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `conversation-message ${type}`;
-            
-            const headerDiv = document.createElement('div');
-            headerDiv.className = `conversation-header ${type}`;
-            headerDiv.textContent = type === 'user' ? 'You' : 'Find.Me Platform';
-            
-            const textDiv = document.createElement('div');
-            textDiv.textContent = text;
-            
-            messageDiv.appendChild(headerDiv);
-            messageDiv.appendChild(textDiv);
-            container.appendChild(messageDiv);
-            
-            // Smooth scroll to new message
-            setTimeout(() => {
-                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        }
-
-        function updateConversationOptions(options, container) {
-            container.innerHTML = '';
-            options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'conversation-option';
-                button.textContent = getChoiceText(option);
-                button.onclick = () => handlePrivacyConversation(option);
-                container.appendChild(button);
-            });
-            
-            // Always add the "Ask a different question" option
-            const freeformButton = document.createElement('button');
-            freeformButton.className = 'conversation-option secondary';
-            freeformButton.textContent = 'Ask a different question';
-            freeformButton.onclick = enableFreeformQuestion;
-            container.appendChild(freeformButton);
-        }
-
-        function enableFreeformQuestion() {
-            document.getElementById('freeformQuestion2').style.display = 'block';
-            document.getElementById('privacyQuestion').focus();
-        }
-
-        function hideFreeformQuestion() {
-            document.getElementById('freeformQuestion2').style.display = 'none';
-            document.getElementById('privacyQuestion').value = '';
-        }
-
-        function submitPrivacyQuestion() {
-            const questionText = document.getElementById('privacyQuestion').value.trim();
-            if (!questionText) {
-                alert('Please enter your privacy question first.');
-                return;
-            }
-
-            const historyContainer = document.getElementById('conversationHistory2');
-            const optionsContainer = document.getElementById('conversationOptions2');
-            
-            // Add user question to history
-            addConversationMessage('user', questionText, historyContainer);
-            
-            // Hide freeform input
-            hideFreeformQuestion();
-            
-            // Generate intelligent response based on question content
-            const response = generateIntelligentPrivacyResponse(questionText);
-            setTimeout(() => {
-                addConversationMessage('system', response.text, historyContainer);
-                
-                if (response.options) {
-                    updateConversationOptions(response.options, optionsContainer);
-                } else {
-                    // Provide follow-up options
-                    updateConversationOptions(['satisfied', 'more_questions', 'ready'], optionsContainer);
-                }
-            }, 500);
-        }
-
-        function generateIntelligentPrivacyResponse(questionText) {
-            const lowerQuestion = questionText.toLowerCase();
-            
-            // Analyze question content and provide intelligent responses
-            if (lowerQuestion.includes('delete') || lowerQuestion.includes('remove') || lowerQuestion.includes('clear')) {
-                return {
-                    text: "You can delete your data anytime in several ways: 1) Clear browser data for this site specifically, 2) Go to browser Settings → Privacy → Clear browsing data → Local storage, 3) Use our 'Clear All Data' button when available. Your data is completely under your control - no permission needed from us.",
-                    options: ['satisfied', 'more_questions']
-                };
-            }
-            
-            if (lowerQuestion.includes('track') || lowerQuestion.includes('monitor') || lowerQuestion.includes('watch')) {
-                return {
-                    text: "We don't track, monitor, or watch your activity at all. No analytics on your responses, no behavior tracking, no usage patterns collected. The only 'tracking' is basic website analytics (page loads, not personal data) which you can block with any ad blocker.",
-                    options: ['verify', 'satisfied']
-                };
-            }
-            
-            if (lowerQuestion.includes('share') || lowerQuestion.includes('sell') || lowerQuestion.includes('third party')) {
-                return {
-                    text: "Never. We cannot share, sell, or give your responses to anyone because we literally don't have access to them. Your responses never leave your device. It's technically impossible for us to share what we don't possess.",
-                    options: ['satisfied', 'more_questions']
-                };
-            }
-            
-            if (lowerQuestion.includes('hack') || lowerQuestion.includes('breach') || lowerQuestion.includes('security')) {
-                return {
-                    text: "Since your data never leaves your device, there's nothing for hackers to breach on our servers. Your responses are as secure as any other files on your computer. If someone gained access to your device, they could potentially see local files - but that's true of any document you save locally.",
-                    options: ['satisfied', 'more_questions']
-                };
-            }
-            
-            if (lowerQuestion.includes('legal') || lowerQuestion.includes('court') || lowerQuestion.includes('subpoena') || lowerQuestion.includes('government')) {
-                return {
-                    text: "Legal requests can't access what doesn't exist on our servers. Your responses are only on your device, so even if we received a subpoena, we'd have nothing to provide. It's like someone requesting copies of your private diary - we simply don't have them.",
-                    options: ['satisfied', 'verify']
-                };
-            }
-            
-            if (lowerQuestion.includes('employee') || lowerQuestion.includes('staff') || lowerQuestion.includes('worker')) {
-                return {
-                    text: "Our employees cannot see your responses because the technical architecture prevents it. Even if someone wanted to snoop (which is against our values), the data isn't accessible to us. Your responses exist only in your browser's local storage on your device.",
-                    options: ['verify', 'satisfied']
-                };
-            }
-            
-            if (lowerQuestion.includes('cookie') || lowerQuestion.includes('session') || lowerQuestion.includes('localStorage')) {
-                return {
-                    text: "We use localStorage (not cookies) which stays on your device and never gets sent anywhere automatically. You can see exactly what's stored by pressing F12 → Application → Local Storage. No tracking cookies, no session data sent to servers - just local storage under your control.",
-                    options: ['verify', 'satisfied']
-                };
-            }
-            
-            // Default intelligent response for unmatched questions
-            return {
-                text: "That's a thoughtful privacy question. The core principle is simple: your responses never leave your device. They're stored in your browser's local storage, which is like a private folder that only you can access. You can verify this anytime using browser developer tools. What specific aspect of this would you like me to clarify further?",
-                options: ['verify', 'technical', 'satisfied']
-            };
-        }
-
-        function addVerificationTool(verification, container) {
-            const toolDiv = document.createElement('div');
-            toolDiv.className = 'verification-tool';
-            toolDiv.innerHTML = `
-                <strong>${verification.title}:</strong><br>
-                ${verification.steps.join('<br>')}
-            `;
-            container.appendChild(toolDiv);
-        }
-
-        function completePrivacyConversation() {
-            privacyConversationState.isComplete = true;
-            
-            // Hide conversation flow and show completion
-            document.getElementById('conversationFlow2').style.display = 'none';
-            document.getElementById('conversationComplete2').classList.add('show');
-            document.getElementById('summary2').classList.add('show');
-            
-            // Show concern resolution instead of reflection for Q2
-            setTimeout(() => {
-                const responseSection = document.getElementById('responseSection2');
-                responseSection.style.display = 'block';
-                
-                // Show concern resolution check
-                document.getElementById('concernResolution2').classList.add('show');
-            }, 1000);
-            
-            // Save conversation completion
-            sessionData.privacyConversationComplete = true;
-            saveSession();
-        }
-
-        function handleConcernResolution(choice) {
-            const historyContainer = document.getElementById('concernResolutionHistory');
-            const resolutionContainer = document.getElementById('concernResolution2');
-            
-            // Add user choice to history
-            addConversationMessage('user', getConcernChoiceText(choice), historyContainer);
-            
-            const response = generateConcernResolution(choice);
-            setTimeout(() => {
-                addConversationMessage('system', response.text, historyContainer);
-                
-                if (response.complete) {
-                    setTimeout(() => {
-                        resolutionContainer.classList.remove('show');
-                    }, 2000);
-                }
-            }, 500);
-        }
-
-        function getConcernChoiceText(choice) {
-            const choices = {
-                'still_unsure': "I'm still not completely sure about the privacy.",
-                'need_proof': "I need more concrete proof this is secure.",
-                'comfortable': "I'm comfortable proceeding with the privacy approach.",
-                'pause': "I need to think about this more before continuing."
-            };
-            return choices[choice] || choice;
-        }
-
-        function generateConcernResolution(choice) {
-            const responses = {
-                'still_unsure': {
-                    text: "That's completely understandable. Privacy is important and you should feel confident. Here's what I suggest: try the browser verification steps (F12 → Application → Local Storage) to see your data staying local. You can also start with just one question and verify nothing gets transmitted. Take your time - there's no rush.",
-                    complete: false
-                },
-                'need_proof': {
-                    text: "Perfect approach! Here's concrete proof: 1) Open Network tab in developer tools (F12) and watch - no personal data gets sent. 2) Check Application → Local Storage to see your data staying put. 3) Our code is open source on GitHub for full transparency. 4) Try disconnecting your internet and the platform still works with your saved responses. This is real, verifiable privacy.",
-                    complete: false
-                },
-                'comfortable': {
-                    text: "Excellent! Your comfort with the privacy approach means you can focus on honest self-reflection without worrying about who might see your responses. That's exactly the foundation we need for meaningful discovery.",
-                    complete: true
-                },
-                'pause': {
-                    text: "Absolutely the right call. Take all the time you need to feel confident about privacy. Your responses will be saved locally, so you can come back anytime when you're ready. Privacy decisions shouldn't be rushed.",
-                    complete: true
-                }
-            };
-            
-            return responses[choice] || { text: "I understand. What would help address your specific concern?" };
-        }
-
-        function reopenPrivacyConversation() {
-            document.getElementById('conversationFlow2').style.display = 'block';
-            document.getElementById('conversationComplete2').classList.remove('show');
-            document.getElementById('summary2').classList.remove('show');
-            document.getElementById('responseSection2').style.display = 'none';
-            document.getElementById('concernResolution2').classList.remove('show');
-        }
-
-        // Deployment and sync status functions
         function updateDeploymentInfo() {
             const buildInfo = {
                 lastUpdated: new Date().toLocaleString('en-US', {
@@ -3210,8 +4295,8 @@
                     minute: '2-digit',
                     hour12: true
                 }) + ' CST',
-                buildNumber: 'v1.3.1',
-                commitHash: 'a7f2d1e',
+                buildNumber: 'v1.4.0',
+                commitHash: 'b8g3e2f',
                 environment: window.location.hostname.includes('localhost') ? 'Development' : 
                            window.location.hostname.includes('vercel') ? 'Production' : 'Staging'
             };
@@ -3226,10 +4311,10 @@
             
             if (buildInfo.environment === 'Production') {
                 syncStatus.innerHTML = '<span class="sync-indicator"></span> Sync: Active';
-                syncIndicator.style.background = '#27ae60';
+                if (syncIndicator) syncIndicator.style.background = '#27ae60';
             } else if (buildInfo.environment === 'Development') {
                 syncStatus.innerHTML = '<span class="sync-indicator"></span> Sync: Local';
-                syncIndicator.style.background = '#f39c12';
+                if (syncIndicator) syncIndicator.style.background = '#f39c12';
             }
         }
 
@@ -3250,11 +4335,11 @@
                                 <h4>Build Information</h4>
                                 <div class="detail-item">
                                     <span class="detail-label">Build Version:</span>
-                                    <span class="detail-value" id="modalBuildNumber">v1.3.1</span>
+                                    <span class="detail-value" id="modalBuildNumber">v1.4.0</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Commit Hash:</span>
-                                    <span class="detail-value" id="modalCommitHash">a7f2d1e</span>
+                                    <span class="detail-value" id="modalCommitHash">b8g3e2f</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Environment:</span>
@@ -3262,7 +4347,7 @@
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Deployment Time:</span>
-                                    <span class="detail-value" id="modalLastUpdated">June 16, 2025 - 3:47 PM CST</span>
+                                    <span class="detail-value" id="modalLastUpdated">June 17, 2025 - 4:15 PM CST</span>
                                 </div>
                             </div>
                             <div class="detail-section">
@@ -3285,41 +4370,22 @@
                                 </div>
                             </div>
                             <div class="detail-section">
-                                <h4>Repository Sync</h4>
+                                <h4>Value Delivery System</h4>
                                 <div class="detail-item">
-                                    <span class="detail-label">GitHub Repository:</span>
-                                    <span class="detail-value">jdmdude62/find-me-platform</span>
+                                    <span class="detail-label">Pattern Recognition:</span>
+                                    <span class="detail-value">Active</span>
                                 </div>
                                 <div class="detail-item">
-                                    <span class="detail-label">Branch:</span>
-                                    <span class="detail-value">main</span>
+                                    <span class="detail-label">Insight Generation:</span>
+                                    <span class="detail-value">Enabled</span>
                                 </div>
                                 <div class="detail-item">
-                                    <span class="detail-label">Last Sync:</span>
-                                    <span class="detail-value" id="modalLastSync">Successful</span>
+                                    <span class="detail-label">User Type Detection:</span>
+                                    <span class="detail-value">3 Types Supported</span>
                                 </div>
                                 <div class="detail-item">
-                                    <span class="detail-label">Deploy Trigger:</span>
-                                    <span class="detail-value">Git Push</span>
-                                </div>
-                            </div>
-                            <div class="detail-section">
-                                <h4>Performance Metrics</h4>
-                                <div class="detail-item">
-                                    <span class="detail-label">Load Time:</span>
-                                    <span class="detail-value">&lt; 3 seconds</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Bundle Size:</span>
-                                    <span class="detail-value">53.8 KB</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Lighthouse Score:</span>
-                                    <span class="detail-value">95+</span>
-                                </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Mobile Optimized:</span>
-                                    <span class="detail-value">Yes</span>
+                                    <span class="detail-label">Authenticity Scoring:</span>
+                                    <span class="detail-value">Operational</span>
                                 </div>
                             </div>
                         </div>
@@ -3338,15 +4404,6 @@
             document.getElementById('modalCommitHash').textContent = document.getElementById('commitHash').textContent;
             document.getElementById('modalEnvironment').textContent = document.getElementById('environment').textContent;
             document.getElementById('modalLastUpdated').textContent = document.getElementById('lastUpdated').textContent;
-            
-            const now = new Date().toLocaleString('en-US', {
-                timeZone: 'America/Chicago',
-                hour: 'numeric',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            });
-            document.getElementById('modalLastSync').textContent = `${now} CST`;
 
             modal.classList.add('show');
         }
@@ -3361,18 +4418,19 @@
         function monitorDeploymentStatus() {
             setInterval(() => {
                 const syncStatus = document.getElementById('syncStatus');
-                const currentTime = new Date().toLocaleString('en-US', {
-                    timeZone: 'America/Chicago',
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    hour12: true
-                });
-                
-                const modalLastSync = document.getElementById('modalLastSync');
-                if (modalLastSync && document.getElementById('deploymentModal')?.classList.contains('show')) {
-                    modalLastSync.textContent = `${currentTime} CST - Monitoring`;
+                if (syncStatus && document.getElementById('deploymentModal')?.classList.contains('show')) {
+                    const currentTime = new Date().toLocaleString('en-US', {
+                        timeZone: 'America/Chicago',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
                 }
             }, 30000);
+        }
+
+        function startVoiceInput(questionNum) {
+            alert('Voice input would be available with proper microphone permissions and HTTPS deployment.');
         }
 
         // Initialize
@@ -3389,10 +4447,9 @@
             monitorDeploymentStatus();
             setupResponseMonitoring();
         }
-
-        function startVoiceInput(questionNum) {
-            alert('Voice input would be available with proper microphone permissions and HTTPS deployment.');
-        }
     </script>
+
+    <!-- Value Delivery System Integration -->
+    <script type="module" src="js/value-delivery/platform-integration.js"></script>
 </body>
 </html>
