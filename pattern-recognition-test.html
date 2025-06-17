@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern Recognition Engine Tester</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+        
+        .section h3 {
+            margin-top: 0;
+            color: #4a5568;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .insight-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .insight-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .insight-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .insight-title {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .insight-score {
+            margin-left: auto;
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .sample-data {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        .success {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Pattern Recognition Engine Tester</h1>
+        
+        <div class="section">
+            <h3>📝 Sample Session Data</h3>
+            <p>Use this sample data or paste your own sessionData.responses:</p>
+            <textarea id="sessionDataInput" placeholder="Paste sessionData.responses JSON here...">
+{
+    "response1": "I'm here because I feel capable but lack clear direction in my career. I'm good at what I do but feel like I'm missing something important - a sense of purpose or meaning in my work.",
+    "response4": "Work should be meaningful and make a difference. I want to solve complex problems and help people, but I also need financial stability. Right now work feels more like necessity than passion.",
+    "response6": "I'm doing well professionally - getting good reviews, steady income, respect from colleagues. But I feel like I'm going through the motions. There's this nagging sense that I could be doing something more aligned with who I really am.",
+    "response8": "I feel most engaged when I'm analyzing complex problems or helping teammates understand difficult concepts. I love those moments when I can break down something complicated and make it clear.",
+    "response9": "I get energized by intellectual challenges and problem-solving. I can lose track of time when I'm deep in analysis or research. Working with data and patterns feels natural to me.",
+    "response10": "When facing a new challenge, I usually step back and analyze the situation first. I like to understand the full context before jumping in. I'll research similar problems, break it down systematically, then develop a methodical approach.",
+    "response11": "I value growth, impact, and intellectual stimulation. I want to keep learning and developing my skills while doing work that matters. Freedom to think deeply and work autonomously is also important to me."
+}
+            </textarea>
+            <button onclick="testPatternRecognition()" id="testButton">🚀 Test Pattern Recognition</button>
+        </div>
+        
+        <div class="section" id="resultsSection" style="display: none;">
+            <h3>📊 Pattern Analysis Results</h3>
+            <div id="resultsOutput"></div>
+        </div>
+        
+        <div class="section" id="insightsSection" style="display: none;">
+            <h3>💡 User-Friendly Insights Preview</h3>
+            <div id="insightsOutput"></div>
+        </div>
+        
+        <div class="section">
+            <h3>🔧 Debug Console</h3>
+            <div id="debugConsole" class="results">Ready to test pattern recognition engine...</div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Pattern Recognition Engine (embedded for testing)
+        class PatternRecognitionEngine {
+            constructor() {
+                this.keywords = this.initializeKeywordLibrary();
+                this.userTypeProfiles = this.initializeUserTypeProfiles();
+            }
+
+            analyzeUserResponses(responses) {
+                this.log('🔍 Starting pattern recognition analysis...');
+                
+                const analysis = {
+                    rawResponses: responses,
+                    patterns: {},
+                    userType: null,
+                    authenticityScore: 0,
+                    confidence: {},
+                    metadata: {
+                        analyzedAt: new Date(),
+                        responseCount: Object.keys(responses).length,
+                        responseQuality: this.assessResponseQuality(responses)
+                    }
+                };
+
+                // Run each pattern analyzer
+                analysis.patterns.energy = this.analyzeEnergyPatterns(responses);
+                analysis.patterns.values = this.analyzeValuesPatterns(responses);
+                analysis.patterns.strengths = this.analyzeStrengthsPatterns(responses);
+                analysis.patterns.problemSolving = this.analyzeProblemSolvingStyle(responses);
+                analysis.patterns.authenticity = this.analyzeAuthenticityPatterns(responses);
+                analysis.patterns.growth = this.analyzeGrowthReadiness(responses);
+
+                // Determine user type based on patterns
+                analysis.userType = this.identifyUserType(responses, analysis.patterns);
+                
+                // Calculate overall authenticity score
+                analysis.authenticityScore = this.calculateAuthenticityScore(analysis.patterns);
+                
+                // Generate confidence scores
+                analysis.confidence = this.calculateConfidenceScores(analysis.patterns, responses);
+
+                this.log('✅ Pattern analysis complete:', {
+                    userType: analysis.userType,
+                    authenticityScore: Math.round(analysis.authenticityScore * 100) + '%',
+                    confidence: analysis.confidence.overall
+                });
+
+                return analysis;
+            }
+
+            analyzeEnergyPatterns(responses) {
+                this.log('⚡ Analyzing energy patterns...');
+                
+                const energyCategories = {
+                    people: 0,
+                    problems: 0,
+                    creativity: 0,
+                    learning: 0
+                };
+
+                const relevantResponses = [
+                    responses.response8 || '',
+                    responses.response9 || '',
+                    responses.response6 || '',
+                    responses.response1 || ''
+                ].join(' ');
+
+                Object.keys(energyCategories).forEach(category => {
+                    energyCategories[category] = this.scoreEnergyCategory(relevantResponses, category);
+                });
+
+                const primaryEnergizer = Object.keys(energyCategories).reduce((a, b) => 
+                    energyCategories[a] > energyCategories[b] ? a : b
+                );
+
+                const sustainability = this.calculateEnergySustainability(responses);
+                const indicators = this.extractEnergyIndicators(relevantResponses);
+
+                return {
+                    categories: energyCategories,
+                    primaryEnergizer,
+                    sustainability,
+                    indicators,
+                    confidence: this.calculateEnergyConfidence(relevantResponses)
+                };
+            }
+
+            analyzeValuesPatterns(responses) {
+                this.log('🧭 Analyzing values patterns...');
+                
+                const valueCategories = {
+                    impact: 0,
+                    freedom: 0,
+                    growth: 0,
+                    security: 0,
+                    connection: 0
+                };
+
+                const relevantResponses = [
+                    responses.response4 || '',
+                    responses.response11 || '',
+                    responses.response6 || '',
+                    responses.response1 || ''
+                ].join(' ');
+
+                Object.keys(valueCategories).forEach(category => {
+                    valueCategories[category] = this.scoreValueCategory(relevantResponses, category);
+                });
+
+                const topValues = this.getTopValues(valueCategories, 3);
+                const alignment = this.calculateValuesAlignment(responses);
+
+                return {
+                    categories: valueCategories,
+                    topValues,
+                    alignment,
+                    confidence: this.calculateValuesConfidence(relevantResponses)
+                };
+            }
+
+            analyzeStrengthsPatterns(responses) {
+                this.log('💪 Analyzing strengths patterns...');
+                
+                const strengthCategories = {
+                    communication: 0,
+                    analytical: 0,
+                    creative: 0,
+                    leadership: 0,
+                    problemSolving: 0,
+                    execution: 0
+                };
+
+                const relevantResponses = [
+                    responses.response8 || '',
+                    responses.response9 || '',
+                    responses.response10 || '',
+                    responses.response6 || ''
+                ].join(' ');
+
+                Object.keys(strengthCategories).forEach(category => {
+                    strengthCategories[category] = this.scoreStrengthCategory(relevantResponses, category);
+                });
+
+                const topStrengths = this.getTopValues(strengthCategories, 3);
+                const utilization = this.calculateStrengthUtilization(responses);
+
+                return {
+                    categories: strengthCategories,
+                    topStrengths,
+                    utilization,
+                    confidence: this.calculateStrengthConfidence(relevantResponses)
+                };
+            }
+
+            analyzeProblemSolvingStyle(responses) {
+                this.log('🧠 Analyzing problem-solving style...');
+                
+                const response10 = responses.response10 || '';
+                const styles = {
+                    analytical: 0,
+                    experimental: 0,
+                    collaborative: 0,
+                    intuitive: 0
+                };
+
+                Object.keys(styles).forEach(style => {
+                    styles[style] = this.scoreProblemSolvingStyle(response10, style);
+                });
+
+                const primaryStyle = Object.keys(styles).reduce((a, b) => styles[a] > styles[b] ? a : b);
+                const approach = this.determineProblemSolvingApproach(response10);
+
+                return {
+                    styles,
+                    primaryStyle,
+                    approach,
+                    confidence: this.calculatePSConfidence(response10)
+                };
+            }
+
+            analyzeAuthenticityPatterns(responses) {
+                this.log('🎯 Analyzing authenticity patterns...');
+                
+                const gaps = this.calculateAuthenticityGaps(responses);
+                const alignment = 1 - gaps;
+
+                return {
+                    gaps,
+                    alignment,
+                    confidence: this.calculateAuthenticityConfidence(responses)
+                };
+            }
+
+            analyzeGrowthReadiness(responses) {
+                this.log('🌱 Analyzing growth readiness...');
+                
+                const readiness = this.assessGrowthReadiness(responses);
+                const motivation = this.assessMotivationLevel(responses);
+
+                return {
+                    readiness,
+                    motivation,
+                    confidence: this.calculateGrowthConfidence(responses)
+                };
+            }
+
+            identifyUserType(responses, patterns) {
+                this.log('🔍 Identifying user type...');
+                
+                const typeScores = {
+                    unmotivatedAchiever: 0,
+                    alternativeLearner: 0,
+                    successfulDrifter: 0
+                };
+
+                // Unmotivated Achiever indicators
+                if (this.hasTypeIndicators(responses.response1, ['capable', 'direction', 'unclear'])) {
+                    typeScores.unmotivatedAchiever += 2;
+                }
+                if (this.hasTypeIndicators(responses.response4, ['necessity', 'bills', 'have to'])) {
+                    typeScores.unmotivatedAchiever += 3;
+                }
+                if (patterns.authenticity.gaps > 0.4) {
+                    typeScores.unmotivatedAchiever += 1;
+                }
+
+                // Alternative Learner indicators
+                const allText = Object.values(responses).join(' ').toLowerCase();
+                if (this.hasTypeIndicators(allText, ['different', 'traditional', 'unconventional'])) {
+                    typeScores.alternativeLearner += 3;
+                }
+                if (patterns.problemSolving.primaryStyle === 'experimental' || patterns.problemSolving.primaryStyle === 'intuitive') {
+                    typeScores.alternativeLearner += 2;
+                }
+
+                // Successful Drifter indicators
+                if (this.hasTypeIndicators(responses.response1, ['successful', 'good at', 'missing'])) {
+                    typeScores.successfulDrifter += 3;
+                }
+                if (this.hasTypeIndicators(responses.response6, ['doing well', 'but', 'however', 'something'])) {
+                    typeScores.successfulDrifter += 2;
+                }
+                if (patterns.authenticity.gaps > 0.6) {
+                    typeScores.successfulDrifter += 2;
+                }
+
+                return Object.keys(typeScores).reduce((a, b) => 
+                    typeScores[a] > typeScores[b] ? a : b
+                );
+            }
+
+            // Scoring methods
+            scoreEnergyCategory(text, category) {
+                const keywords = this.keywords.energy[category] || [];
+                const lowerText = text.toLowerCase();
+                
+                return keywords.reduce((score, keyword) => {
+                    const matches = (lowerText.match(new RegExp(keyword, 'g')) || []).length;
+                    return score + Math.min(matches, 3);
+                }, 0);
+            }
+
+            scoreValueCategory(text, category) {
+                const keywords = this.keywords.values[category] || [];
+                const lowerText = text.toLowerCase();
+                
+                return keywords.reduce((score, keyword) => {
+                    const matches = (lowerText.match(new RegExp(keyword, 'g')) || []).length;
+                    return score + Math.min(matches, 2);
+                }, 0);
+            }
+
+            scoreStrengthCategory(text, category) {
+                const keywords = this.keywords.strengths[category] || [];
+                const lowerText = text.toLowerCase();
+                
+                return keywords.reduce((score, keyword) => {
+                    const matches = (lowerText.match(new RegExp(keyword, 'g')) || []).length;
+                    return score + Math.min(matches, 2);
+                }, 0);
+            }
+
+            scoreProblemSolvingStyle(text, style) {
+                const keywords = this.keywords.problemSolving[style] || [];
+                const lowerText = text.toLowerCase();
+                
+                return keywords.reduce((score, keyword) => {
+                    return score + (lowerText.includes(keyword) ? 1 : 0);
+                }, 0);
+            }
+
+            // Calculation methods
+            calculateEnergySustainability(responses) {
+                const allText = Object.values(responses).join(' ').toLowerCase();
+                
+                const energizingWords = ['energized', 'excited', 'passionate', 'love', 'enjoy', 'thrive', 'flow'];
+                const drainingWords = ['drained', 'exhausted', 'frustrated', 'bored', 'tedious', 'struggle'];
+                
+                const energizingCount = energizingWords.filter(word => allText.includes(word)).length;
+                const drainingCount = drainingWords.filter(word => allText.includes(word)).length;
+                
+                if (energizingCount + drainingCount === 0) return 0.5;
+                return energizingCount / (energizingCount + drainingCount);
+            }
+
+            calculateValuesAlignment(responses) {
+                const workResponse = responses.response4 || '';
+                const situationResponse = responses.response6 || '';
+                const combinedText = (workResponse + ' ' + situationResponse).toLowerCase();
+                
+                const positiveWords = ['fulfilling', 'meaningful', 'aligned', 'right', 'love', 'enjoy'];
+                const negativeWords = ['frustrated', 'stuck', 'wrong', 'misaligned', 'unfulfilled'];
+                
+                const positiveCount = positiveWords.filter(word => combinedText.includes(word)).length;
+                const negativeCount = negativeWords.filter(word => combinedText.includes(word)).length;
+                
+                if (positiveCount + negativeCount === 0) return 0.5;
+                return positiveCount / (positiveCount + negativeCount);
+            }
+
+            calculateStrengthUtilization(responses) {
+                const situationResponse = responses.response6 || '';
+                const engagementResponse = responses.response8 || '';
+                const combinedText = (situationResponse + ' ' + engagementResponse).toLowerCase();
+                
+                const utilizationWords = ['using', 'good at', 'strong', 'excel', 'leveraging'];
+                const underutilizationWords = ['not using', 'wasted', 'underutilized', 'could do more'];
+                
+                const utilizationCount = utilizationWords.filter(word => combinedText.includes(word)).length;
+                const underutilizationCount = underutilizationWords.filter(word => combinedText.includes(word)).length;
+                
+                if (utilizationCount + underutilizationCount === 0) return 0.5;
+                return utilizationCount / (utilizationCount + underutilizationCount);
+            }
+
+            calculateAuthenticityGaps(responses) {
+                let gapScore = 0;
+                const allText = Object.values(responses).join(' ').toLowerCase();
+                
+                const shouldCount = (allText.match(/should|supposed to|expected to|ought to/g) || []).length;
+                gapScore += Math.min(shouldCount * 0.1, 0.4);
+                
+                const workMeaning = responses.response4 || '';
+                const currentSituation = responses.response6 || '';
+                if (this.indicatesDisalignment(workMeaning, currentSituation)) {
+                    gapScore += 0.3;
+                }
+                
+                return Math.min(gapScore, 1);
+            }
+
+            assessGrowthReadiness(responses) {
+                const allText = Object.values(responses).join(' ').toLowerCase();
+                let readinessScore = 0;
+                
+                const changeWords = ['change', 'different', 'new', 'transition', 'next step'];
+                readinessScore += changeWords.filter(word => allText.includes(word)).length * 0.2;
+                
+                const learningWords = ['learn', 'grow', 'develop', 'improve', 'skill'];
+                readinessScore += learningWords.filter(word => allText.includes(word)).length * 0.15;
+                
+                return Math.min(readinessScore, 1);
+            }
+
+            assessMotivationLevel(responses) {
+                const allText = Object.values(responses).join(' ').toLowerCase();
+                let motivationScore = 0;
+                
+                const actionWords = ['will', 'going to', 'plan to', 'want to', 'ready to'];
+                motivationScore += actionWords.filter(word => allText.includes(word)).length * 0.2;
+                
+                return Math.min(motivationScore, 1);
+            }
+
+            calculateAuthenticityScore(patterns) {
+                const factors = [
+                    patterns.values.alignment,
+                    patterns.energy.sustainability,
+                    patterns.strengths.utilization,
+                    patterns.authenticity.alignment
+                ];
+                
+                return factors.reduce((sum, factor) => sum + factor, 0) / factors.length;
+            }
+
+            calculateConfidenceScores(patterns, responses) {
+                const wordCounts = Object.values(responses).map(r => (r || '').split(' ').length);
+                const avgResponseLength = wordCounts.reduce((a, b) => a + b, 0) / wordCounts.length;
+                
+                const baseConfidence = Math.min(avgResponseLength / 20, 1);
+                
+                return {
+                    overall: baseConfidence,
+                    energy: patterns.energy.confidence,
+                    values: patterns.values.confidence,
+                    strengths: patterns.strengths.confidence,
+                    authenticity: patterns.authenticity.confidence,
+                    growth: patterns.growth.confidence
+                };
+            }
+
+            // Helper methods
+            getTopValues(categories, count) {
+                return Object.entries(categories)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, count)
+                    .map(([value, score]) => ({ value, score }));
+            }
+
+            hasTypeIndicators(text, keywords) {
+                if (!text) return false;
+                const lowerText = text.toLowerCase();
+                return keywords.some(keyword => lowerText.includes(keyword));
+            }
+
+            indicatesDisalignment(workMeaning, currentSituation) {
+                const positiveWork = this.hasPositiveLanguage(workMeaning);
+                const positiveSituation = this.hasPositiveLanguage(currentSituation);
+                return positiveWork && !positiveSituation;
+            }
+
+            hasPositiveLanguage(text) {
+                const positiveWords = ['love', 'enjoy', 'fulfilling', 'meaningful', 'excited', 'passionate'];
+                const lowerText = text.toLowerCase();
+                return positiveWords.some(word => lowerText.includes(word));
+            }
+
+            determineProblemSolvingApproach(text) {
+                const lowerText = text.toLowerCase();
+                
+                if (lowerText.includes('jump in') || lowerText.includes('try')) {
+                    return 'action-oriented';
+                } else if (lowerText.includes('think') || lowerText.includes('plan')) {
+                    return 'reflection-oriented';
+                } else if (lowerText.includes('discuss') || lowerText.includes('team')) {
+                    return 'collaboration-oriented';
+                }
+                
+                return 'balanced';
+            }
+
+            extractEnergyIndicators(text) {
+                const lowerText = text.toLowerCase();
+                
+                return {
+                    energizing: this.extractKeywordMatches(lowerText, this.keywords.energy.energizing),
+                    draining: this.extractKeywordMatches(lowerText, this.keywords.energy.draining)
+                };
+            }
+
+            extractKeywordMatches(text, keywords) {
+                return keywords.filter(keyword => text.includes(keyword.toLowerCase()));
+            }
+
+            assessResponseQuality(responses) {
+                const totalWords = Object.values(responses).join(' ').split(' ').length;
+                const avgLength = totalWords / Object.keys(responses).length;
+                
+                if (avgLength >= 25) return 'High';
+                if (avgLength >= 15) return 'Good';
+                if (avgLength >= 10) return 'Moderate';
+                return 'Basic';
+            }
+
+            // Confidence calculations
+            calculateEnergyConfidence(text) {
+                const wordCount = text.split(' ').length;
+                const lengthScore = Math.min(wordCount / 50, 1);
+                return lengthScore;
+            }
+
+            calculateValuesConfidence(text) {
+                const lengthScore = Math.min(text.split(' ').length / 80, 1);
+                return Math.max(lengthScore, 0.5);
+            }
+
+            calculateStrengthConfidence(text) {
+                return 0.7;
+            }
+
+            calculatePSConfidence(text) {
+                const wordCount = text.split(' ').length;
+                const lengthScore = Math.min(wordCount / 30, 1);
+                return Math.max(lengthScore, 0.5);
+            }
+
+            calculateAuthenticityConfidence(responses) {
+                return 0.6;
+            }
+
+            calculateGrowthConfidence(responses) {
+                return 0.7;
+            }
+
+            // Keyword library
+            initializeKeywordLibrary() {
+                return {
+                    energy: {
+                        people: ['people', 'team', 'collaborate', 'help', 'others', 'relationships', 'community', 'social', 'mentor', 'teach'],
+                        problems: ['solve', 'challenge', 'analyze', 'figure out', 'complex', 'problem', 'troubleshoot', 'fix', 'systematic'],
+                        creativity: ['create', 'design', 'innovative', 'ideas', 'artistic', 'build', 'imagine', 'brainstorm', 'original'],
+                        learning: ['learn', 'discover', 'understand', 'research', 'study', 'knowledge', 'explore', 'curious', 'absorb'],
+                        energizing: ['energized', 'excited', 'passionate', 'love', 'enjoy', 'thrive', 'flow', 'natural'],
+                        draining: ['drained', 'exhausted', 'frustrated', 'bored', 'tedious', 'struggle', 'difficult', 'hate']
+                    },
+                    values: {
+                        impact: ['difference', 'meaning', 'purpose', 'help', 'contribute', 'matter', 'change', 'meaningful', 'significant'],
+                        freedom: ['freedom', 'autonomous', 'flexible', 'independent', 'choice', 'control', 'own pace', 'self-directed'],
+                        growth: ['learn', 'grow', 'develop', 'improve', 'challenge', 'evolve', 'progress', 'advance', 'expand'],
+                        security: ['stable', 'secure', 'predictable', 'safe', 'reliable', 'steady', 'consistent', 'guaranteed'],
+                        connection: ['relationships', 'team', 'community', 'together', 'support', 'collaborate', 'bond', 'social']
+                    },
+                    strengths: {
+                        communication: ['communicate', 'explain', 'present', 'teach', 'speak', 'write', 'articulate', 'express'],
+                        analytical: ['analyze', 'data', 'research', 'logical', 'systematic', 'detail', 'examine', 'investigate'],
+                        creative: ['creative', 'innovative', 'design', 'artistic', 'ideas', 'imaginative', 'original', 'inventive'],
+                        leadership: ['lead', 'manage', 'guide', 'influence', 'motivate', 'direct', 'inspire', 'coordinate'],
+                        problemSolving: ['solve', 'fix', 'troubleshoot', 'resolve', 'solution', 'figure out', 'address', 'tackle'],
+                        execution: ['implement', 'deliver', 'complete', 'organize', 'efficient', 'results', 'accomplish', 'finish']
+                    },
+                    problemSolving: {
+                        analytical: ['research', 'study', 'investigate', 'analyze', 'data', 'systematic', 'methodical'],
+                        experimental: ['try', 'experiment', 'test', 'hands-on', 'trial', 'iterate', 'prototype'],
+                        collaborative: ['discuss', 'team', 'brainstorm', 'input', 'feedback', 'together', 'group'],
+                        intuitive: ['feel', 'instinct', 'gut', 'intuition', 'sense', 'naturally', 'instinctive']
+                    }
+                };
+            }
+
+            initializeUserTypeProfiles() {
+                return {
+                    unmotivatedAchiever: {
+                        name: 'Unmotivated Achiever',
+                        description: 'Capable but lacks clear direction and internal drive'
+                    },
+                    alternativeLearner: {
+                        name: 'Alternative Learner', 
+                        description: 'Questions traditional approaches and seeks innovative solutions'
+                    },
+                    successfulDrifter: {
+                        name: 'Successful Drifter',
+                        description: 'Externally successful but feels misaligned internally'
+                    }
+                };
+            }
+
+            log(message, data = null) {
+                const debugConsole = document.getElementById('debugConsole');
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = `[${timestamp}] ${message}`;
+                
+                if (data) {
+                    debugConsole.textContent += logEntry + '\n' + JSON.stringify(data, null, 2) + '\n\n';
+                } else {
+                    debugConsole.textContent += logEntry + '\n';
+                }
+                
+                debugConsole.scrollTop = debugConsole.scrollHeight;
+            }
+        }
+
+        // Global function to test pattern recognition
+        window.testPatternRecognition = function() {
+            const button = document.getElementById('testButton');
+            const input = document.getElementById('sessionDataInput');
+            const resultsSection = document.getElementById('resultsSection');
+            const insightsSection = document.getElementById('insightsSection');
+            const resultsOutput = document.getElementById('resultsOutput');
+            const insightsOutput = document.getElementById('insightsOutput');
+            const debugConsole = document.getElementById('debugConsole');
+            
+            button.disabled = true;
+            button.textContent = '🔄 Analyzing...';
+            debugConsole.textContent = '';
+            
+            try {
+                // Parse input
+                const responses = JSON.parse(input.value.trim());
+                
+                // Initialize engine and analyze
+                const engine = new PatternRecognitionEngine();
+                const analysis = engine.analyzeUserResponses(responses);
+                
+                // Display raw results
+                resultsOutput.innerHTML = `<div class="results">${JSON.stringify(analysis, null, 2)}</div>`;
+                resultsSection.style.display = 'block';
+                
+                // Generate user-friendly insights
+                const insights = generateInsights(analysis);
+                insightsOutput.innerHTML = insights;
+                insightsSection.style.display = 'block';
+                
+                // Success message
+                debugConsole.innerHTML += `<div class="success">✅ Analysis completed successfully!</div>`;
+                
+            } catch (error) {
+                console.error('Pattern recognition test failed:', error);
+                debugConsole.innerHTML += `<div class="error">❌ Error: ${error.message}</div>`;
+            } finally {
+                button.disabled = false;
+                button.textContent = '🚀 Test Pattern Recognition';
+            }
+        };
+
+        function generateInsights(analysis) {
+            const userTypeNames = {
+                unmotivatedAchiever: 'Unmotivated Achiever',
+                alternativeLearner: 'Alternative Learner', 
+                successfulDrifter: 'Successful Drifter'
+            };
+            
+            const userTypeName = userTypeNames[analysis.userType] || 'Unique Profile';
+            const authenticityScore = Math.round(analysis.authenticityScore * 100);
+            const primaryEnergizer = analysis.patterns.energy.primaryEnergizer;
+            const topStrength = analysis.patterns.strengths.topStrengths[0]?.strength || 'Not determined';
+            const topValue = analysis.patterns.values.topValues[0]?.value || 'Not determined';
+            
+            return `
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">🎯</span>
+                        <span class="insight-title">Your Profile: ${userTypeName}</span>
+                        <span class="insight-score">${authenticityScore}% Authentic</span>
+                    </div>
+                    <p>Based on your responses, you've been identified as a <strong>${userTypeName}</strong> with ${authenticityScore}% authenticity alignment.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">⚡</span>
+                        <span class="insight-title">Energy Source: ${primaryEnergizer.charAt(0).toUpperCase() + primaryEnergizer.slice(1)}</span>
+                        <span class="insight-score">${Math.round(analysis.patterns.energy.sustainability * 100)}% Sustainable</span>
+                    </div>
+                    <p>You're most energized by <strong>${primaryEnergizer}</strong>-focused work. This shows ${Math.round(analysis.patterns.energy.sustainability * 100)}% sustainability in your current situation.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">💪</span>
+                        <span class="insight-title">Top Strength: ${topStrength.charAt(0).toUpperCase() + topStrength.slice(1)}</span>
+                        <span class="insight-score">${Math.round(analysis.patterns.strengths.utilization * 100)}% Utilized</span>
+                    </div>
+                    <p>Your standout strength is <strong>${topStrength}</strong> work, currently utilized at ${Math.round(analysis.patterns.strengths.utilization * 100)}% capacity.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">🧭</span>
+                        <span class="insight-title">Core Value: ${topValue.charAt(0).toUpperCase() + topValue.slice(1)}</span>
+                        <span class="insight-score">${Math.round(analysis.patterns.values.alignment * 100)}% Aligned</span>
+                    </div>
+                    <p>Your driving value is <strong>${topValue}</strong>, showing ${Math.round(analysis.patterns.values.alignment * 100)}% alignment with your current situation.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">🌱</span>
+                        <span class="insight-title">Growth Readiness</span>
+                        <span class="insight-score">${Math.round(analysis.patterns.growth.readiness * 100)}%</span>
+                    </div>
+                    <p>You show ${Math.round(analysis.patterns.growth.readiness * 100)}% readiness for growth and change, with ${Math.round(analysis.patterns.growth.motivation * 100)}% motivation level.</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">🧠</span>
+                        <span class="insight-title">Problem-Solving Style: ${analysis.patterns.problemSolving.primaryStyle.charAt(0).toUpperCase() + analysis.patterns.problemSolving.primaryStyle.slice(1)}</span>
+                        <span class="insight-score">${analysis.patterns.problemSolving.approach}</span>
+                    </div>
+                    <p>Your primary problem-solving style is <strong>${analysis.patterns.problemSolving.primaryStyle}</strong> with a <strong>${analysis.patterns.problemSolving.approach}</strong> approach.</p>
+                </div>
+            `;
+        }
+
+        // Auto-populate with sample data on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('sessionDataInput');
+            if (!input.value.trim()) {
+                // Sample data is already in the textarea
+            }
+        });
+    </script>
+</body>
+</html>
